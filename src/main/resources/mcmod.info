@@ -1,0 +1,16 @@
+[
+{
+  "modid": "fancymagicks",
+  "name": "Magicks",
+  "description": "Mod for some things from Magicka (a game)",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["nabijaczleweli"],
+  "credits": "Arrowhead Game Studios, for Magicka",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
