@@ -13,16 +13,16 @@ object FancyMagicks {
 
 	@EventHandler
 	def preInit(event: FMLPreInitializationEvent) {
-
+		proxy.registerItemsAndBlocks()
 	}
 
 	@EventHandler
 	def init(event: FMLInitializationEvent) {
-		
+
 	}
 
 	@EventHandler
 	def postInit(event: FMLPostInitializationEvent) {
-		
+
 	}
 }

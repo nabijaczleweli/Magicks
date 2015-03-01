@@ -1,3 +1,5 @@
 package com.nabijaczleweli.fancymagicks.proxy
 
-trait IProxy
+trait IProxy {
+	def registerItemsAndBlocks(): Unit
+}
