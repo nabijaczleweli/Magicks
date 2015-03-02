@@ -1,0 +1,12 @@
+# Items
+item.fancymagicks:staff.name=Nieistniejąca laska
+
+# Tabs
+itemGroup.fancymagicks=Fancy Magicks
+
+# Key bindings
+key.fancymagicks:staffSpecial=Specjalne zdolności różdżek
+
+# Tooltips
+tooltip.fancymagicks:missingStaff=Ta różdżka nie istnieje! Coś poszło źle!
+tooltip.fancymagicks:staffId=ID różdżki: %d

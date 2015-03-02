@@ -18,7 +18,8 @@ object FancyMagicks {
 
 	@EventHandler
 	def init(event: FMLInitializationEvent) {
-
+		proxy.registerKeyBindings()
+		proxy.registerHandlers()
 	}
 
 	@EventHandler

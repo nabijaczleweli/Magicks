@@ -16,4 +16,8 @@ class CommonProxy extends IProxy {
 
 		defaultRegisterItem(ItemStaff)
 	}
+
+	override def registerKeyBindings() {}
+
+	override def registerHandlers() {}
 }

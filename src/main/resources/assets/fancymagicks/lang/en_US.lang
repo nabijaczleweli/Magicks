@@ -1,0 +1,12 @@
+# Items
+item.fancymagicks:staff.name=Nonexistant staff
+
+# Tabs
+itemGroup.fancymagicks=Fancy Magicks
+
+# Key bindings
+key.fancymagicks:staffSpecial=Staffs' special abilities
+
+# Tooltips
+tooltip.fancymagicks:missingStaff=This staff is nonexistant! Something went wrong!
+tooltip.fancymagicks:staffId=Staff ID: %d
