@@ -4,10 +4,12 @@ import java.util.{List => jList}
 
 import com.nabijaczleweli.fancymagicks.creativetab.CreativeTabFancyMagicks
 import com.nabijaczleweli.fancymagicks.reference.{Container, Reference}
+import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.texture.IIconRegister
+import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.item.{Item, ItemStack}
+import net.minecraft.item.{EnumAction, Item, ItemStack}
 import net.minecraft.util.StatCollector
 import net.minecraft.world.World
 
@@ -39,15 +41,43 @@ object ItemStaff extends Item {
 		}
 
 
+	@SideOnly(Side.CLIENT)
 	override def registerIcons(registry: IIconRegister) {
 		super.registerIcons(registry)
 		Container.staves foreach {_ registerIcons registry}
 	}
 
+	@SideOnly(Side.CLIENT)
 	override def getIconFromDamage(dmg: Int) =
 		staff(dmg).fold(itemIcon)(_ icon 0)
 
-	override def onUsingTick(stack: ItemStack, player: EntityPlayer, count: Int) {}  // TODO select elements
+	@SideOnly(Side.CLIENT)
+	override def getSubItems(item: Item, tab: CreativeTabs, list: jList[_]) =
+		for(id <- Container.staves.indices)
+			list.asInstanceOf[jList[ItemStack]] add new ItemStack(this, 1, id)
+
+	override def onItemRightClick(stack: ItemStack, world: World, player: EntityPlayer) = {
+		player.setItemInUse(stack, getMaxItemUseDuration(stack))
+		stack
+	}
+
+	override def getMaxItemUseDuration(stack: ItemStack) =
+		100
+
+	override def getItemUseAction(stack: ItemStack) =
+		EnumAction.bow
+
+	// yaw = horizontal
+	//       -90 <- 0 -> 90
+	// pitch = vertical
+	//         -90
+	//         /\
+	//         0
+	//         \/
+	//         90
+	override def onUsingTick(stack: ItemStack, player: EntityPlayer, count: Int) {
+		println(player.rotationYawHead + " " + player.prevRotationYawHead + " " + player.rotationPitch + " " + player.prevRotationPitch + " " + (player.rotationPitch == player.prevRotationPitch))
+	}
 
 	override def addInformation(stack: ItemStack, player: EntityPlayer, list: jList[_], additionalData: Boolean) {
 		staff(stack.getItemDamage) match {
