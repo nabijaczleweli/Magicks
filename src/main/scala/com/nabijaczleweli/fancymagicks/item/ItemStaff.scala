@@ -3,6 +3,7 @@ package com.nabijaczleweli.fancymagicks.item
 import java.util.{List => jList}
 
 import com.nabijaczleweli.fancymagicks.creativetab.CreativeTabFancyMagicks
+import com.nabijaczleweli.fancymagicks.entity.properties.ExtendedPropertyPrevRotationPitch
 import com.nabijaczleweli.fancymagicks.reference.{Container, Reference}
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.texture.IIconRegister
@@ -76,7 +77,12 @@ object ItemStaff extends Item {
 	//         \/
 	//         90
 	override def onUsingTick(stack: ItemStack, player: EntityPlayer, count: Int) {
-		println(player.rotationYawHead + " " + player.prevRotationYawHead + " " + player.rotationPitch + " " + player.prevRotationPitch + " " + (player.rotationPitch == player.prevRotationPitch))
+		player getExtendedProperties ExtendedPropertyPrevRotationPitch.id match {
+			case rot: ExtendedPropertyPrevRotationPitch =>
+				println(player.rotationYawHead + " " + player.prevRotationYawHead + " " + player.rotationPitch + " " + rot.prevRotationPitch + " " + (player.rotationPitch == rot.prevRotationPitch))
+				rot.update()
+			case _ =>
+		}
 	}
 
 	override def addInformation(stack: ItemStack, player: EntityPlayer, list: jList[_], additionalData: Boolean) {
