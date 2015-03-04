@@ -3,8 +3,9 @@ package com.nabijaczleweli.fancymagicks.item
 import java.util.{List => jList}
 
 import com.nabijaczleweli.fancymagicks.creativetab.CreativeTabFancyMagicks
-import com.nabijaczleweli.fancymagicks.entity.properties.ExtendedPropertyPrevRotationPitch
+import com.nabijaczleweli.fancymagicks.entity.properties.{ExtendedPropertyPrevRotationPitch, ExtendedPropertySelectionDirection}
 import com.nabijaczleweli.fancymagicks.reference.{Container, Reference}
+import com.nabijaczleweli.fancymagicks.util.Direction
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.creativetab.CreativeTabs
@@ -76,14 +77,25 @@ object ItemStaff extends Item {
 	//         0
 	//         \/
 	//         90
-	override def onUsingTick(stack: ItemStack, player: EntityPlayer, count: Int) {
+	override def onUsingTick(stack: ItemStack, player: EntityPlayer, count: Int) =
 		player getExtendedProperties ExtendedPropertyPrevRotationPitch.id match {
 			case rot: ExtendedPropertyPrevRotationPitch =>
-				println(player.rotationYawHead + " " + player.prevRotationYawHead + " " + player.rotationPitch + " " + rot.prevRotationPitch + " " + (player.rotationPitch == rot.prevRotationPitch))
-				rot.update()
+				player getExtendedProperties ExtendedPropertySelectionDirection.id match {
+					case dir: ExtendedPropertySelectionDirection =>
+						println (player.rotationYawHead + " " + player.prevRotationYawHead + " " + player.rotationPitch + " " + rot.prevRotationPitch + " " + (player.rotationPitch == rot.prevRotationPitch) )
+						if(player.rotationYawHead - player.prevRotationYawHead >= 10)
+							dir.directions :+= Direction.right
+						else if(player.rotationYawHead - player.prevRotationYawHead <= - 10)
+							dir.directions :+= Direction.left
+						if(player.rotationPitch - rot.prevRotationPitch >= 10)
+							dir.directions :+= Direction.down
+						else if(player.rotationPitch - rot.prevRotationPitch <= - 10)
+							dir.directions :+= Direction.up
+						rot.update ()
+					case _ =>
+				}
 			case _ =>
 		}
-	}
 
 	override def addInformation(stack: ItemStack, player: EntityPlayer, list: jList[_], additionalData: Boolean) {
 		staff(stack.getItemDamage) match {
