@@ -1,6 +1,7 @@
 package com.nabijaczleweli.fancymagicks
 
 import com.nabijaczleweli.fancymagicks.proxy.IProxy
+import com.nabijaczleweli.fancymagicks.reference.Configuration
 import com.nabijaczleweli.fancymagicks.reference.Reference._
 import cpw.mods.fml.common.{SidedProxy, Mod}
 import cpw.mods.fml.common.Mod.EventHandler
@@ -13,6 +14,8 @@ object FancyMagicks {
 
 	@EventHandler
 	def preInit(event: FMLPreInitializationEvent) {
+		Configuration load event.getSuggestedConfigurationFile
+
 		proxy.registerItemsAndBlocks()
 	}
 

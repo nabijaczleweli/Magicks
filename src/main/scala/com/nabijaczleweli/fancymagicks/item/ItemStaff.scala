@@ -6,7 +6,7 @@ import com.nabijaczleweli.fancymagicks.creativetab.CreativeTabFancyMagicks
 import com.nabijaczleweli.fancymagicks.element.Element
 import com.nabijaczleweli.fancymagicks.entity.properties.{ExtendedPropertyPrevRotationPitch, ExtendedPropertySelectionDirection}
 import com.nabijaczleweli.fancymagicks.reference.{Container, Reference}
-import com.nabijaczleweli.fancymagicks.util.Direction
+import com.nabijaczleweli.fancymagicks.util.{IConfigurable, Direction}
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.creativetab.CreativeTabs
@@ -15,8 +15,11 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.{EnumAction, Item, ItemStack}
 import net.minecraft.util.StatCollector
 import net.minecraft.world.World
+import net.minecraftforge.common.config.Configuration
 
-object ItemStaff extends Item {
+object ItemStaff extends Item with IConfigurable {
+	var threshold = 20
+
 	setCreativeTab(CreativeTabFancyMagicks)
 	setUnlocalizedName(Reference.NAMESPACED_PREFIX + "staff")
 	setTextureName(Reference.NAMESPACED_PREFIX + "missing_staff")
@@ -85,13 +88,13 @@ object ItemStaff extends Item {
 	override def onUsingTick(stack: ItemStack, player: EntityPlayer, count: Int) =
 		ExtendedPropertyPrevRotationPitch.id :: ExtendedPropertySelectionDirection.id :: Nil map {player.getExtendedProperties} match {
 			case (rot: ExtendedPropertyPrevRotationPitch) :: (dir: ExtendedPropertySelectionDirection) :: Nil =>
-				if(player.rotationYawHead - player.prevRotationYawHead >= 10)
+				if(player.rotationYawHead - player.prevRotationYawHead >= threshold)
 					dir.directions enqueue Direction.right
-				else if(player.rotationYawHead - player.prevRotationYawHead <= -10)
+				else if(player.rotationYawHead - player.prevRotationYawHead <= -threshold)
 					dir.directions enqueue Direction.left
-				if(player.rotationPitch - rot.prevRotationPitch >= 10)
+				if(player.rotationPitch - rot.prevRotationPitch >= threshold)
 					dir.directions enqueue Direction.down
-				else if(player.rotationPitch - rot.prevRotationPitch <= -10)
+				else if(player.rotationPitch - rot.prevRotationPitch <= -threshold)
 					dir.directions enqueue Direction.up
 				rot.update()
 			case _ =>
@@ -132,4 +135,8 @@ object ItemStaff extends Item {
 					executePassiveAbility(player)
 			case _ =>
 		}
+
+	override def configure(config: Configuration) {
+		threshold = config.getInt("elementSelectionThreshold", "elements", threshold, 1, 30, "In degrees, turn amount after which the direction of turn will be stored")
+	}
 }
