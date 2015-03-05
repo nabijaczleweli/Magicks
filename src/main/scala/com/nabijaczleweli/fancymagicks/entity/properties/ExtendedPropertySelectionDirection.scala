@@ -9,10 +9,10 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.world.World
 import net.minecraftforge.common.IExtendedEntityProperties
 
-import scala.collection.immutable.Queue
+import scala.collection.mutable.{Queue => mQueue}
 
 class ExtendedPropertySelectionDirection extends IExtendedEntityProperties {
-	var directions = Queue[Direction]()
+	val directions = mQueue[Direction]()
 
 	override def init(entity: Entity, world: World) {}
 

@@ -3,6 +3,7 @@ package com.nabijaczleweli.fancymagicks.item
 import java.util.{List => jList}
 
 import com.nabijaczleweli.fancymagicks.creativetab.CreativeTabFancyMagicks
+import com.nabijaczleweli.fancymagicks.element.Element
 import com.nabijaczleweli.fancymagicks.entity.properties.{ExtendedPropertyPrevRotationPitch, ExtendedPropertySelectionDirection}
 import com.nabijaczleweli.fancymagicks.reference.{Container, Reference}
 import com.nabijaczleweli.fancymagicks.util.Direction
@@ -59,12 +60,16 @@ object ItemStaff extends Item {
 			list.asInstanceOf[jList[ItemStack]] add new ItemStack(this, 1, id)
 
 	override def onItemRightClick(stack: ItemStack, world: World, player: EntityPlayer) = {
+		val prop = new ExtendedPropertySelectionDirection
+		player.registerExtendedProperties(ExtendedPropertySelectionDirection.id, prop)
+		prop.init(player, world)
+
 		player.setItemInUse(stack, getMaxItemUseDuration(stack))
 		stack
 	}
 
 	override def getMaxItemUseDuration(stack: ItemStack) =
-		100
+		Int.MaxValue
 
 	override def getItemUseAction(stack: ItemStack) =
 		EnumAction.bow
@@ -78,24 +83,28 @@ object ItemStaff extends Item {
 	//         \/
 	//         90
 	override def onUsingTick(stack: ItemStack, player: EntityPlayer, count: Int) =
-		player getExtendedProperties ExtendedPropertyPrevRotationPitch.id match {
-			case rot: ExtendedPropertyPrevRotationPitch =>
-				player getExtendedProperties ExtendedPropertySelectionDirection.id match {
-					case dir: ExtendedPropertySelectionDirection =>
-						println (player.rotationYawHead + " " + player.prevRotationYawHead + " " + player.rotationPitch + " " + rot.prevRotationPitch + " " + (player.rotationPitch == rot.prevRotationPitch) )
-						if(player.rotationYawHead - player.prevRotationYawHead >= 10)
-							dir.directions :+= Direction.right
-						else if(player.rotationYawHead - player.prevRotationYawHead <= - 10)
-							dir.directions :+= Direction.left
-						if(player.rotationPitch - rot.prevRotationPitch >= 10)
-							dir.directions :+= Direction.down
-						else if(player.rotationPitch - rot.prevRotationPitch <= - 10)
-							dir.directions :+= Direction.up
-						rot.update ()
-					case _ =>
-				}
+		ExtendedPropertyPrevRotationPitch.id :: ExtendedPropertySelectionDirection.id :: Nil map {player.getExtendedProperties} match {
+			case (rot: ExtendedPropertyPrevRotationPitch) :: (dir: ExtendedPropertySelectionDirection) :: Nil =>
+				if(player.rotationYawHead - player.prevRotationYawHead >= 10)
+					dir.directions enqueue Direction.right
+				else if(player.rotationYawHead - player.prevRotationYawHead <= -10)
+					dir.directions enqueue Direction.left
+				if(player.rotationPitch - rot.prevRotationPitch >= 10)
+					dir.directions enqueue Direction.down
+				else if(player.rotationPitch - rot.prevRotationPitch <= -10)
+					dir.directions enqueue Direction.up
+				rot.update()
 			case _ =>
 		}
+
+	override def onPlayerStoppedUsing(stack: ItemStack, world: World, player: EntityPlayer, meta: Int) {
+		player getExtendedProperties ExtendedPropertySelectionDirection.id match {
+			case dir: ExtendedPropertySelectionDirection =>
+				Element(dir)
+			case _ =>
+		}
+		ExtendedPropertySelectionDirection removeFrom player
+	}
 
 	override def addInformation(stack: ItemStack, player: EntityPlayer, list: jList[_], additionalData: Boolean) {
 		staff(stack.getItemDamage) match {
