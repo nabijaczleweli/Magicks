@@ -4,7 +4,7 @@ import java.util.{List => jList}
 
 import com.nabijaczleweli.fancymagicks.creativetab.CreativeTabFancyMagicks
 import com.nabijaczleweli.fancymagicks.element.Element
-import com.nabijaczleweli.fancymagicks.entity.properties.{ExtendedPropertyPrevRotationPitch, ExtendedPropertySelectionDirection}
+import com.nabijaczleweli.fancymagicks.entity.properties.{ExtendedPropertyElements, ExtendedPropertyPrevRotationPitch, ExtendedPropertySelectionDirection}
 import com.nabijaczleweli.fancymagicks.reference.{Container, Reference}
 import com.nabijaczleweli.fancymagicks.util.{IConfigurable, Direction}
 import cpw.mods.fml.relauncher.{Side, SideOnly}
@@ -101,9 +101,9 @@ object ItemStaff extends Item with IConfigurable {
 		}
 
 	override def onPlayerStoppedUsing(stack: ItemStack, world: World, player: EntityPlayer, meta: Int) {
-		player getExtendedProperties ExtendedPropertySelectionDirection.id match {
-			case dir: ExtendedPropertySelectionDirection =>
-				Element(dir)
+		ExtendedPropertySelectionDirection.id :: ExtendedPropertyElements.id :: Nil map {player.getExtendedProperties} match {
+			case (dir: ExtendedPropertySelectionDirection) :: (elem: ExtendedPropertyElements) :: Nil =>
+				elem addElement Element(dir)
 			case _ =>
 		}
 		ExtendedPropertySelectionDirection removeFrom player
