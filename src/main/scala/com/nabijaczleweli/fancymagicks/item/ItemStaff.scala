@@ -6,7 +6,7 @@ import com.nabijaczleweli.fancymagicks.creativetab.CreativeTabFancyMagicks
 import com.nabijaczleweli.fancymagicks.element.Element
 import com.nabijaczleweli.fancymagicks.entity.properties.{ExtendedPropertyElements, ExtendedPropertyPrevRotationPitch, ExtendedPropertySelectionDirection}
 import com.nabijaczleweli.fancymagicks.reference.{Container, Reference}
-import com.nabijaczleweli.fancymagicks.util.{IConfigurable, Direction}
+import com.nabijaczleweli.fancymagicks.util.{Direction, IConfigurable}
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.creativetab.CreativeTabs
@@ -112,9 +112,9 @@ object ItemStaff extends Item with IConfigurable {
 	override def addInformation(stack: ItemStack, player: EntityPlayer, list: jList[_], additionalData: Boolean) {
 		staff(stack.getItemDamage) match {
 			case Some(staff) =>
-				list.asInstanceOf[jList[String]] add staff.name
+				list.asInstanceOf[jList[String]] add StatCollector.translateToLocalFormatted(s"tooltip.${Reference.NAMESPACED_PREFIX}staffAbilityPassive", staff.passiveAbility.displayDescription)
+				list.asInstanceOf[jList[String]] add StatCollector.translateToLocalFormatted(s"tooltip.${Reference.NAMESPACED_PREFIX}staffAbilityActive", staff.activeAbility.displayDescription)
 			case None =>
-				list.asInstanceOf[jList[String]] add (StatCollector translateToLocal s"tooltip.${Reference.NAMESPACED_PREFIX}missingStaff")
 		}
 		if(additionalData)
 			list.asInstanceOf[jList[String]] add StatCollector.translateToLocalFormatted(s"tooltip.${Reference.NAMESPACED_PREFIX}staffId", stack.getItemDamage: Integer)

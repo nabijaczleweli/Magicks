@@ -9,7 +9,7 @@ object Container {
 	@SideOnly(Side.CLIENT)
 	val keyBindStaffSpecialAblility = new KeyBinding(s"key.${Reference.NAMESPACED_PREFIX}staffSpecial", 48, Reference.MOD_NAME) // 48 -> B
 
-	val abilityEmpty = new AbilitySimple({_ => ()}, "")
-	var staves: List[StaffType] = new StaffType(s"${NAMESPACED_PREFIX}staff", "Simplest staff", abilityEmpty, abilityEmpty) ::
-	                              new StaffType(s"${NAMESPACED_PREFIX}ex00", "Fancy staff", new AbilitySimple({_.addVelocity(0, 100, 0)}, "FLY"), new AbilitySimple({_ addExperienceLevel 1}, "Experience")) :: Nil
+	val abilityEmpty = new AbilitySimple({_ => ()}, s"tooltip.${NAMESPACED_PREFIX}staffAbilityNone")
+	var staves = new StaffType(s"${NAMESPACED_PREFIX}staff", "Simplest staff", abilityEmpty, abilityEmpty) ::
+	             new StaffType(s"${NAMESPACED_PREFIX}ex00", "Fancy staff", new AbilitySimple({_.addVelocity(0, 100, 0)}, "FLY"), new AbilitySimple({_ addExperienceLevel 1}, "Experience")) :: Nil
 }
