@@ -4,7 +4,7 @@ import com.nabijaczleweli.fancymagicks.element.ElementType.ElementType
 import com.nabijaczleweli.fancymagicks.entity.properties.ExtendedPropertySelectionDirection
 
 trait Element {
-	def opposites: List[Element]
+	def opposites: Seq[Element]
 
 	def prioritizesOver(element: Element): Boolean
 

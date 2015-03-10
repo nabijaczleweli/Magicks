@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.util.{StatCollector, IIcon}
 
 class StaffType(texture: String, val name: String, val activeAbility: StaffAbility, val passiveAbility: StaffAbility) {
+	@SideOnly(Side.CLIENT)
 	val icon = new Array[IIcon](1)
 
 	@SideOnly(Side.CLIENT)
