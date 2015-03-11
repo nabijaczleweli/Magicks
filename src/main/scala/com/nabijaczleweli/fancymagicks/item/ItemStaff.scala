@@ -128,13 +128,19 @@ object ItemStaff extends Item with IConfigurable {
 				super.getItemStackDisplayName(stack)
 		}
 
-	override def onUpdate(stack: ItemStack, world: World, entity: Entity, i: Int, b: Boolean) =
+	override def onUpdate(stack: ItemStack, world: World, entity: Entity, i: Int, b: Boolean) {
 		entity match {
 			case player: EntityPlayer =>
 				if(stack == player.getHeldItem)
 					executePassiveAbility(player)
 			case _ =>
 		}
+		entity getExtendedProperties ExtendedPropertyElements.id match {
+			case elem: ExtendedPropertyElements =>
+				elem.update()
+			case _ =>
+		}
+	}
 
 	override def configure(config: Configuration) {
 		threshold = config.getInt("elementSelectionThreshold", "elements", threshold, 1, 30, "In degrees, turn amount after which the direction of turn will be stored")
