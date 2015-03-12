@@ -2,11 +2,13 @@ package com.nabijaczleweli.fancymagicks.entity.properties
 
 import com.nabijaczleweli.fancymagicks.element.Element
 import com.nabijaczleweli.fancymagicks.reference.Reference
+import com.nabijaczleweli.fancymagicks.util.IConfigurable
 import net.minecraft.entity.{Entity, EntityLivingBase}
 import net.minecraft.nbt.{NBTTagCompound, NBTTagList, NBTTagString}
 import net.minecraft.potion.{Potion, PotionEffect}
 import net.minecraft.world.World
 import net.minecraftforge.common.IExtendedEntityProperties
+import net.minecraftforge.common.config.Configuration
 import net.minecraftforge.common.util.Constants
 
 class ExtendedPropertyElements extends IExtendedEntityProperties {
@@ -42,11 +44,12 @@ class ExtendedPropertyElements extends IExtendedEntityProperties {
 	def update() =
 		entity match {
 			case ent: EntityLivingBase =>
-				elements count {_ != null} match {  // Config for this one?
-					case 0 =>
-					case i =>
-						ent addPotionEffect new PotionEffect(Potion.moveSlowdown.getId, 1, i - 1, true)
-				}
+				if(ExtendedPropertyElements.slowdown)
+					elements count {_ != null} match {
+						case 0 =>
+						case i =>
+							ent addPotionEffect new PotionEffect(Potion.moveSlowdown.getId, 1, i - 1, true)
+					}
 			case _ =>
 		}
 
@@ -68,6 +71,11 @@ class ExtendedPropertyElements extends IExtendedEntityProperties {
 	}
 }
 
-object ExtendedPropertyElements {
+object ExtendedPropertyElements extends IConfigurable {
 	val id = s"${Reference.NAMESPACED_PREFIX}elements"
+	var slowdown = true
+
+	override def configure(config: Configuration) {
+		slowdown = config.getBoolean("elementPreparedSlowdown", "elements", slowdown, "Whether to apply slowdown when elements are prepared/\"on hotbar\"")
+	}
 }
