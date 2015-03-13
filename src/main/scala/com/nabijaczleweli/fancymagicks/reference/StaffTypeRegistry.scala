@@ -34,12 +34,13 @@ object StaffTypeRegistry {
 		val scanner = new Scanner(strm, Charsets.UTF_8.name)
 		while(scanner.hasNextLine) {
 			val line = scanner.nextLine().trim
-			val sections = line split "|" map {_.trim} // name -> passive -> active -> (optional)texture(defaulted to name)
+			val sections = line split '|' map {_.trim} // name -> passive -> active -> (optional)texture(defaulted to name)
 			if(line.nonEmpty && line(0) != '#' && sections.length >= 3) {
 				def abilityOrError(idx: Int) =
 					StaffAbilityRegistry get sections(idx) getOrElse new AbilityMissing(sections(idx))
 				register(sections(0), new StaffType(if(sections.length > 3) sections(3) else sections(0), s"staff.${sections(0)}.name", abilityOrError(1), abilityOrError(2)))
 			}
 		}
+		scanner.close()
 	}
 }
