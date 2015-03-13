@@ -1,0 +1,4 @@
+# Version 1: name -> passive ability -> active ability; texture = name
+# Version 2: name -> passive ability -> active ability -> texture
+
+fancymagicks:staffBasic | fancymagicks:none | fancymagicks:none
