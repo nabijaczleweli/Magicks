@@ -4,7 +4,7 @@ import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.util.{StatCollector, IIcon}
 
-class StaffType(texture: String, val name: String, val activeAbility: StaffAbility, val passiveAbility: StaffAbility) {
+class StaffType(texture: String, val name: String, val passiveAbility: StaffAbility, val activeAbility: StaffAbility) {
 	@SideOnly(Side.CLIENT)
 	val icon = new Array[IIcon](1)
 

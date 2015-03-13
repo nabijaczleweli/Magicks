@@ -13,3 +13,4 @@ tooltip.fancymagicks:staffId=Staff ID: %d
 tooltip.fancymagicks:staffAbilityActive=§eActive ability§f: %s
 tooltip.fancymagicks:staffAbilityPassive=§ePassive ability§f: %s
 tooltip.fancymagicks:staffAbilityNone=None
+tooltip.fancymagicks:staffAbilityErrorMissing=§cError§f: missing staff ability "%s"!
