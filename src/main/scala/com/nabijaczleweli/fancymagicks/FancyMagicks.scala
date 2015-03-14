@@ -1,11 +1,11 @@
 package com.nabijaczleweli.fancymagicks
 
 import com.nabijaczleweli.fancymagicks.proxy.IProxy
-import com.nabijaczleweli.fancymagicks.reference.Configuration
 import com.nabijaczleweli.fancymagicks.reference.Reference._
-import cpw.mods.fml.common.{SidedProxy, Mod}
+import com.nabijaczleweli.fancymagicks.reference.{Configuration, StaffTypeRegistry}
 import cpw.mods.fml.common.Mod.EventHandler
-import cpw.mods.fml.common.event.{FMLPreInitializationEvent, FMLInitializationEvent, FMLPostInitializationEvent}
+import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
+import cpw.mods.fml.common.{Mod, SidedProxy}
 
 @Mod(modid = MOD_ID, name = MOD_NAME, dependencies = DEPENDENCIES, version = VERSION, modLanguage = "scala")
 object FancyMagicks {
@@ -27,6 +27,6 @@ object FancyMagicks {
 
 	@EventHandler
 	def postInit(event: FMLPostInitializationEvent) {
-
+		StaffTypeRegistry.readAllStaffTypes()
 	}
 }

@@ -4,11 +4,13 @@ import java.io.InputStream
 import java.util.Scanner
 
 import com.nabijaczleweli.fancymagicks.staves.{StaffAbility, StaffType}
+import cpw.mods.fml.common.Loader
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.StatCollector
 import org.apache.commons.io.Charsets
 
 import scala.collection.mutable.{HashMap => mHashMap, Map => mMap}
+import scala.collection.JavaConversions._
 
 object StaffTypeRegistry {
 	class AbilityMissing(which: String) extends StaffAbility {
@@ -22,6 +24,9 @@ object StaffTypeRegistry {
 	}
 
 	private val types: mMap[String, StaffType] = new mHashMap
+
+	def readAllStaffTypes() =
+		Loader.instance.getModList map {_.getModId} map {m => s"/assets/$m/staves/staves.txt"} map {getClass.getResourceAsStream} foreach registerFrom
 
 	def register(key: String, value: StaffType) {
 		types += key -> value
