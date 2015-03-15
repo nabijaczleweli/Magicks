@@ -2,9 +2,11 @@ package com.nabijaczleweli.fancymagicks.reference
 
 import com.nabijaczleweli.fancymagicks.reference.Reference._
 import com.nabijaczleweli.fancymagicks.reference.StaffTypeRegistry.AbilityMissing
-import com.nabijaczleweli.fancymagicks.staves.{AbilitySimple, StaffType}
+import com.nabijaczleweli.fancymagicks.staves.{StaffAbility, AbilitySimple, StaffType}
 import cpw.mods.fml.relauncher.{SideOnly, Side}
 import net.minecraft.client.settings.KeyBinding
+
+import scala.collection.immutable.HashMap
 
 object Container {
 	@SideOnly(Side.CLIENT)
@@ -14,4 +16,6 @@ object Container {
 	var staves = new StaffType(s"${NAMESPACED_PREFIX}staff", "Simplest staff", abilityEmpty, abilityEmpty) ::
 	             new StaffType(s"${NAMESPACED_PREFIX}ex00", "Fancy staff", new AbilitySimple({_ addExperienceLevel 1}, "Experience"), new AbilitySimple({_.addVelocity(0, 100, 0)}, "FLY")) ::
 	             new StaffType(s"${NAMESPACED_PREFIX}ex01", "Error staff", new AbilityMissing("fancymagicks:passive"), new AbilityMissing("fancymagicks:active")) :: Nil
+
+	var abilityRegistry: Map[String, StaffAbility] = new HashMap
 }
