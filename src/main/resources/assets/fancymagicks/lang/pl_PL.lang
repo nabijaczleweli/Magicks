@@ -9,7 +9,11 @@ key.fancymagicks:staffSpecial=Specjalne zdolności różdżek
 
 # Tooltips
 tooltip.fancymagicks:missingStaff=Ta różdżka nie istnieje! Coś poszło źle!
-tooltip.fancymagicks:staffId=ID różdżki: %d
+tooltip.fancymagicks:staffIdMissing=§cBrak typu różdżki!§f
+tooltip.fancymagicks:staffId=Typ różdżki: %d
 tooltip.fancymagicks:staffAbilityActive=§eUmiejętność aktywna§f: %s
 tooltip.fancymagicks:staffAbilityPassive=§eUmiejętność pasywna§f: %s
 tooltip.fancymagicks:staffAbilityNone=Brak
+
+# Staves
+staff.fancymagicks:staff_basic.name=Podstawowa różdżka

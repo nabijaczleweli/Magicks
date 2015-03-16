@@ -5,7 +5,8 @@ import java.util.{List => jList}
 import com.nabijaczleweli.fancymagicks.creativetab.CreativeTabFancyMagicks
 import com.nabijaczleweli.fancymagicks.element.Element
 import com.nabijaczleweli.fancymagicks.entity.properties.{ExtendedPropertyElements, ExtendedPropertyPrevRotationPitch, ExtendedPropertySelectionDirection}
-import com.nabijaczleweli.fancymagicks.reference.{Container, Reference}
+import com.nabijaczleweli.fancymagicks.reference.Reference._
+import com.nabijaczleweli.fancymagicks.reference.StaffTypeRegistry
 import com.nabijaczleweli.fancymagicks.util.{Direction, IConfigurable}
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.texture.IIconRegister
@@ -13,34 +14,44 @@ import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.{EnumAction, Item, ItemStack}
+import net.minecraft.nbt.NBTTagString
 import net.minecraft.util.StatCollector
 import net.minecraft.world.World
 import net.minecraftforge.common.config.Configuration
 
 object ItemStaff extends Item with IConfigurable {
+	val staffTypeTagKey = "staffType"
 	var threshold = 20
 
 	setCreativeTab(CreativeTabFancyMagicks)
-	setUnlocalizedName(Reference.NAMESPACED_PREFIX + "staff")
-	setTextureName(Reference.NAMESPACED_PREFIX + "missing_staff")
+	setUnlocalizedName(NAMESPACED_PREFIX + "staff")
+	setTextureName(NAMESPACED_PREFIX + "missing_staff")
 	setHasSubtypes(true)
 	setMaxDamage(0)
 
-	def staff(dmg: Int) =
-		if(Container.staves.size > dmg)
-			Some(Container staves dmg)
-		else
+	def staffType(stack: ItemStack) =
+		if(!stack.hasTagCompound)
 			None
+		else
+			stack.getTagCompound getString staffTypeTagKey match {
+				case "" =>
+					None
+				case str =>
+					Some(str)
+			}
+
+	def staff(stack: ItemStack) =
+		(staffType(stack) map {StaffTypeRegistry.get}).flatten
 
 	def executeActiveAbility(player: EntityPlayer) =
-		staff(player.getHeldItem.getItemDamage) match {
+		staff(player.getHeldItem) match {
 			case Some(staff) =>
 				staff activeAbility player
 			case None =>
 		}
 
 	def executePassiveAbility(player: EntityPlayer) =
-		staff(player.getHeldItem.getItemDamage) match {
+		staff(player.getHeldItem) match {
 			case Some(staff) =>
 				staff passiveAbility player
 			case None =>
@@ -50,17 +61,16 @@ object ItemStaff extends Item with IConfigurable {
 	@SideOnly(Side.CLIENT)
 	override def registerIcons(registry: IIconRegister) {
 		super.registerIcons(registry)
-		Container.staves foreach {_ registerIcons registry}
+		StaffTypeRegistry.values foreach {_ registerIcons registry}
 	}
 
 	@SideOnly(Side.CLIENT)
-	override def getIconFromDamage(dmg: Int) =
-		staff(dmg).fold(itemIcon)(_ icon 0)
+	override def getIconIndex(stack: ItemStack) =
+		staff(stack).fold(itemIcon)(_ icon 0)
 
 	@SideOnly(Side.CLIENT)
 	override def getSubItems(item: Item, tab: CreativeTabs, list: jList[_]) =
-		for(id <- Container.staves.indices)
-			list.asInstanceOf[jList[ItemStack]] add new ItemStack(this, 1, id)
+		StaffTypeRegistry.keys map {new NBTTagString(_)} map {(_, new ItemStack(this))} map {pr => pr._2.setTagInfo(staffTypeTagKey, pr._1); pr._2} foreach {list.asInstanceOf[jList[ItemStack]].add}
 
 	override def onItemRightClick(stack: ItemStack, world: World, player: EntityPlayer) = {
 		val prop = new ExtendedPropertySelectionDirection
@@ -70,7 +80,6 @@ object ItemStaff extends Item with IConfigurable {
 		player.setItemInUse(stack, getMaxItemUseDuration(stack))
 		stack
 	}
-
 	override def getMaxItemUseDuration(stack: ItemStack) =
 		Int.MaxValue
 
@@ -109,19 +118,20 @@ object ItemStaff extends Item with IConfigurable {
 		ExtendedPropertySelectionDirection removeFrom player
 	}
 
-	override def addInformation(stack: ItemStack, player: EntityPlayer, list: jList[_], additionalData: Boolean) {
-		staff(stack.getItemDamage) match {
+	override def addInformation(stack: ItemStack, player: EntityPlayer, ilist: jList[_], additionalData: Boolean) {
+		val list = ilist.asInstanceOf[jList[String]]
+		staff(stack) match {
 			case Some(staff) =>
-				list.asInstanceOf[jList[String]] add StatCollector.translateToLocalFormatted(s"tooltip.${Reference.NAMESPACED_PREFIX}staffAbilityPassive", staff.passiveAbility.displayDescription)
-				list.asInstanceOf[jList[String]] add StatCollector.translateToLocalFormatted(s"tooltip.${Reference.NAMESPACED_PREFIX}staffAbilityActive", staff.activeAbility.displayDescription)
+				list add StatCollector.translateToLocalFormatted(s"tooltip.${NAMESPACED_PREFIX}staffAbilityPassive", staff.passiveAbility.displayDescription)
+				list add StatCollector.translateToLocalFormatted(s"tooltip.${NAMESPACED_PREFIX}staffAbilityActive", staff.activeAbility.displayDescription)
 			case None =>
 		}
 		if(additionalData)
-			list.asInstanceOf[jList[String]] add StatCollector.translateToLocalFormatted(s"tooltip.${Reference.NAMESPACED_PREFIX}staffId", stack.getItemDamage: Integer)
+			list add StatCollector.translateToLocalFormatted(s"tooltip.${NAMESPACED_PREFIX}staffId", staffType(stack) getOrElse {StatCollector translateToLocal s"tooltip.${NAMESPACED_PREFIX}staffIdMissing"})
 	}
 
 	override def getItemStackDisplayName(stack: ItemStack) =
-		staff(stack.getItemDamage) match {
+		staff(stack) match {
 			case Some(staff) =>
 				staff.localizedName
 			case None =>

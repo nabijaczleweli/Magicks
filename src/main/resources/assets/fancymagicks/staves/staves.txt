@@ -1,4 +1,5 @@
+# Note: textures should be all lowercase (this also applies if texture is defaulted from name)
 # Version 1: name -> passive ability -> active ability; texture = name
 # Version 2: name -> passive ability -> active ability -> texture
 
-fancymagicks:staffBasic | fancymagicks:none | fancymagicks:none
+fancymagicks:staff_basic | fancymagicks:none | fancymagicks:none

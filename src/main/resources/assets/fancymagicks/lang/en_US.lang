@@ -9,11 +9,12 @@ key.fancymagicks:staffSpecial=Staffs' special abilities
 
 # Tooltips
 tooltip.fancymagicks:missingStaff=This staff is nonexistant! Something went wrong!
-tooltip.fancymagicks:staffId=Staff ID: %d
+tooltip.fancymagicks:staffIdMissing=§cNo staff type!§f
+tooltip.fancymagicks:staffId=Staff type: %s
 tooltip.fancymagicks:staffAbilityActive=§eActive ability§f: %s
 tooltip.fancymagicks:staffAbilityPassive=§ePassive ability§f: %s
 tooltip.fancymagicks:staffAbilityNone=None
 tooltip.fancymagicks:staffAbilityErrorMissing=§cError§f: missing staff ability "%s"!
 
 # Staves
-staff.fancymagicks:staffBasic.name=Basic Staff
+staff.fancymagicks:staff_basic.name=Basic Staff
