@@ -21,7 +21,7 @@ import net.minecraftforge.common.config.Configuration
 
 object ItemStaff extends Item with IConfigurable {
 	val staffTypeTagKey = "staffType"
-	var threshold = 20
+	var threshold = 10
 
 	setCreativeTab(CreativeTabFancyMagicks)
 	setUnlocalizedName(NAMESPACED_PREFIX + "staff")
@@ -80,6 +80,7 @@ object ItemStaff extends Item with IConfigurable {
 		player.setItemInUse(stack, getMaxItemUseDuration(stack))
 		stack
 	}
+
 	override def getMaxItemUseDuration(stack: ItemStack) =
 		Int.MaxValue
 
@@ -97,15 +98,19 @@ object ItemStaff extends Item with IConfigurable {
 	override def onUsingTick(stack: ItemStack, player: EntityPlayer, count: Int) =
 		ExtendedPropertyPrevRotationPitch.id :: ExtendedPropertySelectionDirection.id :: Nil map {player.getExtendedProperties} match {
 			case (rot: ExtendedPropertyPrevRotationPitch) :: (dir: ExtendedPropertySelectionDirection) :: Nil =>
-				if(player.rotationYawHead - player.prevRotationYawHead >= threshold)
-					dir.directions enqueue Direction.right
-				else if(player.rotationYawHead - player.prevRotationYawHead <= -threshold)
-					dir.directions enqueue Direction.left
+				val start = dir.directions.size
+
 				if(player.rotationPitch - rot.prevRotationPitch >= threshold)
 					dir.directions enqueue Direction.down
 				else if(player.rotationPitch - rot.prevRotationPitch <= -threshold)
 					dir.directions enqueue Direction.up
-				rot.update()
+				else if(player.rotationYawHead - player.prevRotationYawHead <= -threshold)
+					dir.directions enqueue Direction.left
+				else if(player.rotationYawHead - player.prevRotationYawHead >= threshold)
+					dir.directions enqueue Direction.right
+
+				if(dir.directions.size > start)
+					rot.update()
 			case _ =>
 		}
 
@@ -119,7 +124,7 @@ object ItemStaff extends Item with IConfigurable {
 	}
 
 	override def addInformation(stack: ItemStack, player: EntityPlayer, ilist: jList[_], additionalData: Boolean) {
-		val list = ilist.asInstanceOf[jList[String]]
+		lazy val list = ilist.asInstanceOf[jList[String]]
 		staff(stack) match {
 			case Some(staff) =>
 				list add StatCollector.translateToLocalFormatted(s"tooltip.${NAMESPACED_PREFIX}staffAbilityPassive", staff.passiveAbility.displayDescription)
