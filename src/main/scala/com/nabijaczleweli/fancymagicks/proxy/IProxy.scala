@@ -6,4 +6,6 @@ trait IProxy {
 	def registerKeyBindings(): Unit
 
 	def registerHandlers(): Unit
+
+	def registerRenderers(): Unit
 }

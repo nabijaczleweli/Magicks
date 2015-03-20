@@ -24,4 +24,6 @@ class CommonProxy extends IProxy {
 	override def registerHandlers() {
 		MinecraftForge.EVENT_BUS register EntityHandler
 	}
+
+	override def registerRenderers() {}
 }

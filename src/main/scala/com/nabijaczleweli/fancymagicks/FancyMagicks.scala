@@ -28,5 +28,7 @@ object FancyMagicks {
 	@EventHandler
 	def postInit(event: FMLPostInitializationEvent) {
 		StaffTypeRegistry.readAllStaffTypes()
+
+		proxy.registerRenderers()
 	}
 }
