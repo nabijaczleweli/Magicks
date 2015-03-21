@@ -8,4 +8,6 @@ trait IProxy {
 	def registerHandlers(): Unit
 
 	def registerRenderers(): Unit
+
+	def registerStaffAbilities(): Unit
 }
