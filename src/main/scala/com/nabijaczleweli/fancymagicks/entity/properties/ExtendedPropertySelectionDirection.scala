@@ -28,7 +28,7 @@ object ExtendedPropertySelectionDirection {
 				f setAccessible true
 				f
 			case None =>
-				throw new NoSuchFieldException("Couldn\'t find field `extendedProperties` inside `Entity`! This indicates a critical tampering!")
+				throw new NoSuchFieldException("Couldn\'t find field `extendedProperties` inside `Entity`! This indicates critical tampering!")
 		}
 	val id = s"${Reference.NAMESPACED_PREFIX}selectionDirection"
 

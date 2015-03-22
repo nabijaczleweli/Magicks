@@ -14,6 +14,7 @@ tooltip.fancymagicks:staffId=Typ różdżki: %d
 tooltip.fancymagicks:staffAbilityActive=§eUmiejętność aktywna§f: %s
 tooltip.fancymagicks:staffAbilityPassive=§eUmiejętność pasywna§f: %s
 tooltip.fancymagicks:staffAbilityNone=Brak
+tooltip.fancymagicks:staffAbilityErrorMissing=§cBłąd§f: brakująca umiejętność różdżki "%s"!
 
 # Staves
 staff.fancymagicks:staff_basic.name=Podstawowa różdżka
