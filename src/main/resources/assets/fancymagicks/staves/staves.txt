@@ -3,3 +3,4 @@
 # Version 2: name -> passive ability -> active ability -> texture
 
 fancymagicks:staff_basic | fancymagicks:none | fancymagicks:none
+fancymagicks:staff_aristo | fancymagicks:elementalResistance | fancymagicks:none

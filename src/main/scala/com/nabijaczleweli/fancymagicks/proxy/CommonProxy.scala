@@ -9,6 +9,7 @@ import cpw.mods.fml.common.registry.GameRegistry
 import net.minecraft.block.Block
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.Item
+import net.minecraft.potion.PotionEffect
 import net.minecraftforge.common.MinecraftForge
 
 class CommonProxy extends IProxy {
@@ -33,6 +34,8 @@ class CommonProxy extends IProxy {
 
 	override def registerStaffAbilities() {
 		Container.abilityRegistry += "fancymagicks:none" -> new AbilitySimple({_ => ()}, s"tooltip.${NAMESPACED_PREFIX}staffAbilityNone")
+		Container.abilityRegistry += "fancymagicks:elementalResistance" -> new AbilitySimple({p => p.addPotionEffect(new PotionEffect(Container.potionElementalResistance.getId, 1, 0, false))},
+		                                                                                     s"tooltip.${NAMESPACED_PREFIX}staffAbilityElementalResitance")
 
 		Container.abilityRegistry ++= CommonProxy.IMCAbilities map {t => (t._1, ((Class forName t._2._1).newInstance.asInstanceOf[EntityPlayer => Unit], t._2._2))} map {t => (t._1, new AbilitySimple(t._2._1, t._2._2))}
 	}

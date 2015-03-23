@@ -1,5 +1,6 @@
 package com.nabijaczleweli.fancymagicks.reference
 
+import com.nabijaczleweli.fancymagicks.potion.Potion
 import com.nabijaczleweli.fancymagicks.staves.StaffAbility
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.settings.KeyBinding
@@ -14,4 +15,6 @@ object Container {
 	val keyBindStaffSpecialAblility = new KeyBinding(s"key.${Reference.NAMESPACED_PREFIX}staffSpecial", 48, Reference.MOD_NAME) // 48 -> B
 
 	var abilityRegistry: Map[String, StaffAbility] = HashMap.empty
+
+	val potionElementalResistance = new Potion(false, 0xC2C22C)
 }
