@@ -1,4 +1,4 @@
-package com.nabijaczleweli.fancymagicks.render
+package com.nabijaczleweli.fancymagicks.render.item
 
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.{ItemRenderer, Tessellator}

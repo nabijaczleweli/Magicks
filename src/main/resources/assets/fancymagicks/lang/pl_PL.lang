@@ -15,6 +15,7 @@ tooltip.fancymagicks:staffAbilityActive=§eUmiejętność aktywna§f: %s
 tooltip.fancymagicks:staffAbilityPassive=§eUmiejętność pasywna§f: %s
 tooltip.fancymagicks:staffAbilityNone=Brak
 tooltip.fancymagicks:staffAbilityElementalResitance=Odporność na wszystkie elementy
+tooltip.fancymagicks:staffAbilitySummonBugs=Przywołaj Bugi
 tooltip.fancymagicks:staffAbilityErrorMissing=§cBłąd§f: brakująca umiejętność różdżki "%s"!
 
 # Staves

@@ -15,6 +15,7 @@ tooltip.fancymagicks:staffAbilityActive=§eActive ability§f: %s
 tooltip.fancymagicks:staffAbilityPassive=§ePassive ability§f: %s
 tooltip.fancymagicks:staffAbilityNone=None
 tooltip.fancymagicks:staffAbilityElementalResitance=Resistance to all elements
+tooltip.fancymagicks:staffAbilitySummonBugs=Summon Bugs
 tooltip.fancymagicks:staffAbilityErrorMissing=§cError§f: missing staff ability "%s"!
 
 # Staves

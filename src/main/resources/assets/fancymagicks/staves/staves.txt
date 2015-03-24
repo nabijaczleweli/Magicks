@@ -4,3 +4,4 @@
 
 fancymagicks:staff_basic | fancymagicks:none | fancymagicks:none
 fancymagicks:staff_aristo | fancymagicks:elementalResistance | fancymagicks:none
+fancymagicks:staff_bug | fancymagicks:none | fancymagicks:summonBugs

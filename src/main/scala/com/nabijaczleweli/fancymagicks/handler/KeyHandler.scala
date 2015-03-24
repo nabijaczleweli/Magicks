@@ -12,9 +12,13 @@ object KeyHandler {
 	@SubscribeEvent
 	def onKeyClicked(event: KeyInputEvent) =
 		if(Container.keyBindStaffSpecialAblility.isPressed)
-			Minecraft.getMinecraft.thePlayer.getHeldItem.getItem match {
-				case ItemStaff =>
-					ItemStaff executeActiveAbility Minecraft.getMinecraft.thePlayer
-				case _ =>
+			Minecraft.getMinecraft.thePlayer.getHeldItem match {
+				case null =>
+				case is =>
+					is.getItem match {
+						case ItemStaff =>
+							ItemStaff executeActiveAbility Minecraft.getMinecraft.thePlayer
+						case _ =>
+					}
 			}
 }

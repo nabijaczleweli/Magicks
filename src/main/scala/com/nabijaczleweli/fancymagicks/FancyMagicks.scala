@@ -22,6 +22,7 @@ object FancyMagicks {
 		Configuration load event.getSuggestedConfigurationFile
 
 		proxy.registerItemsAndBlocks()
+		proxy.registerEntities()
 	}
 
 	@EventHandler
