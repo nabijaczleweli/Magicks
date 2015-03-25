@@ -54,5 +54,7 @@ object FancyMagicks {
 						Container.log warn s"IMC message from ${message.getSender} with key ${message.key} is invalid! Sent: key='$key' className='$className' tooltip='$tooltip'."
 					else
 						CommonProxy.IMCAbilities :+= key -> (className -> tooltip)
+				case _ =>
+					Container.log warn s"Unknown IMC message from ${message.getSender} with key ${message.key}!"
 			}
 }

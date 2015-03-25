@@ -24,15 +24,9 @@ class ModelBugs extends ModelBase {
 	override def setLivingAnimations(entity: EntityLivingBase, f0: Float, f1: Float, f2: Float) {
 		super.setLivingAnimations(entity, f0, f1, f2)
 		for(mr <- bugRenderers) {
-			mr.offsetX += randomMove
-			mr.offsetY += randomMove
-			mr.offsetZ += randomMove
-			if(math.abs(mr.offsetX) > bugsSwarmRadius)
-				mr.offsetX = math.signum(mr.offsetX) * bugsSwarmRadius
-			if(math.abs(mr.offsetY) > bugsSwarmRadius)
-				mr.offsetY = math.signum(mr.offsetY) * bugsSwarmRadius
-			if(math.abs(mr.offsetZ) > bugsSwarmRadius)
-				mr.offsetZ = math.signum(mr.offsetZ) * bugsSwarmRadius
+			mr.offsetX = normalized(mr.offsetX + randomMove)
+			mr.offsetY = normalized(mr.offsetY + randomMove)
+			mr.offsetZ = normalized(mr.offsetZ + randomMove)
 		}
 	}
 }
@@ -48,6 +42,12 @@ object ModelBugs extends IConfigurable {
 
 	private def randomMove =
 		rand.nextFloat() * bugsSwarmRadius * (if(rand.nextBoolean()) .01F else -.01F)
+
+	private def normalized(r: Float) =
+		if(math.abs(r) > bugsSwarmRadius)
+			math.signum(r) * bugsSwarmRadius
+		else
+			r
 
 	override def configure(config: Configuration) {
 		bugsPerSwarm = config.getInt("bugsPerSwarm", "render", bugsPerSwarm, 1, Int.MaxValue, "Amount of individual bugs per swarm")
