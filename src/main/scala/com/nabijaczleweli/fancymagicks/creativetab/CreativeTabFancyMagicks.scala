@@ -7,6 +7,8 @@ import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.ItemStack
 
+import scala.util.Random
+
 object CreativeTabFancyMagicks extends CreativeTabs("fancymagicks") {
 	@SideOnly(Side.CLIENT)
 	private val stack = new Array[ItemStack](1)
@@ -22,7 +24,7 @@ object CreativeTabFancyMagicks extends CreativeTabs("fancymagicks") {
 				val lst = new jArrayList[ItemStack]
 				ItemStaff.getSubItems(ItemStaff, this, lst)
 				if(!lst.isEmpty) {
-					stack(0) = lst.get(0)
+					stack(0) = lst get (new Random nextInt lst.size)
 					stack(0)
 				} else
 					super.getIconItemStack

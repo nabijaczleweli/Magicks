@@ -17,4 +17,5 @@ object Container {
 	var abilityRegistry: Map[String, StaffAbility] = HashMap.empty
 
 	val potionElementalResistance = new Potion(false, 0xC2C22C)
+	val potionUnlimitedBeams = new Potion(false, 0xEEDD05)
 }

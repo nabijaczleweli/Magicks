@@ -6,4 +6,7 @@ object ElementShield extends Element {
 
 	override def prioritizesOver(element: Element) =
 		true
+
+	override def colour =
+		0xF7CF0D
 }

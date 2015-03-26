@@ -11,9 +11,15 @@ abstract class ElementBeam extends Element {
 object ElementArcane extends ElementBeam {
 	override def opposites =
 		ElementLife :: Nil
+
+	override def colour =
+		0xFF0000
 }
 
 object ElementLife extends ElementBeam {
 	override def opposites =
 		ElementArcane :: Nil
+
+	override def colour =
+		0x00FF00
 }

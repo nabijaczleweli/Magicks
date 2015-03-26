@@ -13,6 +13,8 @@ trait Element {
 
 	def synergize(`with`: Element): Option[Element] =
 		None
+
+	def colour: Int
 }
 
 object Element {

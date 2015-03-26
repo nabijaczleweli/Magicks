@@ -36,7 +36,7 @@ class EntityBugs(world: World) extends EntityCreature(world) with IMob {
 		getEntityAttribute(SharedMonsterAttributes.maxHealth) setBaseValue 4D
 		getEntityAttribute(SharedMonsterAttributes.followRange) setBaseValue 100D
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed) setBaseValue .23000000417232513D
-		getAttributeMap registerAttribute SharedMonsterAttributes.attackDamage setBaseValue 1.5D
+		getAttributeMap registerAttribute SharedMonsterAttributes.attackDamage setBaseValue .5D
 	}
 
 	override def attackEntityAsMob(entity: Entity) =
@@ -45,10 +45,12 @@ class EntityBugs(world: World) extends EntityCreature(world) with IMob {
 
 object EntityBugs {
 	def defaultSummon(inFrontOf: EntityLivingBase) {
-		//TODO: summon an X amount of blocks in front of entity
+		val look = inFrontOf getLook 1
+		val pos = (inFrontOf getPosition 1).addVector(look.xCoord * 10D, look.yCoord * 10D, look.zCoord * 10D) // As seen in rayTrace()
 
 		val entity = new EntityBugs(inFrontOf.worldObj)
-		entity.setPosition(inFrontOf.posX, inFrontOf.posY, inFrontOf.posZ)
+		entity.setPosition(pos.xCoord, pos.yCoord, pos.zCoord)
+
 		inFrontOf.worldObj spawnEntityInWorld entity
 	}
 }

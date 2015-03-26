@@ -4,7 +4,7 @@ import java.lang.reflect.{Field, Modifier}
 import java.util.{Arrays => jArrays}
 
 import net.minecraft.entity.EntityLivingBase
-import net.minecraft.potion.{Potion => mPotion}
+import net.minecraft.potion.{Potion => mPotion, PotionEffect}
 
 class Potion(bad: Boolean, color: Int, effect: (EntityLivingBase, Int) => Unit = {(_, _) => ()}, id: Int = Potion.nextAvailableId) extends mPotion(Potion resizeIfNeeded id, bad, color) {
 	override def setIconIndex(x: Int, y: Int) =
@@ -15,6 +15,9 @@ class Potion(bad: Boolean, color: Int, effect: (EntityLivingBase, Int) => Unit =
 
 	override def performEffect(entity: EntityLivingBase, amplifier: Int) =
 		effect(entity, amplifier)
+
+	override def isReady(duration: Int, amplifier: Int) =
+		true
 }
 
 object Potion {
@@ -23,6 +26,7 @@ object Potion {
 		t setAccessible true
 		t
 	}
+
 	private lazy val potionTypesField =
 		classOf[mPotion].getDeclaredFields find {classOf[Array[mPotion]] isAssignableFrom _.getType} match {
 			case Some(f) =>
@@ -31,7 +35,7 @@ object Potion {
 					modifiersField.setInt(f, f.getModifiers & ~Modifier.FINAL)
 				f
 			case None =>
-				throw new ReflectiveOperationException(s"No field of type `${classOf[Array[mPotion]].getName}` in ${classOf[Array[mPotion]].getName}! This indicates critical tampering!")
+				throw new ReflectiveOperationException(s"No field of type `${classOf[Array[mPotion]].getName}` in ${classOf[mPotion].getName}! This indicates critical tampering!")
 		}
 
 	private def resizeIfNeeded(id: Int) = {
@@ -40,6 +44,7 @@ object Potion {
 		id
 	}
 
+
 	def nextAvailableId =
 		mPotion.potionTypes.indexOf(null, 1) match { // mPotion.potionTypes[0] is unused, and therefore always null
 			case -1 =>
@@ -47,4 +52,7 @@ object Potion {
 			case i =>
 				i
 		}
+
+	def applyEffect(pot: Potion, amplifier: Int = 0, duration: Int = 1)(entity: EntityLivingBase) =
+		entity.addPotionEffect(new PotionEffect(pot.getId, duration, amplifier, false))
 }

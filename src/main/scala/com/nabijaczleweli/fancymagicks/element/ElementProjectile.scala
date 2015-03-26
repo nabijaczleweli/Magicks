@@ -11,6 +11,9 @@ abstract class ElementProjectile extends Element {
 object ElementEarth extends ElementProjectile {
 	override def opposites =
 		ElementLightning :: Nil
+
+	override def colour =
+		0x503B2A
 }
 
 object ElementIce extends ElementProjectile {
@@ -24,4 +27,7 @@ object ElementIce extends ElementProjectile {
 			case _ =>
 				None
 		}
+
+	override def colour =
+		0x26D0F4
 }

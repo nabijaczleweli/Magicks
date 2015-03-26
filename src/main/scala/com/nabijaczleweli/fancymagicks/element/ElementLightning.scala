@@ -6,4 +6,7 @@ object ElementLightning extends Element {
 
 	override def prioritizesOver(element: Element) =
 		element.elementType == Some(ElementType.spray) && element != ElementSteam
+
+	override def colour =
+		0xA030D0
 }

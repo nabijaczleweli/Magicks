@@ -18,7 +18,7 @@ object EntityHandler {
 		}
 
 	@SubscribeEvent
-	def onEntityAttacked(event: LivingHurtEvent) =
+	def onEntityAttacked(event: LivingHurtEvent) = //TODO: element resistance with auras (when we get DamageSources set up)
 		if(event.entityLiving isPotionActive Container.potionElementalResistance)
 			event.ammount /= 4F // 75% resistance to all elements & physical damage
 }

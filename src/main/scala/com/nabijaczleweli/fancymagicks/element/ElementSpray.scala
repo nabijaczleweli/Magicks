@@ -19,6 +19,9 @@ object ElementCold extends ElementSpray {
 			case _ =>
 				None
 		}
+
+	override def colour =
+		0xADD6F2
 }
 
 object ElementFire extends ElementSpray {
@@ -32,6 +35,9 @@ object ElementFire extends ElementSpray {
 			case _ =>
 				None
 		}
+
+	override def colour =
+		0xFF7D29
 }
 
 object ElementSteam extends ElementSpray {
@@ -48,6 +54,9 @@ object ElementSteam extends ElementSpray {
 			case _ =>
 				None
 		}
+
+	override def colour =
+		0xAFAFAF
 }
 
 object ElementWater extends ElementSpray {
@@ -61,4 +70,7 @@ object ElementWater extends ElementSpray {
 			case _ =>
 				None
 		}
+
+	override def colour =
+		0x005BE0
 }
