@@ -4,7 +4,9 @@ import com.nabijaczleweli.fancymagicks.entity.properties.{ExtendedPropertyElemen
 import com.nabijaczleweli.fancymagicks.reference.Container
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.potion.{Potion => mPotion}
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent
 import net.minecraftforge.event.entity.living.LivingHurtEvent
 
 object EntityHandler {
@@ -18,7 +20,12 @@ object EntityHandler {
 		}
 
 	@SubscribeEvent
-	def onEntityAttacked(event: LivingHurtEvent) = //TODO: element resistance with auras (when we get DamageSources set up)
+	def onLivingAttacked(event: LivingHurtEvent) = //TODO: element resistance with auras (when we get DamageSources set up)
 		if(event.entityLiving isPotionActive Container.potionElementalResistance)
 			event.ammount /= 4F // 75% resistance to all elements & physical damage
+
+	@SubscribeEvent
+	def onLivingUpdate(event: LivingUpdateEvent) =
+		if((event.entityLiving isPotionActive Container.potionPoisonImmunity) && (event.entityLiving isPotionActive mPotion.poison))
+			event.entityLiving removePotionEffect mPotion.poison.getId
 }

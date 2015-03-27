@@ -6,4 +6,5 @@ fancymagicks:staff_aristo | fancymagicks:elementalResistance | fancymagicks:none
 fancymagicks:staff_basic | fancymagicks:none | fancymagicks:none
 fancymagicks:staff_bug | fancymagicks:none | fancymagicks:summonBugs
 fancymagicks:arm_daemon | fancymagicks:unlimitedBeams | fancymagicks:none
-fancymagicks:staff_frost | fancymagicks:auraColdImmunity | fancymagicks:none
+fancymagicks:staff_frost | fancymagicks:auraImmunityCold | fancymagicks:none
+fancymagicks:staff_gnarled | fancymagicks:immunityPoison | fancymagicks:summonSpiritTree

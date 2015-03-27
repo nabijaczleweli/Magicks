@@ -17,7 +17,9 @@ tooltip.fancymagicks:staffAbilityNone=None
 tooltip.fancymagicks:staffAbilityElementalResitance=Resistance to all elements
 tooltip.fancymagicks:staffAbilitySummonBugs=Summon Bugs
 tooltip.fancymagicks:staffAbilityUnlimitedBeams=Unlimited beam duration
-tooltip.fancymagicks:staffAbilityAuraColdImmunity=Cold immunity aura
+tooltip.fancymagicks:staffAbilityAuraImmunityCold=Cold immunity aura
+tooltip.fancymagicks:staffAbilityImmunityPoison=Poison immunity
+tooltip.fancymagicks:staffAbilitySummonSpiritTree=Summon Tree Spirit
 tooltip.fancymagicks:staffAbilityErrorMissing=§cError§f: missing staff ability "%s"!
 
 # Staves

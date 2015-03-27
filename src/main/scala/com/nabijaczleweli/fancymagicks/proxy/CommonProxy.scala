@@ -2,7 +2,7 @@ package com.nabijaczleweli.fancymagicks.proxy
 
 import com.nabijaczleweli.fancymagicks.FancyMagicks
 import com.nabijaczleweli.fancymagicks.element.ElementCold
-import com.nabijaczleweli.fancymagicks.entity.EntityBugs
+import com.nabijaczleweli.fancymagicks.entity.{EntitySpiritTree, EntityBugs}
 import com.nabijaczleweli.fancymagicks.handler.EntityHandler
 import com.nabijaczleweli.fancymagicks.item.ItemStaff
 import com.nabijaczleweli.fancymagicks.potion.{PotionImmunityAura, Potion}
@@ -32,6 +32,7 @@ class CommonProxy extends IProxy {
 		def id = {_id += 1; _id - 1}
 
 		EntityRegistry.registerModEntity(classOf[EntityBugs], "bugs", id, FancyMagicks, 32, 5, true) // Last 3 arguments stolen from SlimeKinghts
+		EntityRegistry.registerModEntity(classOf[EntitySpiritTree], "spiritTree", id, FancyMagicks, 32, 5, true) // Last 3 arguments stolen from SlimeKinghts
 	}
 
 	override def registerKeyBindings() {}
@@ -47,7 +48,9 @@ class CommonProxy extends IProxy {
 		Container.abilityRegistry += "fancymagicks:elementalResistance" -> new AbilitySimple({Potion applyEffect Container.potionElementalResistance}, s"tooltip.${NAMESPACED_PREFIX}staffAbilityElementalResitance")
 		Container.abilityRegistry += "fancymagicks:summonBugs" -> new AbilitySimple(EntityBugs.defaultSummon, s"tooltip.${NAMESPACED_PREFIX}staffAbilitySummonBugs")
 		Container.abilityRegistry += "fancymagicks:unlimitedBeams" -> new AbilitySimple({Potion applyEffect Container.potionUnlimitedBeams}, s"tooltip.${NAMESPACED_PREFIX}staffAbilityUnlimitedBeams")
-		Container.abilityRegistry += "fancymagicks:auraColdImmunity" -> new AbilitySimple({Potion.applyEffect(PotionImmunityAura(ElementCold), 10)}, s"tooltip.${NAMESPACED_PREFIX}staffAbilityAuraColdImmunity")
+		Container.abilityRegistry += "fancymagicks:auraImmunityCold" -> new AbilitySimple({Potion.applyEffect(PotionImmunityAura(ElementCold), 10)}, s"tooltip.${NAMESPACED_PREFIX}staffAbilityAuraImmunityCold")
+		Container.abilityRegistry += "fancymagicks:immunityPoison" -> new AbilitySimple({Potion applyEffect Container.potionPoisonImmunity}, s"tooltip.${NAMESPACED_PREFIX}staffAbilityImmnityPoison")
+		Container.abilityRegistry += "fancymagicks:summonSpiritTree" -> new AbilitySimple(EntitySpiritTree.defaultSummon, s"tooltip.${NAMESPACED_PREFIX}staffAbilitySummonSpiritTree")
 
 		Container.abilityRegistry ++= CommonProxy.IMCAbilities map {t => (t._1, ((Class forName t._2._1).newInstance.asInstanceOf[EntityPlayer => Unit], t._2._2))} map {t => (t._1, new AbilitySimple(t._2._1, t._2._2))}
 	}

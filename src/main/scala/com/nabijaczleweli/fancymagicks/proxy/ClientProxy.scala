@@ -1,10 +1,10 @@
 package com.nabijaczleweli.fancymagicks.proxy
 
-import com.nabijaczleweli.fancymagicks.entity.EntityBugs
+import com.nabijaczleweli.fancymagicks.entity.{EntitySpiritTree, EntityBugs}
 import com.nabijaczleweli.fancymagicks.handler.KeyHandler
 import com.nabijaczleweli.fancymagicks.item.ItemStaff
 import com.nabijaczleweli.fancymagicks.reference.Container
-import com.nabijaczleweli.fancymagicks.render.entity.RenderBugs
+import com.nabijaczleweli.fancymagicks.render.entity.{RenderSpiritTree, RenderBugs}
 import com.nabijaczleweli.fancymagicks.render.item.ItemStaffRenderer
 import cpw.mods.fml.client.registry.{RenderingRegistry, ClientRegistry}
 import cpw.mods.fml.common.FMLCommonHandler
@@ -26,5 +26,6 @@ class ClientProxy extends CommonProxy {
 		super.registerRenderers()
 		MinecraftForgeClient.registerItemRenderer(ItemStaff, ItemStaffRenderer)
 		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityBugs], RenderBugs)
+		RenderingRegistry.registerEntityRenderingHandler(classOf[EntitySpiritTree], RenderSpiritTree)
 	}
 }
