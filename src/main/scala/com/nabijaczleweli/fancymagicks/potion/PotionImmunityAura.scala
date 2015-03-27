@@ -9,10 +9,10 @@ import scala.collection.JavaConversions._
 import scala.collection.mutable.{Map => mMap, HashMap => mHashMap}
 
 class PotionImmunityAura(val element: Element) extends Potion(false, element.colour) {
-	import PotionImmunityAura.{blocksPerLevel => bpl}
-
-	override def performEffect(entity: EntityLivingBase, amplifier: Int) =
-		entity.worldObj.getEntitiesWithinAABB(classOf[EntityLivingBase], entity.boundingBox.expand(bpl, bpl, bpl)) map {_.asInstanceOf[EntityLivingBase]} filterNot {_ == entity} foreach {Potion applyEffect this}
+	override def performEffect(entity: EntityLivingBase, amplifier: Int) = {
+		val range = PotionImmunityAura.blocksPerLevel * amplifier
+		entity.worldObj.getEntitiesWithinAABB(classOf[EntityLivingBase], entity.boundingBox.expand(range, range, range)) map {_.asInstanceOf[EntityLivingBase]} filterNot {_ == entity} foreach {Potion applyEffect this}
+	}
 }
 
 object PotionImmunityAura extends IConfigurable {
