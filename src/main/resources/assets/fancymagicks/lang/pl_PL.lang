@@ -20,6 +20,8 @@ tooltip.fancymagicks:staffAbilityUnlimitedBeams=Nielimitowana długość czarów
 tooltip.fancymagicks:staffAbilityAuraImmunityCold=Aura odporności na mróz
 tooltip.fancymagicks:staffAbilityImmunityPoison=Odporność na truciznę
 tooltip.fancymagicks:staffAbilitySummonSpiritTree=Przywołaj Ducha Drzew
+tooltip.fancymagicks:staffAbilityResistancePhysical=Zwiększona odporność fizyczna
+tooltip.fancymagicks:staffAbilityImmunityDamage=Nietykalność obrażeniowa
 tooltip.fancymagicks:staffAbilityErrorMissing=§cBłąd§f: brakująca umiejętność różdżki "%s"!
 
 # Staves

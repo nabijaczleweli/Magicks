@@ -53,6 +53,6 @@ object Potion {
 				i
 		}
 
-	def applyEffect(pot: Potion, amplifier: Int = 0, duration: Int = 1)(entity: EntityLivingBase) =
+	def applyEffect(pot: mPotion, amplifier: Int = 0, duration: Int = 1)(entity: EntityLivingBase) =
 		entity.addPotionEffect(new PotionEffect(pot.getId, duration, amplifier, false))
 }

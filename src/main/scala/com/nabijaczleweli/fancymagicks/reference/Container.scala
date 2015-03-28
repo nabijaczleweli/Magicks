@@ -4,7 +4,6 @@ import com.nabijaczleweli.fancymagicks.potion.Potion
 import com.nabijaczleweli.fancymagicks.staves.StaffAbility
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.settings.KeyBinding
-import net.minecraft.potion.{Potion => mPotion}
 import org.apache.logging.log4j.LogManager
 
 import scala.collection.immutable.HashMap
@@ -20,4 +19,5 @@ object Container {
 	val potionElementalResistance = new Potion(false, 0xC2C22C)
 	val potionUnlimitedBeams = new Potion(false, 0xEEDD05)
 	val potionPoisonImmunity = new Potion(false, 0x909F30)
+	val potionImmunityDamage = new Potion(false, 0x99703A)
 }

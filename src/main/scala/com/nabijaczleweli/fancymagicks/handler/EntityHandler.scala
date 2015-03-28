@@ -20,9 +20,13 @@ object EntityHandler {
 		}
 
 	@SubscribeEvent
-	def onLivingAttacked(event: LivingHurtEvent) = //TODO: element resistance with auras (when we get DamageSources set up)
-		if(event.entityLiving isPotionActive Container.potionElementalResistance)
-			event.ammount /= 4F // 75% resistance to all elements & physical damage
+	def onLivingHurt(event: LivingHurtEvent) = //TODO: element resistance with auras (when we get DamageSources set up)
+		if(event.entityLiving isPotionActive Container.potionImmunityDamage)
+			event setCanceled true // It should be working, but it isn't... Weird... The entity never reports having Container.potionImmunityDamage on itself
+		else {
+			if(event.entityLiving isPotionActive Container.potionElementalResistance) // 75% resistance to all elements & physical damage
+				event.ammount /= 4F
+		}
 
 	@SubscribeEvent
 	def onLivingUpdate(event: LivingUpdateEvent) =
