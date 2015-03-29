@@ -4,12 +4,12 @@ import java.io.File
 
 import com.nabijaczleweli.fancymagicks.entity.properties.ExtendedPropertyElements
 import com.nabijaczleweli.fancymagicks.item.ItemStaff
-import com.nabijaczleweli.fancymagicks.potion.PotionImmunityAura
+import com.nabijaczleweli.fancymagicks.potion.{PotionDamageAura, PotionImmunityAura}
 import com.nabijaczleweli.fancymagicks.render.entity.ModelBugs
 import net.minecraftforge.common.config.Configuration
 
 object Configuration {
-	val configurables = ItemStaff :: ExtendedPropertyElements :: ModelBugs :: PotionImmunityAura :: Nil
+	val configurables = ItemStaff :: ExtendedPropertyElements :: ModelBugs :: PotionImmunityAura :: PotionDamageAura :: Nil
 	var config: Configuration = _
 
 	def load(file: File) {

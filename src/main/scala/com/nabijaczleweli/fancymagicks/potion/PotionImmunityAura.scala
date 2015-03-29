@@ -24,6 +24,6 @@ object PotionImmunityAura extends IConfigurable {
 		elementToAura.getOrElseUpdate(element, new PotionImmunityAura(element))
 
 	override def configure(config: Configuration) {
-		blocksPerLevel = config.getFloat("blocksPerImmunityAuraLevel", "potion", blocksPerLevel, .5F, Float.MaxValue, "Radius at which the elemental aura will affect other entities")
+		blocksPerLevel = config.getFloat("blocksPerImmunityAuraLevel", "potion", blocksPerLevel, .5F, Float.MaxValue, "Radius at which the immunizing elemental aura will affect other entities")
 	}
 }

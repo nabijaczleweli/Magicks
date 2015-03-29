@@ -22,6 +22,8 @@ tooltip.fancymagicks:staffAbilityImmunityPoison=Poison immunity
 tooltip.fancymagicks:staffAbilitySummonSpiritTree=Summon Tree Spirit
 tooltip.fancymagicks:staffAbilityResistancePhysical=Increased Physical Resistance
 tooltip.fancymagicks:staffAbilityImmunityDamage=Damage Immunity
+tooltip.fancymagicks:staffAbilityAuraImmunityLightning=Lightining immunity aura
+tooltip.fancymagicks:staffAbilityAuraDamageLightning=Lightining damage aura
 tooltip.fancymagicks:staffAbilityErrorMissing=§cError§f: missing staff ability "%s"!
 
 # Staves

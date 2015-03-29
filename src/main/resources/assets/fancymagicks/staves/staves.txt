@@ -9,3 +9,4 @@ fancymagicks:arm_daemon | fancymagicks:unlimitedBeams | fancymagicks:none
 fancymagicks:staff_frost | fancymagicks:auraImmunityCold | fancymagicks:none
 fancymagicks:staff_gnarled | fancymagicks:immunityPoison | fancymagicks:summonSpiritTree
 fancymagicks:staff_goblin | fancymagicks:resistancePhysical | fancymagicks:immunityDamage
+fancymagicks:rod_runes_righteous | fancymagicks:auraImmunityLightning | fancymagicks:auraDamageLightning
