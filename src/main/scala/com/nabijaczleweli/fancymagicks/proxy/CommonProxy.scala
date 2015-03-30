@@ -1,14 +1,15 @@
 package com.nabijaczleweli.fancymagicks.proxy
 
 import com.nabijaczleweli.fancymagicks.FancyMagicks
-import com.nabijaczleweli.fancymagicks.element.{ElementLightning, ElementCold}
+import com.nabijaczleweli.fancymagicks.element.{ElementCold, ElementLightning}
 import com.nabijaczleweli.fancymagicks.entity.{EntityBugs, EntitySpiritTree}
 import com.nabijaczleweli.fancymagicks.handler.EntityHandler
 import com.nabijaczleweli.fancymagicks.item.ItemStaff
-import com.nabijaczleweli.fancymagicks.potion.{PotionDamageAura, Potion, PotionImmunityAura}
+import com.nabijaczleweli.fancymagicks.potion.{Potion, PotionDamageAura, PotionImmunityAura}
 import com.nabijaczleweli.fancymagicks.reference.Container
 import com.nabijaczleweli.fancymagicks.reference.Reference._
 import com.nabijaczleweli.fancymagicks.staves.AbilitySimple
+import com.nabijaczleweli.fancymagicks.util.EntityUtil
 import cpw.mods.fml.common.registry.{EntityRegistry, GameRegistry}
 import net.minecraft.block.Block
 import net.minecraft.entity.player.EntityPlayer
@@ -58,6 +59,7 @@ class CommonProxy extends IProxy {
 		                                                                                       s"tooltip.${NAMESPACED_PREFIX}staffAbilityAuraImmunityLightning")
 		Container.abilityRegistry += "fancymagicks:auraDamageLightning" -> new AbilitySimple({Potion.applyEffect(PotionDamageAura(ElementLightning), 18, 500)},
 		                                                                                     s"tooltip.${NAMESPACED_PREFIX}staffAbilityAuraDamageLightning")
+		Container.abilityRegistry += "fancymagicks:teleportRandom" -> new AbilitySimple({p => p mountEntity null; EntityUtil teleportRandomly p}, s"tooltip.${NAMESPACED_PREFIX}staffAbilityTeleportRandom")
 
 		Container.abilityRegistry ++= CommonProxy.IMCAbilities map {t => (t._1, ((Class forName t._2._1).newInstance.asInstanceOf[EntityPlayer => Unit], t._2._2))} map {t => (t._1, new AbilitySimple(t._2._1, t._2._2))}
 	}

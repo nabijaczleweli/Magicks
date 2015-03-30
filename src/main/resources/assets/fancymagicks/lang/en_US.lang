@@ -24,6 +24,7 @@ tooltip.fancymagicks:staffAbilityResistancePhysical=Increased Physical Resistanc
 tooltip.fancymagicks:staffAbilityImmunityDamage=Damage Immunity
 tooltip.fancymagicks:staffAbilityAuraImmunityLightning=Lightining immunity aura
 tooltip.fancymagicks:staffAbilityAuraDamageLightning=Lightining damage aura
+tooltip.fancymagicks:staffAbilityTeleportRandom=Teleports the user to a random location
 tooltip.fancymagicks:staffAbilityErrorMissing=§cError§f: missing staff ability "%s"!
 
 # Staves

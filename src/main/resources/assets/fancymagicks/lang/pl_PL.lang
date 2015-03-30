@@ -24,6 +24,7 @@ tooltip.fancymagicks:staffAbilityResistancePhysical=Zwiększona odporność fizy
 tooltip.fancymagicks:staffAbilityImmunityDamage=Nietykalność obrażeniowa
 tooltip.fancymagicks:staffAbilityAuraImmunityLightning=Aura odporności na pioruny
 tooltip.fancymagicks:staffAbilityAuraDamageLightning=Aura obrażeń od piorunów
+tooltip.fancymagicks:staffAbilityTeleportRandom=Teleportuje użytkownika w losowe miejsce
 tooltip.fancymagicks:staffAbilityErrorMissing=§cBłąd§f: brakująca umiejętność różdżki "%s"!
 
 # Staves
