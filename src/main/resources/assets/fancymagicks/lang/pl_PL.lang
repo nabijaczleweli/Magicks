@@ -28,4 +28,20 @@ tooltip.fancymagicks:staffAbilityTeleportRandom=Teleportuje użytkownika w losow
 tooltip.fancymagicks:staffAbilityErrorMissing=§cBłąd§f: brakująca umiejętność różdżki "%s"!
 
 # Staves
+staff.fancymagicks:staff_aristo.name=Arysto-różdżka
 staff.fancymagicks:staff_basic.name=Podstawowa różdżka
+staff.fancymagicks:staff_bug.name=Zbugowana różdżka
+staff.fancymagicks:arm_daemon.name=Ręka demona
+staff.fancymagicks:staff_frost.name=Mroźna różdżka
+staff.fancymagicks:staff_gnarled.name=Sękata różdżka
+staff.fancymagicks:staff_goblin.name=Goblińska różdżka
+staff.fancymagicks:rod_runes_righteous.name=Prawowity pręt runiczny
+staff.fancymagicks:rod_teleport_emergency.name=Pręt ratunkowego teleportu
+
+# Potions
+potion.fancymagicks:resistanceElemental=Odporność na wszystkie elementy
+potion.fancymagicks:beamsUnlimited=Nielimitowana długość czarów wiązkowych
+potion.fancymagicks:immunityPoison=Odporność na truciznę
+potion.fancymagicks:immunityDamage=Nietykalność obrażeniowa
+potion.fancymagicks:auraImmunity=Aura odporności na "%s"
+potion.fancymagicks:auraDamage=Aura obrażeń od "%s"

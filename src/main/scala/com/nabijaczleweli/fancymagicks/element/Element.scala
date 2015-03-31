@@ -38,4 +38,10 @@ object Element {
 		println("elem: " + circle.get)
 		circle.get
 	}
+
+	/** Might be costly, caching recommended */
+	def name(element: Element) = {
+		val name = element.getClass.getSimpleName
+		name.substring((name indexOf "Element") + "Element".length, (name indexOf "$") :: Nil find {_ != -1} getOrElse {name.length})
+	}
 }

@@ -2,7 +2,6 @@ package com.nabijaczleweli.fancymagicks.potion
 
 import java.lang.reflect.{Field, Modifier}
 import java.util.{Arrays => jArrays}
-
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.potion.{Potion => mPotion, PotionEffect}
 
@@ -18,6 +17,15 @@ class Potion(bad: Boolean, color: Int, effect: (EntityLivingBase, Int) => Unit =
 
 	override def isReady(duration: Int, amplifier: Int) =
 		true
+
+	def setIconIndex(from: => Int) = {
+		try
+			statusIconIndex = from
+		catch {
+			case t: Throwable => // getStatusIconIndex() on server-side
+		}
+		this
+	}
 }
 
 object Potion {

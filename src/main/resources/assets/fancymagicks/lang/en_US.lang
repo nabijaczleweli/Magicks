@@ -28,4 +28,20 @@ tooltip.fancymagicks:staffAbilityTeleportRandom=Teleports the user to a random l
 tooltip.fancymagicks:staffAbilityErrorMissing=§cError§f: missing staff ability "%s"!
 
 # Staves
+staff.fancymagicks:staff_aristo.name=Aristo-Staff
 staff.fancymagicks:staff_basic.name=Basic Staff
+staff.fancymagicks:staff_bug.name=Bug Staff
+staff.fancymagicks:arm_daemon.name=Daemon Arm
+staff.fancymagicks:staff_frost.name=Frost Staff
+staff.fancymagicks:staff_gnarled.name=Gnarled Staff
+staff.fancymagicks:staff_goblin.name=Goblin Staff
+staff.fancymagicks:rod_runes_righteous.name=Righteous Rod of Runes
+staff.fancymagicks:rod_teleport_emergency.name=Rod of Emergency Teleport
+
+# Potions
+potion.fancymagicks:resistanceElemental=Resistance to all elements
+potion.fancymagicks:beamsUnlimited=Unlimited beam duration
+potion.fancymagicks:immunityPoison=Poison immunity
+potion.fancymagicks:immunityDamage=Damage immunity
+potion.fancymagicks:auraImmunity=%s immunity aura
+potion.fancymagicks:auraDamage=%s damage aura

@@ -1,18 +1,28 @@
 package com.nabijaczleweli.fancymagicks.potion
 
 import com.nabijaczleweli.fancymagicks.element.Element
+import com.nabijaczleweli.fancymagicks.reference.Reference
 import com.nabijaczleweli.fancymagicks.util.IConfigurable
 import net.minecraft.entity.EntityLivingBase
+import net.minecraft.potion.{Potion => mPotion}
+import net.minecraft.util.StatCollector
 import net.minecraftforge.common.config.Configuration
 
 import scala.collection.JavaConversions._
 import scala.collection.mutable.{Map => mMap, HashMap => mHashMap}
 
 class PotionImmunityAura(val element: Element) extends Potion(false, element.colour) {
+	private lazy val elementName = Element name element
+
+	setIconIndex(mPotion.fireResistance.getStatusIconIndex)
+
 	override def performEffect(entity: EntityLivingBase, amplifier: Int) = {
 		val range = PotionImmunityAura.blocksPerLevel * amplifier
 		entity.worldObj.getEntitiesWithinAABB(classOf[EntityLivingBase], entity.boundingBox.expand(range, range, range)) map {_.asInstanceOf[EntityLivingBase]} filterNot {_ == entity} foreach {Potion applyEffect this}
 	}
+
+	override def getName =
+		StatCollector.translateToLocalFormatted(s"potion.${Reference.NAMESPACED_PREFIX}auraImmunity", elementName)
 }
 
 object PotionImmunityAura extends IConfigurable {
