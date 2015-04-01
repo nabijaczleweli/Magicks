@@ -2,13 +2,12 @@ package com.nabijaczleweli.fancymagicks.potion
 
 import com.nabijaczleweli.fancymagicks.element.Element
 import com.nabijaczleweli.fancymagicks.reference.Reference
-import com.nabijaczleweli.fancymagicks.util.IConfigurable
+import com.nabijaczleweli.fancymagicks.util.{EntityUtil, IConfigurable}
 import net.minecraft.entity.EntityLivingBase
-import net.minecraft.util.{StatCollector, DamageSource}
 import net.minecraft.potion.{Potion => mPotion}
+import net.minecraft.util.{DamageSource, StatCollector}
 import net.minecraftforge.common.config.Configuration
 
-import scala.collection.JavaConversions._
 import scala.collection.mutable.{HashMap => mHashMap, Map => mMap}
 import scala.util.Random
 
@@ -34,8 +33,7 @@ class PotionDamageAura(val element: Element) extends Potion(false, element.colou
 				entity.worldObj.spawnParticle("mobSpellAmbient", entity.posX + inoffset, entity.posY + inoffset, entity.posZ + inoffset, (getLiquidColor >> 16) & 0xFF, (getLiquidColor >> 8) & 0xFF, getLiquidColor & 0xFF)
 		}
 
-		entity.worldObj.getEntitiesWithinAABB(classOf[EntityLivingBase], entity.boundingBox.expand(range, range, range)) map {_.asInstanceOf[EntityLivingBase]} filterNot {_ == entity} foreach
-		                                                                                                                     {_.attackEntityFrom(DamageSource.magic, 5)}
+		EntityUtil.entitiesInRadius[EntityLivingBase](entity, range) foreach {_.attackEntityFrom(DamageSource.magic, 5)}
 	}
 
 	override def getName =

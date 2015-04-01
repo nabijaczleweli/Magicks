@@ -1,8 +1,10 @@
 package com.nabijaczleweli.fancymagicks.util
 
-import net.minecraft.entity.EntityLivingBase
+import net.minecraft.client.renderer.culling.{Frustrum, ICamera}
+import net.minecraft.entity.{Entity, EntityLivingBase}
 import net.minecraft.util.MathHelper
 
+import scala.collection.JavaConversions._
 import scala.util.Random
 
 object EntityUtil {
@@ -15,6 +17,18 @@ object EntityUtil {
 		val look = from getLook 1
 		val pos = from getPosition 1
 		from.worldObj.func_147447_a(pos, pos.addVector(look.xCoord * 10D, look.yCoord * 10D, look.zCoord * 10D), false, false, false)
+	}
+
+	def entitiesInRadius[T <: Entity](entity: Entity, r: Double, includeSelf: Boolean = false)(implicit m: Manifest[T]): Seq[T] =
+		entity.worldObj.getEntitiesWithinAABB(m.runtimeClass, entity.boundingBox.expand(r, r, r)) map {_.asInstanceOf[T]} filter {includeSelf || _ != entity}
+
+	def filterForFrustrum[T <: Entity](entities: Seq[T], camera: ICamera) =
+		entities filter {camera isBoundingBoxInFrustum _.boundingBox} // Similiar to how RenderGlobal does it
+
+	def frustrumFor(entity: Entity) = {
+		val t: ICamera = new Frustrum
+		t.setPosition(entity.posX, entity.posY, entity.posZ)
+		t
 	}
 
 	def teleportTo(entity: EntityLivingBase, x: Double, y: Double, z: Double) { // Stolen from EntityEnderman, except Entity[LivingBase] and setPosition[AndUpdate]() for client -> server synchronization

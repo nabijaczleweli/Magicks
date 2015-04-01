@@ -21,4 +21,6 @@ object Container {
 	val potionUnlimitedBeams = new Potion(false, 0xEEDD05) setIconIndex mPotion.weakness.getStatusIconIndex setPotionName s"potion.${Reference.NAMESPACED_PREFIX}beamsUnlimited"
 	val potionPoisonImmunity = new Potion(false, 0x909F30) setIconIndex mPotion.poison.getStatusIconIndex setPotionName s"potion.${Reference.NAMESPACED_PREFIX}immunityPoison"
 	val potionImmunityDamage = new Potion(false, 0x99703A) setIconIndex mPotion.field_76444_x.getStatusIconIndex setPotionName s"potion.${Reference.NAMESPACED_PREFIX}immunityDamage" // field_76444_x -> absoption
+	val potionLowerAttackChance = new Potion(false, 0x7DBB7D)
+	val potionCharm = new Potion(false, 0xBB4848)
 }

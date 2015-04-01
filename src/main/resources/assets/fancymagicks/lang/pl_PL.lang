@@ -25,6 +25,10 @@ tooltip.fancymagicks:staffAbilityImmunityDamage=Nietykalność obrażeniowa
 tooltip.fancymagicks:staffAbilityAuraImmunityLightning=Aura odporności na pioruny
 tooltip.fancymagicks:staffAbilityAuraDamageLightning=Aura obrażeń od piorunów
 tooltip.fancymagicks:staffAbilityTeleportRandom=Teleportuje użytkownika w losowe miejsce
+tooltip.fancymagicks:staffAbilityLowerAttackChance=Sprawia, że przeciwnicy mają mniejszą szansę na zaatakowanie dzierżyciela
+tooltip.fancymagicks:staffAbilityCharm=Zauroczenie celu
+tooltip.fancymagicks:staffAbilityResistanceLife=Odporność na życie
+tooltip.fancymagicks:staffAbilitySprayPoison=Rozpylenie trucizny
 tooltip.fancymagicks:staffAbilityErrorMissing=§cBłąd§f: brakująca umiejętność różdżki "%s"!
 
 # Staves

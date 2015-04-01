@@ -25,6 +25,10 @@ tooltip.fancymagicks:staffAbilityImmunityDamage=Damage Immunity
 tooltip.fancymagicks:staffAbilityAuraImmunityLightning=Lightining immunity aura
 tooltip.fancymagicks:staffAbilityAuraDamageLightning=Lightining damage aura
 tooltip.fancymagicks:staffAbilityTeleportRandom=Teleports the user to a random location
+tooltip.fancymagicks:staffAbilityLowerAttackChance=Makes enemies less likely to attack the wielder
+tooltip.fancymagicks:staffAbilityCharm=Charm target
+tooltip.fancymagicks:staffAbilityResistanceLife=Life resistance
+tooltip.fancymagicks:staffAbilitySprayPoison=Poison spray
 tooltip.fancymagicks:staffAbilityErrorMissing=§cError§f: missing staff ability "%s"!
 
 # Staves

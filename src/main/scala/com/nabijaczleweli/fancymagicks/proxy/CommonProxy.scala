@@ -1,7 +1,7 @@
 package com.nabijaczleweli.fancymagicks.proxy
 
 import com.nabijaczleweli.fancymagicks.FancyMagicks
-import com.nabijaczleweli.fancymagicks.element.{ElementCold, ElementLightning}
+import com.nabijaczleweli.fancymagicks.element.{ElementCold, ElementLife, ElementLightning}
 import com.nabijaczleweli.fancymagicks.entity.{EntityBugs, EntitySpiritTree}
 import com.nabijaczleweli.fancymagicks.handler.EntityHandler
 import com.nabijaczleweli.fancymagicks.item.ItemStaff
@@ -12,6 +12,8 @@ import com.nabijaczleweli.fancymagicks.staves.AbilitySimple
 import com.nabijaczleweli.fancymagicks.util.EntityUtil
 import cpw.mods.fml.common.registry.{EntityRegistry, GameRegistry}
 import net.minecraft.block.Block
+import net.minecraft.client.Minecraft
+import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.Item
 import net.minecraft.potion.{Potion => mPotion}
@@ -60,6 +62,13 @@ class CommonProxy extends IProxy {
 		Container.abilityRegistry += "fancymagicks:auraDamageLightning" -> new AbilitySimple({Potion.applyEffect(PotionDamageAura(ElementLightning), 18, 500)},
 		                                                                                     s"tooltip.${NAMESPACED_PREFIX}staffAbilityAuraDamageLightning")
 		Container.abilityRegistry += "fancymagicks:teleportRandom" -> new AbilitySimple({p => p mountEntity null; EntityUtil teleportRandomly p}, s"tooltip.${NAMESPACED_PREFIX}staffAbilityTeleportRandom")
+		Container.abilityRegistry += "fancymagicks:lowerAttackChance" -> new AbilitySimple(Potion applyEffect Container.potionLowerAttackChance, s"tooltip.${NAMESPACED_PREFIX}staffAbilityLowerAttackChance")
+		Container.abilityRegistry += "fancymagicks:charm" -> new AbilitySimple({_ => Option(Minecraft.getMinecraft.pointedEntity) filter {_.isInstanceOf[EntityLivingBase]} map {_.asInstanceOf[EntityLivingBase]} foreach
+		                                                                                                                                 Potion.applyEffect(Container.potionCharm, 0, 200)},
+		                                                                       s"tooltip.${NAMESPACED_PREFIX}staffAbilityCharm")
+		Container.abilityRegistry += "fancymagicks:resistanceLife" -> new AbilitySimple(Potion applyEffect PotionImmunityAura(ElementLife), s"tooltip.${NAMESPACED_PREFIX}staffAbilityResistanceLife")
+		Container.abilityRegistry += "fancymagicks:sprayPoison" -> new AbilitySimple({p => EntityUtil.filterForFrustrum(EntityUtil.entitiesInRadius[EntityLivingBase](p, 20), EntityUtil frustrumFor p) foreach
+		                                                                                                       Potion.applyEffect(mPotion.poison, 1, 50)}, s"tooltip.${NAMESPACED_PREFIX}staffAbilitySprayPoison")
 
 		Container.abilityRegistry ++= CommonProxy.IMCAbilities map {t => (t._1, ((Class forName t._2._1).newInstance.asInstanceOf[EntityPlayer => Unit], t._2._2))} map {t => (t._1, new AbilitySimple(t._2._1, t._2._2))}
 	}
