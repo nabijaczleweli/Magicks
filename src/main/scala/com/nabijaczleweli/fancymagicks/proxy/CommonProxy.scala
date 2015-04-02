@@ -72,7 +72,7 @@ class CommonProxy extends IProxy {
 		                                                                                                       Potion.applyEffect(mPotion.poison, 1, 50)}, s"tooltip.${NAMESPACED_PREFIX}staffAbilitySprayPoison")
 		Container.abilityRegistry += "fancymagicks:shieldBoost" -> new AbilitySimple(Potion applyEffect Container.potionFasterShield, s"tooltip.${NAMESPACED_PREFIX}staffAbilityShieldBoost")
 		Container.abilityRegistry += "fancymagicks:shieldSelf" -> new AbilitySimple(_ addChatMessage new ChatComponentText("Coming soon\u2122!"), s"tooltip.${NAMESPACED_PREFIX}staffAbilityShieldSelf")
-		Container.abilityRegistry += "fancymagicks:auraDeflection" -> new AbilitySimple(Potion.applyEffect(PotionDeflectAura, 5, 200), s"tooltip.${NAMESPACED_PREFIX}staffAbilityAuraDeflection")
+		Container.abilityRegistry += "fancymagicks:auraDeflect" -> new AbilitySimple(Potion.applyEffect(PotionDeflectAura, 5, 200), s"tooltip.${NAMESPACED_PREFIX}staffAbilityAuraDeflect")
 
 		Container.abilityRegistry ++= CommonProxy.IMCAbilities map {t => (t._1, ((Class forName t._2._1).newInstance.asInstanceOf[EntityPlayer => Unit], t._2._2))} map {t => (t._1, new AbilitySimple(t._2._1, t._2._2))}
 	}

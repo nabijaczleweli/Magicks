@@ -31,7 +31,7 @@ tooltip.fancymagicks:staffAbilityResistanceLife=Odporność na życie
 tooltip.fancymagicks:staffAbilitySprayPoison=Rozpylenie trucizny
 tooltip.fancymagicks:staffAbilityShieldBoost=Zwiększa tempo podnoszenia siły tarcz
 tooltip.fancymagicks:staffAbilityShieldSelf=Natychmiastowo rzuca tarczę na użytkownika
-tooltip.fancymagicks:staffAbilityAuraDeflection=Aura odbijania
+tooltip.fancymagicks:staffAbilityAuraDeflect=Aura odbijania
 tooltip.fancymagicks:staffAbilityErrorMissing=§cBłąd§f: brakująca umiejętność różdżki "%s"!
 
 # Staves

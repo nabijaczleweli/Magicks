@@ -31,7 +31,7 @@ tooltip.fancymagicks:staffAbilityResistanceLife=Life resistance
 tooltip.fancymagicks:staffAbilitySprayPoison=Poison spray
 tooltip.fancymagicks:staffAbilityShieldBoost=Increase the rate at which shields are boosted
 tooltip.fancymagicks:staffAbilityShieldSelf=Immediately casts a self shield
-tooltip.fancymagicks:staffAbilityAuraDeflection=Deflect Aura
+tooltip.fancymagicks:staffAbilityAuraDeflect=Deflect Aura
 tooltip.fancymagicks:staffAbilityErrorMissing=§cError§f: missing staff ability "%s"!
 
 # Staves
