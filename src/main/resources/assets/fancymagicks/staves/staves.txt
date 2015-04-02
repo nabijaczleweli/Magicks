@@ -13,3 +13,5 @@ fancymagicks:rod_runes_righteous | fancymagicks:auraImmunityLightning | fancymag
 fancymagicks:rod_teleport_emergency | fancymagicks:none | fancymagicks:teleportRandom
 fancymagicks:sceptre_king_troll | fancymagicks:lowerAttackChance | fancymagicks:charm
 fancymagicks:scythe_malevolence | fancymagicks:resistanceLife | fancymagicks:sprayPoison
+fancymagicks:staff_shield | fancymagicks:shieldBoost | fancymagicks:shieldSelf
+fancymagicks:staff_deflection | fancymagicks:none | fancymagicks:auraDeflection

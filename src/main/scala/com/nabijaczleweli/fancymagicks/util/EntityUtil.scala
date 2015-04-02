@@ -1,6 +1,7 @@
 package com.nabijaczleweli.fancymagicks.util
 
 import net.minecraft.client.renderer.culling.{Frustrum, ICamera}
+import net.minecraft.command.IEntitySelector
 import net.minecraft.entity.{Entity, EntityLivingBase}
 import net.minecraft.util.MathHelper
 
@@ -19,10 +20,13 @@ object EntityUtil {
 		from.worldObj.func_147447_a(pos, pos.addVector(look.xCoord * 10D, look.yCoord * 10D, look.zCoord * 10D), false, false, false)
 	}
 
-	def entitiesInRadius[T <: Entity](entity: Entity, r: Double, includeSelf: Boolean = false)(implicit m: Manifest[T]): Seq[T] =
-		entity.worldObj.getEntitiesWithinAABB(m.runtimeClass, entity.boundingBox.expand(r, r, r)) map {_.asInstanceOf[T]} filter {includeSelf || _ != entity}
+	def entitiesInRadius[T](entity: Entity, r: Double, includeSelf: Boolean = false)(implicit m: Manifest[T]): Seq[Entity with T] =
+		entity.worldObj.selectEntitiesWithinAABB(classOf[Entity], entity.boundingBox.expand(r, r, r), new IEntitySelector {
+			override def isEntityApplicable(e: Entity) =
+				m.runtimeClass isAssignableFrom e.getClass
+		}) map {_.asInstanceOf[Entity with T]} filter {includeSelf || _ != entity}
 
-	def filterForFrustrum[T <: Entity](entities: Seq[T], camera: ICamera) =
+	def filterForFrustrum[T](entities: Seq[Entity with T], camera: ICamera) =
 		entities filter {camera isBoundingBoxInFrustum _.boundingBox} // Similiar to how RenderGlobal does it
 
 	def frustrumFor(entity: Entity) = {
