@@ -20,10 +20,10 @@ object EntityUtil {
 		from.worldObj.func_147447_a(pos, pos.addVector(look.xCoord * 10D, look.yCoord * 10D, look.zCoord * 10D), false, false, false)
 	}
 
-	def entitiesInRadius[T](entity: Entity, r: Double, includeSelf: Boolean = false)(implicit m: Manifest[T]): Seq[Entity with T] =
+	def entitiesInRadius[T : Manifest](entity: Entity, r: Double, includeSelf: Boolean = false): Seq[Entity with T] =
 		entity.worldObj.selectEntitiesWithinAABB(classOf[Entity], entity.boundingBox.expand(r, r, r), new IEntitySelector {
 			override def isEntityApplicable(e: Entity) =
-				m.runtimeClass isAssignableFrom e.getClass
+				implicitly[Manifest[T]].runtimeClass isAssignableFrom e.getClass
 		}) map {_.asInstanceOf[Entity with T]} filter {includeSelf || _ != entity}
 
 	def filterForFrustrum[T](entities: Seq[Entity with T], camera: ICamera) =

@@ -15,3 +15,6 @@ fancymagicks:sceptre_king_troll | fancymagicks:lowerAttackChance | fancymagicks:
 fancymagicks:scythe_malevolence | fancymagicks:resistanceLife | fancymagicks:sprayPoison
 fancymagicks:staff_shield | fancymagicks:shieldBoost | fancymagicks:shieldSelf
 fancymagicks:staff_deflect | fancymagicks:none | fancymagicks:auraDeflect
+fancymagicks:staff_fire | fancymagicks:resistanceFire | fancymagicks:auraImmunityFire
+fancymagicks:staff_invisibility | fancymagicks:none | fancymagicks:invisibility
+fancymagicks:staff_life | fancymagicks:auraRegeneration | fancymagicks:revive

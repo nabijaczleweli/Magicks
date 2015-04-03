@@ -32,6 +32,11 @@ tooltip.fancymagicks:staffAbilitySprayPoison=Poison spray
 tooltip.fancymagicks:staffAbilityShieldBoost=Increase the rate at which shields are boosted
 tooltip.fancymagicks:staffAbilityShieldSelf=Immediately casts a self shield
 tooltip.fancymagicks:staffAbilityAuraDeflect=Deflect Aura
+tooltip.fancymagicks:staffAbilityResistanceFire=Fire resistance
+tooltip.fancymagicks:staffAbilityAuraImmunityFire=Fire immunity aura
+tooltip.fancymagicks:staffAbilityInvisibility=Invisibility
+tooltip.fancymagicks:staffAbilityAuraRegeneration=Regeneration aura
+tooltip.fancymagicks:staffAbilityRevive=Revive (§6Note§f: does nothing)
 tooltip.fancymagicks:staffAbilityErrorMissing=§cError§f: missing staff ability "%s"!
 
 # Staves
