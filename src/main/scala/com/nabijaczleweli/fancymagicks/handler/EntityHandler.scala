@@ -1,7 +1,7 @@
 package com.nabijaczleweli.fancymagicks.handler
 
 import com.nabijaczleweli.fancymagicks.entity.properties.{ExtendedPropertyElements, ExtendedPropertyPrevRotationPitch}
-import com.nabijaczleweli.fancymagicks.potion.{Potion, PotionDeflectAura}
+import com.nabijaczleweli.fancymagicks.potion.PotionDeflectAura
 import com.nabijaczleweli.fancymagicks.reference.Container
 import com.nabijaczleweli.fancymagicks.util.EntityUtil
 import cpw.mods.fml.common.ObfuscationReflectionHelper
@@ -9,7 +9,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import net.minecraft.entity._
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget
 import net.minecraft.entity.monster.IMob
-import net.minecraft.entity.passive.EntityChicken
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.potion.{Potion => mPotion}
 import net.minecraft.world.World
@@ -34,8 +33,6 @@ object EntityHandler {
 	@SubscribeEvent
 	def onEntitySpawned(event: LivingSpawnEvent) =
 		event.entity match {
-			case c: EntityChicken =>
-				Potion.applyEffect(PotionDeflectAura, 10, 1000000)(c)
 			case creature: EntityCreature =>
 				creature.targetTasks.addTask(2, new EntityAINearestAttackableTarget(creature, classOf[IMob], 0, false, false, IMob.mobSelector) {
 					override def shouldExecute =
