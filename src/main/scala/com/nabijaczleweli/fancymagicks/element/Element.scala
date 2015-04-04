@@ -18,7 +18,7 @@ trait Element {
 }
 
 object Element {
-	implicit def orderingElement(element: Element): Ordering[Element] =
+	implicit lazy val ElementOrdering =
 		new Ordering[Element] {
 			override def compare(x: Element, y: Element) =
 				if(x prioritizesOver y)

@@ -6,6 +6,8 @@ itemGroup.fancymagicks=Fancy Magicks
 
 # Key bindings
 key.fancymagicks:staffSpecial=Specjalne zdolności różdżek
+key.fancymagicks:staffApplyAOE=Rzucenie czaru dookoła
+key.fancymagicks:staffApplyForward=Rzucenie czaru naprzód
 
 # Tooltips
 tooltip.fancymagicks:missingStaff=Ta różdżka nie istnieje! Coś poszło źle!

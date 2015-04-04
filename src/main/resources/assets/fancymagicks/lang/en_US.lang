@@ -6,6 +6,8 @@ itemGroup.fancymagicks=Fancy Magicks
 
 # Key bindings
 key.fancymagicks:staffSpecial=Staffs' special abilities
+key.fancymagicks:staffApplyAOE=AOE spellcast
+key.fancymagicks:staffApplyForward=Forward spellcast
 
 # Tooltips
 tooltip.fancymagicks:missingStaff=This staff is nonexistant! Something went wrong!
