@@ -59,3 +59,9 @@ potion.fancymagicks:immunityPoison=Odporność na truciznę
 potion.fancymagicks:immunityDamage=Nietykalność obrażeniowa
 potion.fancymagicks:auraImmunity=Aura odporności na "%s"
 potion.fancymagicks:auraDamage=Aura obrażeń od "%s"
+
+# Deaths
+death.attack.fancymagicks:elements=%1$s został zabity przez elementalne siły
+death.attack.fancymagicks:elements.listed=%1$s został zabity przez elementalne siły (%2$s)
+death.attack.fancymagicks:elements.player=%1$s został zabity przez elementalne siły wywierane przez %3%s
+death.attack.fancymagicks:elements.player.listed=%1$s został zabity przez elementalne siły wywierane przez %3%s (%2$s)

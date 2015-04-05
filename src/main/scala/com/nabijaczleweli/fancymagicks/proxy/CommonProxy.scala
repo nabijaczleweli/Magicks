@@ -3,7 +3,7 @@ package com.nabijaczleweli.fancymagicks.proxy
 import com.nabijaczleweli.fancymagicks.FancyMagicks
 import com.nabijaczleweli.fancymagicks.element.{ElementCold, ElementFire, ElementLife, ElementLightning}
 import com.nabijaczleweli.fancymagicks.entity.{EntityBugs, EntitySpiritTree}
-import com.nabijaczleweli.fancymagicks.handler.EntityHandler
+import com.nabijaczleweli.fancymagicks.handler.{PacketHandler, EntityHandler}
 import com.nabijaczleweli.fancymagicks.item.ItemStaff
 import com.nabijaczleweli.fancymagicks.potion.{Potion, PotionDamageAura, PotionDeflectAura, PotionImmunityAura}
 import com.nabijaczleweli.fancymagicks.reference.Container
@@ -40,6 +40,8 @@ class CommonProxy extends IProxy {
 
 	override def registerHandlers() {
 		MinecraftForge.EVENT_BUS register EntityHandler
+
+		Container.channel register PacketHandler
 	}
 
 	override def registerRenderers() {}

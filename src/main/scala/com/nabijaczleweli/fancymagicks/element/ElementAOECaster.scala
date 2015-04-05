@@ -17,7 +17,7 @@ class ElementBeamAOECaster(who: Entity, elems: Seq[Element]) extends ElementCast
 	override def continue() {
 		timeLeft = math.max(timeLeft - 1, 0)
 		if(timeLeft > 0) {
-			val ents = EntityUtil.entitiesInRadius(who, force * 2.5D)
+			val ents = EntityUtil.entitiesInRadius[Entity](who, force * 2.5D)
 			/*{
 				(0D until 500D by .25D) map {d =>
 					val coords = EntityUtil.rayTraceCoords(who.asInstanceOf[EntityLivingBase], d)
@@ -25,7 +25,7 @@ class ElementBeamAOECaster(who: Entity, elems: Seq[Element]) extends ElementCast
 				}
 			}.flatten.toSet*/ // <-- Forward
 			for(e <- ents) {
-				e.attackEntityFrom() //TODO
+				e.attackEntityFrom(new ElementalDamageSource(who, elems), ) //TODO
 			}
 		}
 	}
@@ -74,12 +74,13 @@ object ElementAOECaster {
 		implicitly[Manifest[T]].runtimeClass.asInstanceOf[Class[T]].getConstructor(classOf[Entity], classOf[Seq[Element]]).newInstance(who, elems)
 
 	private val leads = Map[Class[_ <: Element], (Entity, Seq[Element]) => ElementCaster](classOf[ElementBeam] -> simplyConstruct[ElementBeamAOECaster])
+	println(leads)
 
 	def apply(who: Entity, elems: Seq[Element]) =
 		elems.sorted match {
 			case Nil =>
 				new NoElementAOECaster(who)
 			case selems =>
-				leads.getOrElse(selems.head.getClass, simplyConstruct[NoElementAOECaster](_, _))(who, selems)
+				(leads find {_._1 isAssignableFrom elems.head.getClass} getOrElse classOf[ElementCaster] -> (simplyConstruct[NoElementAOECaster](_, _)))._2(who, selems)
 		}
 }

@@ -28,7 +28,7 @@ object EntityUtil {
 		}) map {_.asInstanceOf[Entity with T]} filter {includeSelf || _ != entity}
 
 	def entitiesAround[T : Manifest](world: World, xyz: (Double, Double, Double), r: Double): Seq[Entity with T] =
-	world.selectEntitiesWithinAABB(classOf[Entity], AxisAlignedBB.getBoundingBox(xyz._1, xyz._2, xyz._3, xyz._1 + 1, xyz._2 + 1, xyz._3 + 1).expand(r, r ,r), new IEntitySelector {
+	world.selectEntitiesWithinAABB(classOf[Entity], AxisAlignedBB.getBoundingBox(xyz._1, xyz._2, xyz._3, xyz._1 + 1, xyz._2 + 1, xyz._3 + 1).expand(r, r, r), new IEntitySelector {
 		override def isEntityApplicable(e: Entity) =
 			implicitly[Manifest[T]].runtimeClass isAssignableFrom e.getClass
 	}) map {_.asInstanceOf[Entity with T]}

@@ -2,6 +2,10 @@ package com.nabijaczleweli.fancymagicks.potion
 
 import java.lang.reflect.{Field, Modifier}
 import java.util.{Arrays => jArrays}
+import com.nabijaczleweli.fancymagicks.reference.Container
+import com.nabijaczleweli.fancymagicks.util.PacketUtil
+import com.nabijaczleweli.fancymagicks.util.PacketUtil.BBOSUtil
+import cpw.mods.fml.common.FMLCommonHandler
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.potion.{Potion => mPotion, PotionEffect}
 
@@ -61,6 +65,10 @@ object Potion {
 				i
 		}
 
-	def applyEffect(pot: mPotion, amplifier: Int = 0, duration: Int = 1)(entity: EntityLivingBase) =
-		entity.addPotionEffect(new PotionEffect(pot.getId, duration, amplifier, false))
+	def applyEffect(pot: mPotion, amplifier: Int = 0, duration: Int = 1)(entity: EntityLivingBase) {
+		val effect = new PotionEffect(pot.getId, duration, amplifier, false)
+		if(FMLCommonHandler.instance.getSide.isClient)
+			Container.channel sendToServer (PacketUtil packet PacketUtil.stream << "apply-potion-effect" << entity << effect)
+		entity addPotionEffect effect
+	}
 }
