@@ -1,6 +1,7 @@
 package com.nabijaczleweli.fancymagicks.entity
 
 import com.nabijaczleweli.fancymagicks.util.EntityUtil
+import com.nabijaczleweli.fancymagicks.util.EntityUtil.SimpleEntitySpawnData
 import net.minecraft.entity.ai.{EntityAINearestAttackableTarget, EntityAIWander}
 import net.minecraft.entity.monster.IMob
 import net.minecraft.entity.passive.EntityAnimal
@@ -43,10 +44,7 @@ class EntitySpiritTree(world: World) extends EntityAnimal(world) {
 object EntitySpiritTree {
 	def defaultSummon(inFrontOf: EntityLivingBase) {
 		val pos = EntityUtil.rayTraceCoords(inFrontOf, 10)
-
-		val entity = new EntitySpiritTree(inFrontOf.worldObj)
-		entity.setPosition(pos.xCoord, pos.yCoord, pos.zCoord)
-
-		inFrontOf.worldObj spawnEntityInWorld entity
+		val data = SimpleEntitySpawnData(classOf[EntitySpiritTree], inFrontOf.worldObj, pos.xCoord, pos.yCoord, pos.zCoord)
+		EntityUtil dispachSimpleSpawn data
 	}
 }

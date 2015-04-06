@@ -2,6 +2,7 @@ package com.nabijaczleweli.fancymagicks.entity
 
 import com.nabijaczleweli.fancymagicks.render.entity.ModelBugs
 import com.nabijaczleweli.fancymagicks.util.EntityUtil
+import com.nabijaczleweli.fancymagicks.util.EntityUtil.SimpleEntitySpawnData
 import net.minecraft.command.IEntitySelector
 import net.minecraft.entity.ai.{EntityAIHurtByTarget, EntityAINearestAttackableTarget, EntityAIWander}
 import net.minecraft.entity.monster.IMob
@@ -42,15 +43,14 @@ class EntityBugs(world: World) extends EntityCreature(world) with IMob {
 
 	override def attackEntityAsMob(entity: Entity) =
 		entity.attackEntityFrom(DamageSource causeMobDamage this, getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue.toFloat)
+
+	override def fall(distance: Float) {}
 }
 
 object EntityBugs {
 	def defaultSummon(inFrontOf: EntityLivingBase) {
 		val pos = EntityUtil.rayTraceCoords(inFrontOf, 10)
-
-		val entity = new EntityBugs(inFrontOf.worldObj)
-		entity.setPosition(pos.xCoord, pos.yCoord, pos.zCoord)
-
-		inFrontOf.worldObj spawnEntityInWorld entity
+		val data = SimpleEntitySpawnData(classOf[EntityBugs], inFrontOf.worldObj, pos.xCoord, pos.yCoord, pos.zCoord)
+		EntityUtil dispachSimpleSpawn data
 	}
 }

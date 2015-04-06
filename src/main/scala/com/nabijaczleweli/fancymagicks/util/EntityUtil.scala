@@ -1,5 +1,7 @@
 package com.nabijaczleweli.fancymagicks.util
 
+import com.nabijaczleweli.fancymagicks.reference.Container
+import com.nabijaczleweli.fancymagicks.util.PacketUtil.BBOSUtil
 import net.minecraft.client.renderer.culling.{Frustrum, ICamera}
 import net.minecraft.command.IEntitySelector
 import net.minecraft.entity.{Entity, EntityLivingBase}
@@ -10,6 +12,22 @@ import scala.collection.JavaConversions._
 import scala.util.Random
 
 object EntityUtil {
+	case class SimpleEntitySpawnData(entityClass: Class[_ <: Entity], world: World, x: Double, y: Double, z: Double) {
+		def spawn() = {
+			val entity = entityClass getConstructor classOf[World] newInstance world
+			entity.setPosition(x, y, z)
+			world spawnEntityInWorld entity
+			entity
+		}
+	}
+
+	def dispachSimpleSpawn(sesd: SimpleEntitySpawnData) =
+		if(sesd.world.isRemote)
+			Container.channel sendToServer (PacketUtil packet PacketUtil.stream << "spawn-entity-simple" << sesd)
+		else
+			sesd.spawn()
+
+
 	def rayTraceCoords(from: EntityLivingBase, by: Double) = {
 		val look = from getLook 1
 		(from getPosition 1).addVector(look.xCoord * 10D, look.yCoord * 10D, look.zCoord * 10D)
@@ -20,6 +38,7 @@ object EntityUtil {
 		val pos = from getPosition 1
 		from.worldObj.func_147447_a(pos, pos.addVector(look.xCoord * 10D, look.yCoord * 10D, look.zCoord * 10D), false, false, false)
 	}
+
 
 	def entitiesInRadius[T : Manifest](entity: Entity, r: Double, includeSelf: Boolean = false): Seq[Entity with T] =
 		entity.worldObj.selectEntitiesWithinAABB(classOf[Entity], entity.boundingBox.expand(r, r, r), new IEntitySelector {
@@ -41,6 +60,7 @@ object EntityUtil {
 		t.setPosition(entity.posX, entity.posY, entity.posZ)
 		t
 	}
+
 
 	def teleportTo(entity: EntityLivingBase, x: Double, y: Double, z: Double) { // Stolen from EntityEnderman, except Entity[LivingBase] and setPosition[AndUpdate]() for client -> server synchronization
 		val prevX = entity.posX

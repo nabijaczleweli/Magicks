@@ -1,6 +1,7 @@
 package com.nabijaczleweli.fancymagicks.handler
 
 import com.nabijaczleweli.fancymagicks.reference.Container
+import com.nabijaczleweli.fancymagicks.util.EntityUtil.SimpleEntitySpawnData
 import com.nabijaczleweli.fancymagicks.util.PacketUtil.BBISUtil
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent
@@ -20,6 +21,12 @@ object PacketHandler {
 				bbis >> ent >> eff
 
 				ent(0) addPotionEffect eff(0)
+			case "spawn-entity-simple" =>
+				val sesd = new Array[SimpleEntitySpawnData](1)
+
+				bbis >> sesd
+
+				sesd(0).spawn()
 			case command =>
 				Container.log warn s"Unknown packet command: '$command'!"
 		}

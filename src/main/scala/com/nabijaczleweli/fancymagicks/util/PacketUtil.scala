@@ -1,6 +1,7 @@
 package com.nabijaczleweli.fancymagicks.util
 
 import com.nabijaczleweli.fancymagicks.reference.Reference
+import com.nabijaczleweli.fancymagicks.util.EntityUtil.SimpleEntitySpawnData
 import cpw.mods.fml.common.network.internal.FMLProxyPacket
 import io.netty.buffer.{ByteBufInputStream, Unpooled, ByteBufOutputStream}
 import net.minecraft.entity.Entity
@@ -28,6 +29,15 @@ object PacketUtil {
 			// Doesn't handle curative items, as it's not yet needed.
 			bbos
 		}
+
+		def <<(sesd: SimpleEntitySpawnData) = {
+			bbos writeUTF sesd.entityClass.getName
+			bbos writeInt sesd.world.provider.dimensionId
+			bbos writeDouble sesd.x
+			bbos writeDouble sesd.y
+			bbos writeDouble sesd.z
+			bbos
+		}
 	}
 
 	implicit class BBISUtil(val bbis: ByteBufInputStream) extends AnyVal {
@@ -51,6 +61,20 @@ object PacketUtil {
 			val ambient = bbis.readBoolean()
 
 			eff(0) = new PotionEffect(potionId, duration, amplifier, ambient)
+			// Doesn't handle curative items, as it's not yet needed.
+
+			bbis
+		}
+
+		/** @param sesd Array of one element, used as a C++-style reference */
+		def >>(sesd: Array[SimpleEntitySpawnData]) = {
+			val className = bbis.readUTF()
+			val dimensionId = bbis.readInt()
+			val xCoord = bbis.readDouble()
+			val yCoord = bbis.readDouble()
+			val zCoord = bbis.readDouble()
+
+			sesd(0) = SimpleEntitySpawnData(Class forName className asSubclass classOf[Entity], MinecraftServer.getServer worldServerForDimension dimensionId, xCoord, yCoord, zCoord)
 
 			bbis
 		}
