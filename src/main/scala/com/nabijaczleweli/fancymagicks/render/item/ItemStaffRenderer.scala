@@ -1,5 +1,6 @@
 package com.nabijaczleweli.fancymagicks.render.item
 
+import com.nabijaczleweli.fancymagicks.reference.Container
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.entity.RenderItem
 import net.minecraft.client.renderer.{ItemRenderer, Tessellator}
@@ -23,6 +24,9 @@ object ItemStaffRenderer extends IItemRenderer {
 			case ItemRenderType.EQUIPPED_FIRST_PERSON =>
 				ItemRenderer.renderItemIn2D(Tessellator.instance, currentIcon.getMaxU, currentIcon.getMinV, currentIcon.getMinU, currentIcon.getMaxV, currentIcon.getIconWidth, currentIcon.getIconHeight, .0625F)
 				// .0625F is Minecraft's magical default
+			case _ =>
+				val st = new Throwable().getStackTrace
+				Container.log.warn(s"Looks like SOMEbody *cough*${st(2).getClassName}.${st(2).getMethodName}()*cough* called ${st(0).getMethodName}() with `type` == ${`type`}. This is unacceptable!")
 		}
 	}
 }
