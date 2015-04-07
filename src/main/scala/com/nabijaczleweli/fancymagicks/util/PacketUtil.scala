@@ -54,6 +54,11 @@ object PacketUtil {
 			bbos writeFloat f
 			bbos
 		}
+
+		def <<(d: Double) = {
+			bbos writeDouble d
+			bbos
+		}
 	}
 
 	implicit class BBISUtil(val bbis: ByteBufInputStream) extends AnyVal {
@@ -112,6 +117,15 @@ object PacketUtil {
 			val value = bbis.readFloat()
 
 			f(0) = value
+
+			bbis
+		}
+
+		/** @param d Array of one element, used as a C++-style reference */
+		def >>(d: Array[Double]) = {
+			val value = bbis.readDouble()
+
+			d(0) = value
 
 			bbis
 		}

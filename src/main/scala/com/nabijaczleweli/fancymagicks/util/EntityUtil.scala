@@ -27,6 +27,12 @@ object EntityUtil {
 		else
 			sesd.spawn()
 
+	def dispatchVelocityChange(e: Entity, xChange: Double, yChange: Double, zChange: Double) =
+		if(e.worldObj.isRemote)
+			Container.channel sendToServer (PacketUtil packet PacketUtil.stream << "change-velocity" << e << xChange << yChange << zChange)
+		else
+			e.addVelocity(xChange, yChange, zChange)
+
 
 	def rayTraceCoords(from: EntityLivingBase, by: Double) = {
 		val look = from getLook 1

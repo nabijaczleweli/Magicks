@@ -24,9 +24,8 @@ class ElementBeamAOECaster(who: Entity, elems: Seq[Element]) extends ElementCast
 					EntityUtil.entitiesAround[EntityLivingBase](who.worldObj, (coords.xCoord, coords.yCoord, coords.zCoord), 1)
 				}
 			}.flatten.toSet*/ // <-- Forward
-			for(e <- ents) {
-				e.attackEntityFrom(new ElementalDamageSource(who, elems), ) //TODO
-			}
+			for(e <- ents)
+				ElementalDamageSource.dispatchDamage(new ElementalDamageSource(who, elems), e, ) //TODO
 		}
 	}
 
@@ -56,9 +55,8 @@ class NoElementAOECaster(who: Entity) extends ElementCaster {
 		val casterPosVec = Vec3.createVectorHelper(who.posX, who.posY, who.posZ)
 		for(e <- EntityUtil.entitiesInRadius[Entity](who, chargeup / 10D)) {
 			val direction = (Vec3.createVectorHelper(e.posX, e.posY, e.posZ) subtract casterPosVec).normalize
-			e.motionX -= direction.xCoord * (chargeup / 50D)
-			e.motionY -= direction.yCoord * (chargeup / 50D)
-			e.motionZ -= direction.zCoord * (chargeup / 50D)
+			val mul = -(chargeup / 50D)
+			EntityUtil.dispatchVelocityChange(e, direction.xCoord * mul, direction.yCoord * mul, direction.zCoord * mul)
 		}
 	}
 

@@ -41,7 +41,7 @@ object KeyHandler {
 										case null =>
 											elem.caster = {
 												if(pressedAOE) {
-													val t = ElementAOECaster(Minecraft.getMinecraft.thePlayer, elem.validElements)
+													val t = ElementAOECaster(Minecraft.getMinecraft.thePlayer, elem.properElements)
 													t.start()
 													t
 												} else if(pressedForward)

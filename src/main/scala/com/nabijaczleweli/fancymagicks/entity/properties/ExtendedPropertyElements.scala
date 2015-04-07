@@ -38,7 +38,7 @@ class ExtendedPropertyElements extends IExtendedEntityProperties with NBTReloada
 
 		val casterTag = compound getCompoundTag s"${Reference.NAMESPACED_PREFIX}caster"
 		if(!casterTag.hasNoTags) {
-			caster = (Class forName (casterTag getString "class")).asInstanceOf[Class[ElementCaster]].getConstructor(classOf[Entity], classOf[Seq[Element]]).newInstance(entity, validElements)
+			caster = (Class forName (casterTag getString "class")).asInstanceOf[Class[ElementCaster]].getConstructor(classOf[Entity], classOf[Seq[Element]]).newInstance(entity, properElements)
 			caster loadNBTData (casterTag getCompoundTag "data")
 		}
 	}
@@ -57,7 +57,7 @@ class ExtendedPropertyElements extends IExtendedEntityProperties with NBTReloada
 					true
 			}
 
-	def validElements =
+	def properElements =
 		elements filterNot {_ == null}
 
 	def update() =
