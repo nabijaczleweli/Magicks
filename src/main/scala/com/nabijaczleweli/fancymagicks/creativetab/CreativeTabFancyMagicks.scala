@@ -11,7 +11,7 @@ import scala.util.Random
 
 object CreativeTabFancyMagicks extends CreativeTabs("fancymagicks") {
 	@SideOnly(Side.CLIENT)
-	private val stack = new Array[ItemStack](1)
+	private var stack: ItemStack = _
 
 	@SideOnly(Side.CLIENT)
 	override def getTabIconItem =
@@ -19,13 +19,13 @@ object CreativeTabFancyMagicks extends CreativeTabs("fancymagicks") {
 
 	@SideOnly(Side.CLIENT)
 	override def getIconItemStack =
-		stack(0) match {
+		stack match {
 			case null =>
 				val lst = new jArrayList[ItemStack]
 				ItemStaff.getSubItems(ItemStaff, this, lst)
 				if(!lst.isEmpty) {
-					stack(0) = lst get (new Random nextInt lst.size)
-					stack(0)
+					stack = lst get (new Random nextInt lst.size)
+					stack
 				} else
 					super.getIconItemStack
 			case is =>

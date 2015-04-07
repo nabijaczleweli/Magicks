@@ -1,5 +1,6 @@
 package com.nabijaczleweli.fancymagicks.util
 
+import com.nabijaczleweli.fancymagicks.element.{Element, ElementalDamageSource}
 import com.nabijaczleweli.fancymagicks.reference.Reference
 import com.nabijaczleweli.fancymagicks.util.EntityUtil.SimpleEntitySpawnData
 import cpw.mods.fml.common.network.internal.FMLProxyPacket
@@ -7,6 +8,8 @@ import io.netty.buffer.{ByteBufInputStream, Unpooled, ByteBufOutputStream}
 import net.minecraft.entity.Entity
 import net.minecraft.potion.PotionEffect
 import net.minecraft.server.MinecraftServer
+
+import scala.reflect.runtime.ReflectionUtils
 
 object PacketUtil {
 	implicit class BBOSUtil(val bbos: ByteBufOutputStream) extends AnyVal {
@@ -36,6 +39,19 @@ object PacketUtil {
 			bbos writeDouble sesd.x
 			bbos writeDouble sesd.y
 			bbos writeDouble sesd.z
+			bbos
+		}
+
+		def <<(eds: ElementalDamageSource): ByteBufOutputStream = {
+			<<(eds.getEntity)
+			bbos writeInt eds.elements.size
+			for(element <- eds.elements)
+				bbos writeUTF element.getClass.getName
+			bbos
+		}
+
+		def <<(f: Float) = {
+			bbos writeFloat f
 			bbos
 		}
 	}
@@ -75,6 +91,27 @@ object PacketUtil {
 			val zCoord = bbis.readDouble()
 
 			sesd(0) = SimpleEntitySpawnData(Class forName className asSubclass classOf[Entity], MinecraftServer.getServer worldServerForDimension dimensionId, xCoord, yCoord, zCoord)
+
+			bbis
+		}
+
+		/** @param eds Array of one element, used as a C++-style reference */
+		def >>(eds: Array[ElementalDamageSource]): ByteBufInputStream = {
+			val entity = new Array[Entity](1)
+			>>(entity)
+			val amount = bbis.readInt()
+			val elements = (0 until amount) map {_ => bbis.readUTF()} map Class.forName map ReflectionUtils.staticSingletonInstance map {_.asInstanceOf[Element]}
+
+			eds(0) = new ElementalDamageSource(entity(0), elements)
+
+			bbis
+		}
+
+		/** @param f Array of one element, used as a C++-style reference */
+		def >>(f: Array[Float]) = {
+			val value = bbis.readFloat()
+
+			f(0) = value
 
 			bbis
 		}

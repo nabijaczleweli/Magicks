@@ -15,6 +15,8 @@ import net.minecraftforge.client.MinecraftForgeClient
 class ClientProxy extends CommonProxy {
 	override def registerKeyBindings() {
 		ClientRegistry registerKeyBinding Container.keyBindStaffSpecialAblility
+		ClientRegistry registerKeyBinding Container.keyBindStaffApplyAOE
+		ClientRegistry registerKeyBinding Container.keyBindStaffApplyForward
 	}
 
 	override def registerHandlers() {

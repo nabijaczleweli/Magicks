@@ -6,11 +6,11 @@ import net.minecraft.util.{StatCollector, IIcon}
 
 class StaffType(texture: String, val name: String, val passiveAbility: StaffAbility, val activeAbility: StaffAbility) {
 	@SideOnly(Side.CLIENT)
-	val icon = new Array[IIcon](1)
+	var icon: IIcon = _
 
 	@SideOnly(Side.CLIENT)
 	def registerIcons(registry: IIconRegister) =
-		icon(0) = registry registerIcon texture
+		icon = registry registerIcon texture
 
 	def localizedName =
 		StatCollector translateToLocal name

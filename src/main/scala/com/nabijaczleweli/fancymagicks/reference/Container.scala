@@ -16,11 +16,11 @@ object Container {
 	val channel = NetworkRegistry.INSTANCE newEventDrivenChannel MOD_ID
 
 	@SideOnly(Side.CLIENT)
-	val keyBindStaffSpecialAblility = new KeyBinding(s"key.${NAMESPACED_PREFIX}staffSpecial", 48, MOD_NAME) // 48 -> B
+	lazy val keyBindStaffSpecialAblility = new KeyBinding(s"key.${NAMESPACED_PREFIX}staffSpecial", 48, MOD_NAME)// 48 -> B
 	@SideOnly(Side.CLIENT)
-	val keyBindStaffApplyAOE        = new KeyBinding(s"key.${NAMESPACED_PREFIX}staffApplyAOE", 47, MOD_NAME) // 47 -> V
+	lazy val keyBindStaffApplyAOE        = new KeyBinding(s"key.${NAMESPACED_PREFIX}staffApplyAOE", 47, MOD_NAME) // 47 -> V
 	@SideOnly(Side.CLIENT)
-	val keyBindStaffApplyForward    = new KeyBinding(s"key.${NAMESPACED_PREFIX}staffApplyForward", 49, MOD_NAME) // 49 -> N
+	lazy val keyBindStaffApplyForward    = new KeyBinding(s"key.${NAMESPACED_PREFIX}staffApplyForward", 49, MOD_NAME) // 49 -> N
 
 	var abilityRegistry: Map[String, StaffAbility] = HashMap.empty
 

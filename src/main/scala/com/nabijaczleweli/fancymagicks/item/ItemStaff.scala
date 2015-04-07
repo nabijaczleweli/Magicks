@@ -66,7 +66,7 @@ object ItemStaff extends Item with IConfigurable {
 
 	@SideOnly(Side.CLIENT)
 	override def getIconIndex(stack: ItemStack) =
-		staff(stack).fold(itemIcon)(_ icon 0)
+		staff(stack).fold(itemIcon)(_.icon)
 
 	@SideOnly(Side.CLIENT)
 	override def getSubItems(item: Item, tab: CreativeTabs, list: jList[_]) =
