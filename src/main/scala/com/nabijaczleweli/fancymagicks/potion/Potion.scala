@@ -65,10 +65,13 @@ object Potion {
 				i
 		}
 
-	def applyEffect(pot: mPotion, amplifier: Int = 0, duration: Int = 1)(entity: EntityLivingBase) {
-		val effect = new PotionEffect(pot.getId, duration, amplifier, false)
-		if(entity.worldObj.isRemote)
-			Container.channel sendToServer (PacketUtil packet PacketUtil.stream << "apply-potion-effect" << entity << effect)
-		entity addPotionEffect effect
-	}
+	def applyEffect(pot: mPotion, amplifier: Int = 0, duration: Int = 1)(entity: EntityLivingBase) =
+		dispatchPotionEffect(new PotionEffect(pot.getId, duration, amplifier, false), entity)
+
+	def dispatchPotionEffect(effect: PotionEffect, on: EntityLivingBase) =
+		if(on != null)
+			if(on.worldObj.isRemote)
+				Container.channel sendToServer (PacketUtil packet PacketUtil.stream << "apply-potion-effect" << on << effect)
+			else
+				on addPotionEffect effect
 }

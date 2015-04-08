@@ -1,6 +1,6 @@
 package com.nabijaczleweli.fancymagicks.handler
 
-import com.nabijaczleweli.fancymagicks.element.ElementAOECaster
+import com.nabijaczleweli.fancymagicks.element.{ElementAOECaster, ElementForwardCaster}
 import com.nabijaczleweli.fancymagicks.entity.properties.ExtendedPropertyElements
 import com.nabijaczleweli.fancymagicks.item.ItemStaff
 import com.nabijaczleweli.fancymagicks.reference.Container
@@ -40,14 +40,16 @@ object KeyHandler {
 									elem.caster match {
 										case null =>
 											elem.caster = {
-												if(pressedAOE) {
-													val t = ElementAOECaster(Minecraft.getMinecraft.thePlayer, elem.properElements)
+												val t =
+													if(pressedAOE)
+														ElementAOECaster(Minecraft.getMinecraft.thePlayer, elem.properElements)
+													else if(pressedForward)
+														ElementForwardCaster(Minecraft.getMinecraft.thePlayer, elem.properElements)
+													else
+														null
+												if(t != null)
 													t.start()
-													t
-												} else if(pressedForward)
-													null
-												else
-													null
+												t
 											}
 										case c =>
 											if(pressedAOE || pressedForward)

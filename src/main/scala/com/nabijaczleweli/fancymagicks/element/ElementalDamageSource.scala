@@ -7,6 +7,8 @@ import net.minecraft.entity.{Entity, EntityLivingBase}
 import net.minecraft.util.{ChatComponentTranslation, EntityDamageSource}
 import net.minecraftforge.common.config.Configuration
 
+import scala.collection.immutable.HashMap
+
 class ElementalDamageSource(attacker: Entity, val elements: Seq[Element]) extends EntityDamageSource("elements", attacker) {
 	private lazy val elementNames = elements.toSet map Element.name
 
@@ -18,15 +20,43 @@ class ElementalDamageSource(attacker: Entity, val elements: Seq[Element]) extend
 }
 
 object ElementalDamageSource extends IConfigurable {
+	/** Without explicit type arguments it pulls up `Element{def opposites: List[Element]}` */
+	private val elementsDamage: Map[Element, Float] = HashMap(
+		ElementArcane -> 3f,
+		ElementLife -> -2f,
+		ElementCold -> 1.2f,
+		ElementFire -> 1.25f,
+		ElementShield -> 0f,
+		ElementEarth -> 2.75f,
+		ElementLightning -> 1.7f,
+		ElementWater -> 1.15f,
+		ElementIce -> 2.5f,
+		ElementSteam -> 1.35f
+	)
+
 	var listElements = false
+	var damageMultiplierAOE = 2f
+	var damageMultiplierForward = .2f
+
+	private def damages(elements: Seq[Element]) =
+		elements groupBy identity map {_._2} map {s => s.head -> s.size} map {p => elementsDamage(p._1) * p._2.toFloat}
 
 	def dispatchDamage(source: ElementalDamageSource, attackee: Entity, amount: Float) =
-		if(attackee.worldObj.isRemote)
-			Container.channel sendToServer (PacketUtil packet PacketUtil.stream << "deal-elemental-damage" << source << attackee << amount)
-		else
-			attackee.attackEntityFrom(source, amount)
+		if(attackee != null)
+			if(attackee.worldObj.isRemote)
+				Container.channel sendToServer (PacketUtil packet PacketUtil.stream << "deal-elemental-damage" << source << attackee << amount)
+			else
+				attackee.attackEntityFrom(source, amount)
+
+	def damageAOE(elements: Seq[Element]) =
+		damages(elements).sum * damageMultiplierAOE
+
+	def damageForward(elements: Seq[Element]) =
+		damages(elements).sum * damageMultiplierForward
 
 	override def configure(config: Configuration) {
 		listElements = config.getBoolean("listElementsElementalDeath", "combat", listElements, "Whether elements used to kill an entity should be listed upon its death")
+		damageMultiplierAOE = config.getFloat("elementalDamageMultiplierAOE", "combat", damageMultiplierAOE, 0f, Float.MaxValue, "Overall damage multiplier used, when dealing AOE damage")
+		damageMultiplierForward = config.getFloat("elementalDamageMultiplierForward", "combat", damageMultiplierForward, 0f, Float.MaxValue, "Overall damage multiplier used, when dealing forward damage")
 	}
 }
