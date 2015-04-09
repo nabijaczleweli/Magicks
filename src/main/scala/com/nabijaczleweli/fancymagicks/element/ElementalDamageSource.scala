@@ -1,5 +1,6 @@
 package com.nabijaczleweli.fancymagicks.element
 
+import com.nabijaczleweli.fancymagicks.element.elements._
 import com.nabijaczleweli.fancymagicks.reference.{Container, Reference}
 import com.nabijaczleweli.fancymagicks.util.PacketUtil.BBOSUtil
 import com.nabijaczleweli.fancymagicks.util.{IConfigurable, PacketUtil}

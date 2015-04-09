@@ -3,7 +3,7 @@ package com.nabijaczleweli.fancymagicks.item
 import java.util.{List => jList}
 
 import com.nabijaczleweli.fancymagicks.creativetab.CreativeTabFancyMagicks
-import com.nabijaczleweli.fancymagicks.element.Element
+import com.nabijaczleweli.fancymagicks.element.elements.Element
 import com.nabijaczleweli.fancymagicks.entity.properties.{ExtendedPropertyElements, ExtendedPropertyPrevRotationPitch, ExtendedPropertySelectionDirection}
 import com.nabijaczleweli.fancymagicks.reference.Reference._
 import com.nabijaczleweli.fancymagicks.reference.StaffTypeRegistry

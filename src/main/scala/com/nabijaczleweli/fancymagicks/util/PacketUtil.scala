@@ -1,6 +1,7 @@
 package com.nabijaczleweli.fancymagicks.util
 
-import com.nabijaczleweli.fancymagicks.element.{Element, ElementalDamageSource}
+import com.nabijaczleweli.fancymagicks.element.ElementalDamageSource
+import com.nabijaczleweli.fancymagicks.element.elements.Element
 import com.nabijaczleweli.fancymagicks.reference.Reference
 import com.nabijaczleweli.fancymagicks.util.EntityUtil.SimpleEntitySpawnData
 import cpw.mods.fml.common.network.internal.FMLProxyPacket

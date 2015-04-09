@@ -1,6 +1,7 @@
 package com.nabijaczleweli.fancymagicks.entity.properties
 
-import com.nabijaczleweli.fancymagicks.element.{ElementCaster, Element}
+import com.nabijaczleweli.fancymagicks.element.caster.ElementCaster
+import com.nabijaczleweli.fancymagicks.element.elements.Element
 import com.nabijaczleweli.fancymagicks.potion.Potion
 import com.nabijaczleweli.fancymagicks.reference.Reference
 import com.nabijaczleweli.fancymagicks.util.{NBTReloadable, IConfigurable}

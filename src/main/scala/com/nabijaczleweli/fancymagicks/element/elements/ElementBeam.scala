@@ -1,4 +1,6 @@
-package com.nabijaczleweli.fancymagicks.element
+package com.nabijaczleweli.fancymagicks.element.elements
+
+import com.nabijaczleweli.fancymagicks.element.ElementType
 
 abstract class ElementBeam extends Element {
 	override def prioritizesOver(element: Element) =

@@ -1,4 +1,4 @@
-package com.nabijaczleweli.fancymagicks.element
+package com.nabijaczleweli.fancymagicks.element.elements
 
 object ElementShield extends Element {
 	override def opposites =

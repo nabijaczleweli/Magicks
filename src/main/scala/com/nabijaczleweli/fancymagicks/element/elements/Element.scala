@@ -1,6 +1,7 @@
-package com.nabijaczleweli.fancymagicks.element
+package com.nabijaczleweli.fancymagicks.element.elements
 
 import com.nabijaczleweli.fancymagicks.element.ElementType.ElementType
+import com.nabijaczleweli.fancymagicks.element.ElementaryCircle
 import com.nabijaczleweli.fancymagicks.entity.properties.ExtendedPropertySelectionDirection
 
 trait Element {

@@ -1,6 +1,6 @@
 package com.nabijaczleweli.fancymagicks.potion
 
-import com.nabijaczleweli.fancymagicks.element.Element
+import com.nabijaczleweli.fancymagicks.element.elements.Element
 import com.nabijaczleweli.fancymagicks.reference.Reference
 import com.nabijaczleweli.fancymagicks.util.{EntityUtil, IConfigurable}
 import net.minecraft.entity.EntityLivingBase

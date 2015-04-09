@@ -1,4 +1,4 @@
-package com.nabijaczleweli.fancymagicks.element
+package com.nabijaczleweli.fancymagicks.element.caster
 
 import com.nabijaczleweli.fancymagicks.util.NBTReloadable
 

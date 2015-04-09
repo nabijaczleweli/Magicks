@@ -1,7 +1,7 @@
 package com.nabijaczleweli.fancymagicks.proxy
 
 import com.nabijaczleweli.fancymagicks.FancyMagicks
-import com.nabijaczleweli.fancymagicks.element.{ElementCold, ElementFire, ElementLife, ElementLightning}
+import com.nabijaczleweli.fancymagicks.element.elements.{ElementLife, ElementLightning, ElementFire, ElementCold}
 import com.nabijaczleweli.fancymagicks.entity.{EntityBugs, EntitySpiritTree}
 import com.nabijaczleweli.fancymagicks.handler.{PacketHandler, EntityHandler}
 import com.nabijaczleweli.fancymagicks.item.ItemStaff

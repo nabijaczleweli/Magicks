@@ -1,6 +1,7 @@
 package com.nabijaczleweli.fancymagicks.handler
 
-import com.nabijaczleweli.fancymagicks.element.{ElementAOECaster, ElementForwardCaster}
+import com.nabijaczleweli.fancymagicks.element.caster.aoe.ElementAOECaster
+import com.nabijaczleweli.fancymagicks.element.caster.forward.ElementForwardCaster
 import com.nabijaczleweli.fancymagicks.entity.properties.ExtendedPropertyElements
 import com.nabijaczleweli.fancymagicks.item.ItemStaff
 import com.nabijaczleweli.fancymagicks.reference.Container

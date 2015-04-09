@@ -1,5 +1,6 @@
 package com.nabijaczleweli.fancymagicks.element
 
+import com.nabijaczleweli.fancymagicks.element.elements._
 import com.nabijaczleweli.fancymagicks.util.Direction
 import com.nabijaczleweli.fancymagicks.util.Direction.Direction
 

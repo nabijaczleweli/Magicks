@@ -1,4 +1,6 @@
-package com.nabijaczleweli.fancymagicks.element
+package com.nabijaczleweli.fancymagicks.element.elements
+
+import com.nabijaczleweli.fancymagicks.element.ElementType
 
 object ElementLightning extends Element {
 	override def opposites =
