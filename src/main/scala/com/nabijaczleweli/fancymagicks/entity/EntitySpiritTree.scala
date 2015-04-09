@@ -10,7 +10,7 @@ import net.minecraft.util.DamageSource
 import net.minecraft.world.World
 
 class EntitySpiritTree(world: World) extends EntityAnimal(world) {
-	setSize(1, 3)
+	setSize(2.4f, 7.2f)
 	tasks.addTask(1, new EntityAIWander(this, .6D))
 	targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, classOf[EntityLivingBase], 0, false, false, IMob.mobSelector))
 
@@ -31,7 +31,7 @@ class EntitySpiritTree(world: World) extends EntityAnimal(world) {
 
 	override def applyEntityAttributes() {
 		super.applyEntityAttributes()
-		getEntityAttribute(SharedMonsterAttributes.maxHealth) setBaseValue 4D
+		getEntityAttribute(SharedMonsterAttributes.maxHealth) setBaseValue 40D
 		getEntityAttribute(SharedMonsterAttributes.followRange) setBaseValue 100D
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed) setBaseValue .23000000417232513D
 		getAttributeMap registerAttribute SharedMonsterAttributes.attackDamage setBaseValue 4D
