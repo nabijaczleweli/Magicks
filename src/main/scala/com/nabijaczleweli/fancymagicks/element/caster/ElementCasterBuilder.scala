@@ -11,6 +11,9 @@ abstract class ElementCasterBuilder[NoElementType >: Null <: ElementCaster : Man
 	protected def simplyConstruct[T >: Null <: ElementCaster : Manifest](who: Entity, elems: Seq[Element]) =
 		implicitly[Manifest[T]].runtimeClass.asInstanceOf[Class[T]].getConstructor(classOf[Entity], classOf[Seq[Element]]).newInstance(who, elems)
 
+	protected def simpleLead[TE >: Null <: Element : Manifest, TEC >: Null <: ElementCaster : Manifest] =
+		implicitly[Manifest[TE]].runtimeClass.asInstanceOf[Class[TE]] -> simplyConstruct[TEC] _
+
 	protected def leads: LeadsType
 
 	def apply(who: Entity, elems: Seq[Element]) =

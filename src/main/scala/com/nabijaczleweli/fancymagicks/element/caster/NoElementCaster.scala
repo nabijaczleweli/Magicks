@@ -24,6 +24,7 @@ abstract class NoElementCaster(who: Entity) extends ElementCaster {
 			val mul = -(chargeup / 50D)
 			EntityUtil.dispatchVelocityChange(e, direction.xCoord * mul, direction.yCoord * mul, direction.zCoord * mul)
 		}
+		chargeup = 250
 	}
 
 	override def loadNBTData(tag: NBTTagCompound) =
