@@ -1,12 +1,12 @@
 package com.nabijaczleweli.fancymagicks.element.caster.forward
 
 import com.nabijaczleweli.fancymagicks.element.caster.ElementCasterBuilder
-import com.nabijaczleweli.fancymagicks.element.elements.{ElementSpray, ElementBeam}
+import com.nabijaczleweli.fancymagicks.element.elements.{ElementBeam, ElementSpray}
 
 object ElementForwardCaster extends ElementCasterBuilder[NoElementForwardCaster] {
 	override protected val leads: LeadsType = Map(
-		simpleLead[ElementBeam, ElementBeamForwardCaster],
-		simpleLead[ElementSpray, ElementSprayForwardCaster]
+		ElementCasterBuilder.simpleLead[ElementBeam, ElementBeamForwardCaster],
+		ElementCasterBuilder.simpleLead[ElementSpray, ElementSprayForwardCaster]
 	)
 	println(leads)
 }

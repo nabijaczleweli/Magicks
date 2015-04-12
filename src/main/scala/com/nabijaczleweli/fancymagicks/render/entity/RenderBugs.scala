@@ -10,12 +10,13 @@ import scala.collection.immutable.HashMap
 
 @SideOnly(Side.CLIENT)
 object RenderBugs extends RenderLiving(new ModelBugs, 0) {
+	private val entityTexture = new ResourceLocationFancyMagicks("textures/entity/bug.png")
 	private var entityToModel: Map[Int, ModelBugs] = new HashMap
 
 	setRenderPassModel(new ModelBugs)
 
 	override def getEntityTexture(entity: Entity) =
-		new ResourceLocationFancyMagicks("textures/entity/bug.png")
+		entityTexture
 
 	override def doRender(entity: Entity, d0: Double, d1: Double, d2: Double, f0: Float, f1: Float) {
 		entityToModel get entity.getEntityId match {

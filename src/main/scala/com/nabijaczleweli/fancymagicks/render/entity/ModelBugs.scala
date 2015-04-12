@@ -13,8 +13,8 @@ class ModelBugs extends ModelBase {
 	textureWidth = 32
 	textureHeight = 32
 
-	var bugRenderers = Seq.fill(bugsPerSwarm)(new ModelRenderer(this)) map {_.addBox(0, 0, 0, 4, 4, 4)} map {_.setTextureSize(textureWidth, textureHeight)} map {mr => mr.setRotationPoint(-2, 16, -2); mr} map
-	                   {mr => mr.offsetX = randomOffset; mr.offsetY = randomOffset; mr.offsetZ = randomOffset; mr}
+	val bugRenderers = Seq.fill(bugsPerSwarm)(new ModelRenderer(this)) map {_.addBox(0, 0, 0, 4, 4, 4)} map {mr => mr.setRotationPoint(-2, 16, -2); mr} map
+	                                                                       {mr => mr.offsetX = randomOffset; mr.offsetY = randomOffset; mr.offsetZ = randomOffset; mr}
 
 	override def render(entity: Entity, f0: Float, f1: Float, f2: Float, f3: Float, f4: Float, f5: Float) {
 		super.render(entity, f0, f1, f2, f3, f4, f5)
