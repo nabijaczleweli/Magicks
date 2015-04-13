@@ -8,7 +8,7 @@ import net.minecraft.entity.{Entity, EntityLivingBase}
 
 @SideOnly(Side.CLIENT)
 object RenderSpiritTree extends RenderGiantZombie(new ModelBiped(0, 0, 64, 64), .5f, 4) {
-	private val entityTexture = new ResourceLocationFancyMagicks("textures/entity/spirit_tree.png")
+	private val entityTexture = ResourceLocationFancyMagicks("textures/entity/spirit_tree.png")
 
 	setRenderPassModel(mainModel)
 
