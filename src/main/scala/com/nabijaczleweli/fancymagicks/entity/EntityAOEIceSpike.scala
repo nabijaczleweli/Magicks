@@ -9,7 +9,7 @@ import net.minecraft.world.World
 import java.lang.{Float => jFloat}
 
 class EntityAOEIceSpike(world: World) extends Entity(world) with NBTReloadable {
-	var progressUp = 0
+	setSize(.875F, 2.625F)
 
 
 	def force =
