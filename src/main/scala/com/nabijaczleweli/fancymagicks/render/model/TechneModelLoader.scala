@@ -14,11 +14,8 @@ object TechneModelLoader extends IModelCustomLoader {
 
 	override val getSuffixes = Array("tcn")
 
-	override def loadInstance(resource: ResourceLocation) = {
-		val t = new TechneModel(resource)
-		println(t)
-		t
-	}
+	override def loadInstance(resource: ResourceLocation) =
+		new TechneModel(resource)
 
 	AdvancedModelLoader registerModelHandler this // Register here, because uninitialized otherwise TODO: Move elsewhere
 }
