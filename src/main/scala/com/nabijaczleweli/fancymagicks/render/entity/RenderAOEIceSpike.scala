@@ -39,10 +39,8 @@ object RenderAOEIceSpike extends Render {
 		) match {
 			case 0 if wasUp =>
 			case 1 =>
-				println(progress, wasUp)
 				progress = 1
 				wasUp = true
-				println(progress, wasUp)
 			case f =>
 				progress = f
 		}
