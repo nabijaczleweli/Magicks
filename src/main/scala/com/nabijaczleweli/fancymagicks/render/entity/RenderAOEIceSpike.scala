@@ -1,7 +1,6 @@
 package com.nabijaczleweli.fancymagicks.render.entity
 
 import com.nabijaczleweli.fancymagicks.entity.EntityAOEIceSpike
-import com.nabijaczleweli.fancymagicks.render.model.TechneModelLoader
 import com.nabijaczleweli.fancymagicks.util.ResourceLocationFancyMagicks
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.entity.Render
@@ -13,8 +12,6 @@ import scala.collection.mutable.{LongMap => mLongMap}
 
 @SideOnly(Side.CLIENT)
 object RenderAOEIceSpike extends Render {
-	TechneModelLoader //TODO: Move elsewhere
-
 	private val entityTexture = ResourceLocationFancyMagicks("textures/entity/aoe_spike_ice.png")
 	private val model = AdvancedModelLoader loadModel ResourceLocationFancyMagicks("models/entity/aoe_spike_ice.tcn")
 	private val progresses = mLongMap.empty withDefaultValue 0f -> false

@@ -2,7 +2,7 @@ package com.nabijaczleweli.fancymagicks.render.model
 
 import com.nabijaczleweli.fancymagicks.reference.Reference._
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.client.model.{AdvancedModelLoader, IModelCustomLoader}
+import net.minecraftforge.client.model.IModelCustomLoader
 
 /** A techne model loader for loading working techne models.<br />
   * Shamelessly stolen from Dullkus.
@@ -10,12 +10,10 @@ import net.minecraftforge.client.model.{AdvancedModelLoader, IModelCustomLoader}
   * @see [[https://github.com/drullkus/MateriaMuto/blob/master/src/main/java/com/agilemods/materiamuto/client/model/importer/TechneModelLoader.java]]
   */
 object TechneModelLoader extends IModelCustomLoader {
-	override val getType = s"Techne models ($MOD_NAME, working)"
+	override val getType = s"Working techne models ($MOD_NAME)"
 
 	override val getSuffixes = Array("tcn")
 
 	override def loadInstance(resource: ResourceLocation) =
 		new TechneModel(resource)
-
-	AdvancedModelLoader registerModelHandler this // Register here, because uninitialized otherwise TODO: Move elsewhere
 }
