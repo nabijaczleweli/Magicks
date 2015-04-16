@@ -65,3 +65,8 @@ death.attack.fancymagicks:elements=%1$s was killed by high-velocity elemental fo
 death.attack.fancymagicks:elements.listed=%1$s was killed by high-velocity elemental forces exerted upon them (%2$s)
 death.attack.fancymagicks:elements.player=%1$s was killed by high-velocity elemental forces exerted upon them by %3$s
 death.attack.fancymagicks:elements.player.listed=%1$s was killed by high-velocity elemental forces exerted upon them by %3$s (%2$s)
+
+# Entities
+entity.fancymagicks.AOEIceSpike.name=Ice spike
+entity.fancymagicks.bugs.name=Bugs
+entity.fancymagicks.spiritTree.name=Tree spirit

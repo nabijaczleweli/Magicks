@@ -34,6 +34,13 @@ object EntityUtil {
 			else
 				e.addVelocity(xChange, yChange, zChange)
 
+	def dispatchSimpleKill(e: Entity) =
+		if(e != null)
+			if(e.worldObj.isRemote)
+				Container.channel sendToServer (PacketUtil packet PacketUtil.stream << "kill-simple" << e)
+			else
+				e.worldObj removeEntity e
+
 
 	def rayTraceCoords(from: EntityLivingBase, by: Double) = {
 		val look = from getLook 1

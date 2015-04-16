@@ -1,7 +1,7 @@
 package com.nabijaczleweli.fancymagicks.render.entity
 
 import com.nabijaczleweli.fancymagicks.entity.EntityAOEIceSpike
-import com.nabijaczleweli.fancymagicks.util.ResourceLocationFancyMagicks
+import com.nabijaczleweli.fancymagicks.util.{EntityUtil, ResourceLocationFancyMagicks}
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.entity.Render
 import net.minecraft.entity.Entity
@@ -35,6 +35,7 @@ object RenderAOEIceSpike extends Render {
 				math.min(progress + .01f, 1)
 		) match {
 			case 0 if wasUp =>
+				EntityUtil dispatchSimpleKill entity
 			case 1 =>
 				progress = 1
 				wasUp = true

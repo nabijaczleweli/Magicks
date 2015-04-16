@@ -14,6 +14,16 @@ class ElementProjectileAOECaster(who: Entity, elems: Seq[Element]) extends OneOf
 	override protected def cast() {
 		for(e <- EntityUtil.entitiesInRadius[Entity](who, force * 2.5D))
 			ElementalDamageSource.dispatchDamage(new ElementalDamageSource(who, elems), e, ElementalDamageSource damageAOE elems)
-		EntityUtil dispachSimpleSpawn SimpleEntitySpawnData(classOf[EntityAOEIceSpike], who.worldObj, who.posX, who.posY, who.posZ)
+
+		val baseY = who.posY - who.height
+		for(outer <- 1D until force * 2.5D by 1D; i <- 0 until 20) {
+			val modT = i * math.Pi * 2 / 20
+			val modX = outer * (math cos modT)
+			val modY = outer * (math sin modT)
+			EntityUtil dispachSimpleSpawn SimpleEntitySpawnData(classOf[EntityAOEIceSpike], who.worldObj, who.posX + modX, baseY, who.posZ + modY)
+			EntityUtil dispachSimpleSpawn SimpleEntitySpawnData(classOf[EntityAOEIceSpike], who.worldObj, who.posX + modX, baseY, who.posZ - modY)
+			EntityUtil dispachSimpleSpawn SimpleEntitySpawnData(classOf[EntityAOEIceSpike], who.worldObj, who.posX - modX, baseY, who.posZ + modY)
+			EntityUtil dispachSimpleSpawn SimpleEntitySpawnData(classOf[EntityAOEIceSpike], who.worldObj, who.posX - modX, baseY, who.posZ - modY)
+		}
 	}
 }

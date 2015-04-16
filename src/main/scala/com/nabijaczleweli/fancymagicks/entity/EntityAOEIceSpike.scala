@@ -1,12 +1,14 @@
 package com.nabijaczleweli.fancymagicks.entity
 
+import java.lang.{Float => jFloat}
+
+import com.nabijaczleweli.fancymagicks.element.ElementalDamageSource
+import com.nabijaczleweli.fancymagicks.element.elements.ElementIce
 import com.nabijaczleweli.fancymagicks.reference.Reference
 import com.nabijaczleweli.fancymagicks.util.NBTReloadable
 import net.minecraft.entity.Entity
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.world.World
-
-import java.lang.{Float => jFloat}
 
 class EntityAOEIceSpike(world: World) extends Entity(world) with NBTReloadable {
 	setSize(.875F, 2.625F)
@@ -28,6 +30,16 @@ class EntityAOEIceSpike(world: World) extends Entity(world) with NBTReloadable {
 
 	override def readEntityFromNBT(tag: NBTTagCompound) {
 		force = tag getFloat s"${Reference.NAMESPACED_PREFIX}force"
+	}
+
+	override def canBeCollidedWith =
+		true
+
+	override def canBePushed =
+		true
+
+	override def applyEntityCollision(entity: Entity) {
+		ElementalDamageSource.dispatchDamage(new ElementalDamageSource(this, Seq.fill(5)(ElementIce)), entity, force * 50)
 	}
 
 
