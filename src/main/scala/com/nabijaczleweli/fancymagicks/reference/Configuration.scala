@@ -6,11 +6,13 @@ import com.nabijaczleweli.fancymagicks.element.ElementalDamageSource
 import com.nabijaczleweli.fancymagicks.entity.properties.ExtendedPropertyElements
 import com.nabijaczleweli.fancymagicks.item.ItemStaff
 import com.nabijaczleweli.fancymagicks.potion.{PotionDamageAura, PotionDeflectAura, PotionImmunityAura}
-import com.nabijaczleweli.fancymagicks.render.entity.ModelBugs
+import com.nabijaczleweli.fancymagicks.render.entity.{RenderAOEIceSpike, ModelBugs}
+import com.nabijaczleweli.fancymagicks.util.IConfigurable
 import net.minecraftforge.common.config.Configuration
 
 object Configuration {
-	val configurables = ItemStaff :: ExtendedPropertyElements :: ModelBugs :: PotionImmunityAura :: PotionDamageAura :: PotionDeflectAura :: ElementalDamageSource :: Nil
+	val configurables = c(ItemStaff) :: c(ExtendedPropertyElements) :: c(ModelBugs) :: c(PotionImmunityAura) :: c(PotionDamageAura) :: c(PotionDeflectAura) :: c(ElementalDamageSource) ::
+	                    c(RenderAOEIceSpike) :: Nil withFilter {_ != null}
 	var config: Configuration = _
 
 	def load(file: File) {
@@ -22,4 +24,14 @@ object Configuration {
 	def saveIfNeeded() =
 		if(config.hasChanged)
 			config.save()
+
+	private def c(ic: => IConfigurable) =
+		try
+			ic
+		catch {
+			case ncdfe: NoClassDefFoundError => // class/object @SideOnly'd for the other side
+				null
+			case t: Throwable =>
+				throw new RuntimeException(t)
+		}
 }
