@@ -2,13 +2,12 @@ package com.nabijaczleweli.fancymagicks.entity
 
 import java.lang.{Float => jFloat}
 
-import com.nabijaczleweli.fancymagicks.element.ElementalDamageSource
-import com.nabijaczleweli.fancymagicks.element.elements.ElementIce
 import com.nabijaczleweli.fancymagicks.reference.Reference
-import com.nabijaczleweli.fancymagicks.util.NBTReloadable
+import com.nabijaczleweli.fancymagicks.util.{IConfigurable, NBTReloadable}
 import net.minecraft.entity.Entity
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.world.World
+import net.minecraftforge.common.config.Configuration
 
 class EntityAOEIceSpike(world: World) extends Entity(world) with NBTReloadable {
 	setSize(.875F, 2.625F)
@@ -32,14 +31,10 @@ class EntityAOEIceSpike(world: World) extends Entity(world) with NBTReloadable {
 		force = tag getFloat s"${Reference.NAMESPACED_PREFIX}force"
 	}
 
-	override def canBeCollidedWith =
-		true
-
-	override def canBePushed =
-		true
-
-	override def applyEntityCollision(entity: Entity) {
-		ElementalDamageSource.dispatchDamage(new ElementalDamageSource(this, Seq.fill(5)(ElementIce)), entity, force * 50)
+	override def onUpdate() {
+		super.onUpdate()
+		if(ticksExisted > EntityAOEIceSpike.cycleLength)
+			worldObj removeEntity this
 	}
 
 
@@ -50,6 +45,12 @@ class EntityAOEIceSpike(world: World) extends Entity(world) with NBTReloadable {
 		readEntityFromNBT(tag)
 }
 
-object EntityAOEIceSpike {
+object EntityAOEIceSpike extends IConfigurable {
 	val forceObjectID = 2 // Safe? Maybe needs to be higher?
+
+	var cycleLength = 20
+
+	override def configure(config: Configuration) {
+		cycleLength = config.getInt("AOEIceSpikeCycleLength", "combat", cycleLength, 0, Int.MaxValue, "Full cycle length of raising/pulling down AOEIceSpikes in ticks")
+	}
 }

@@ -14,7 +14,7 @@ import net.minecraft.potion.PotionEffect
 
 object PacketHandler {
 	@SubscribeEvent
-	def onServerPacket(event: ServerCustomPacketEvent) = {
+	def onServerPacket(event: ServerCustomPacketEvent) = { //TODO: Maybe make this a delegate to a `Map[String, ByteBufInputStream => Unit]`?
 		val bbis = new ByteBufInputStream(event.packet.payload)
 		bbis.readUTF() match {
 			case "apply-potion-effect" =>
@@ -47,12 +47,6 @@ object PacketHandler {
 				bbis >> ent >> xChange >> yChange >> zChange
 
 				EntityUtil.dispatchVelocityChange(ent.head, xChange.head, yChange.head, zChange.head)
-			case "kill-simple" =>
-				val ent = new Array[Entity](1)
-
-				bbis >> ent
-
-				EntityUtil dispatchSimpleKill ent.head
 			case command =>
 				Container.log warn s"Unknown packet command: '$command'!"
 		}
