@@ -71,7 +71,7 @@ object Potion {
 	def dispatchPotionEffect(effect: PotionEffect, on: EntityLivingBase) =
 		if(on != null)
 			if(on.worldObj.isRemote)
-				Container.channel sendToServer (PacketUtil packet PacketUtil.stream << "apply-potion-effect" << on << effect)
+				Container.channel sendToServer (PacketUtil packet PacketUtil.stream << "apply-potion-effect" << effect << on)
 			else
 				on addPotionEffect effect
 }

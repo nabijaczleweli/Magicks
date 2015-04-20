@@ -1,11 +1,13 @@
 package com.nabijaczleweli.fancymagicks.util
 
+import java.lang.{Double => jDouble, Float => jFloat}
+
 import com.nabijaczleweli.fancymagicks.element.ElementalDamageSource
 import com.nabijaczleweli.fancymagicks.element.elements.Element
 import com.nabijaczleweli.fancymagicks.reference.Reference
 import com.nabijaczleweli.fancymagicks.util.EntityUtil.SimpleEntitySpawnData
 import cpw.mods.fml.common.network.internal.FMLProxyPacket
-import io.netty.buffer.{ByteBufInputStream, Unpooled, ByteBufOutputStream}
+import io.netty.buffer.{ByteBufInputStream, ByteBufOutputStream, Unpooled}
 import net.minecraft.entity.Entity
 import net.minecraft.potion.PotionEffect
 import net.minecraft.server.MinecraftServer
@@ -63,10 +65,8 @@ object PacketUtil {
 	}
 
 	implicit class BBISUtil(val bbis: ByteBufInputStream) extends AnyVal {
-		/** @param ent Array of one element, used as a C++-style reference
-		  * @tparam T Type of element, the entity type (from World) needs to be assignable to it. Also uses cheeky code to force-feed the compiler cases, where `!(T =:= Entity)`, e.g. `T =:= EntityLivingBase`
-		  */
-		def >>[T](ent: Array[T])(implicit ev: Entity => T = {e: Entity => e.asInstanceOf[T]}) = {
+		/** @param ent Array of one element, used as a C++-style reference */
+		def >>(ent: Array[Entity]) = {
 			val dimensionId = bbis.readInt()
 			val entityId = bbis.readInt()
 
@@ -122,8 +122,26 @@ object PacketUtil {
 			bbis
 		}
 
+		/** @param f Array of one element, used as a C++-style reference */
+		def >>(f: Array[jFloat]) = {
+			val value = bbis.readFloat()
+
+			f(0) = value
+
+			bbis
+		}
+
 		/** @param d Array of one element, used as a C++-style reference */
 		def >>(d: Array[Double]) = {
+			val value = bbis.readDouble()
+
+			d(0) = value
+
+			bbis
+		}
+
+		/** @param d Array of one element, used as a C++-style reference */
+		def >>(d: Array[jDouble]) = {
 			val value = bbis.readDouble()
 
 			d(0) = value

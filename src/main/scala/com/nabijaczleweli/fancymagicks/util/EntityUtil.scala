@@ -1,5 +1,7 @@
 package com.nabijaczleweli.fancymagicks.util
 
+import java.lang.{Double => jDouble}
+
 import com.nabijaczleweli.fancymagicks.reference.Container
 import com.nabijaczleweli.fancymagicks.util.PacketUtil.BBOSUtil
 import net.minecraft.client.renderer.culling.{Frustrum, ICamera}
@@ -27,7 +29,7 @@ object EntityUtil {
 		else
 			sesd.spawn()
 
-	def dispatchVelocityChange(e: Entity, xChange: Double, yChange: Double, zChange: Double) =
+	def dispatchVelocityChange(e: Entity, xChange: jDouble, yChange: jDouble, zChange: jDouble) =
 		if(e != null)
 			if(e.worldObj.isRemote)
 				Container.channel sendToServer (PacketUtil packet PacketUtil.stream << "change-velocity" << e << xChange << yChange << zChange)

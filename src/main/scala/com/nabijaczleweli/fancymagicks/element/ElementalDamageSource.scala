@@ -1,5 +1,7 @@
 package com.nabijaczleweli.fancymagicks.element
 
+import java.lang.{Float => jFloat}
+
 import com.nabijaczleweli.fancymagicks.element.elements._
 import com.nabijaczleweli.fancymagicks.reference.{Container, Reference}
 import com.nabijaczleweli.fancymagicks.util.PacketUtil.BBOSUtil
@@ -40,9 +42,9 @@ object ElementalDamageSource extends IConfigurable {
 	var damageMultiplierForward = .2f
 
 	private def damages(elements: Seq[Element]) =
-		elements groupBy identity map {_._2} map {s => s.head -> s.size} map {p => elementsDamage(p._1) * p._2.toFloat}
+		(elements groupBy identity).values map {s => s.head -> s.size} map {p => elementsDamage(p._1) * p._2.toFloat}
 
-	def dispatchDamage(source: ElementalDamageSource, attackee: Entity, amount: Float) =
+	def dispatchDamage(source: ElementalDamageSource, attackee: Entity, amount: jFloat) =
 		if(attackee != null)
 			if(attackee.worldObj.isRemote)
 				Container.channel sendToServer (PacketUtil packet PacketUtil.stream << "deal-elemental-damage" << source << attackee << amount)
