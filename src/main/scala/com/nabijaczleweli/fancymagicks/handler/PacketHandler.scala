@@ -1,7 +1,7 @@
 package com.nabijaczleweli.fancymagicks.handler
 
-import java.lang.{Float => jFloat, Double => jDouble}
-import java.lang.reflect.{Array => jArray, InvocationTargetException}
+import java.lang.reflect.{Array => jArray, Method}
+import java.lang.{Double => jDouble, Float => jFloat}
 
 import com.nabijaczleweli.fancymagicks.element.ElementalDamageSource
 import com.nabijaczleweli.fancymagicks.potion.Potion
@@ -15,11 +15,14 @@ import io.netty.buffer.ByteBufInputStream
 import net.minecraft.entity.{Entity, EntityLivingBase}
 import net.minecraft.potion.PotionEffect
 
-import scala.collection.immutable.HashMap
+import scala.collection.immutable.{HashMap, HashSet}
+import scala.collection.mutable.{HashMap => mHashMap}
 import scala.reflect.runtime.ReflectionUtils
 
 object PacketHandler {
 	private var commands = HashMap.empty withDefault {cmd: String => {_: ByteBufInputStream => Container.log warn s"Unknown packet command: '$cmd'!"}}
+	private val loadedArgsCache = mHashMap.empty[Class[_], Method]
+	private val superclassed = HashSet(classOf[Entity])
 
 	commands += "apply-potion-effect" -> callable(Potion, "dispatchPotionEffect", classOf[PotionEffect], classOf[EntityLivingBase])
 	commands += "spawn-entity-simple" -> callable(EntityUtil, "dispachSimpleSpawn", classOf[SimpleEntitySpawnData])
@@ -37,45 +40,37 @@ object PacketHandler {
 	// Hic sunt dracones
 
 	/** Not usable with primitives */
-	private def loadedArgs(bbis: ByteBufInputStream, clazz: Class[_]*) = {
+	private def wrapInArray(size: Int, types: Class[_]*) =
+		types map {jArray.newInstance(_, 1)} map {_.asInstanceOf[Array[AnyRef]]}
+
+	/** Not usable with primitives */
+	private def loadedArgs(bbis: ByteBufInputStream, types: Class[_]*) = {
 		val util = BBISUtil(bbis)
-		clazz map {c =>
-			if(classOf[Entity] isAssignableFrom c)
-				classOf[Entity]
-			else
-				c
-		} map {jArray.newInstance(_, 1).asInstanceOf[Array[AnyRef]]} map {a => classOf[BBISUtil].getMethod("$greater$greater", a.getClass) -> a} map {t =>
-			try
-				t._1.invoke(util, t._2)
-			catch {
-				case ite: InvocationTargetException =>
-					throw ite.getTargetException
-			}
-			t._2
-		}
+		val wrapped = wrapInArray(1, types map {c => superclassed find {_ isAssignableFrom c} getOrElse c}: _*)
+		val wrappedTypes = wrapped map {_.getClass}
+		val cachedMethods = wrappedTypes map {t => loadedArgsCache.getOrElseUpdate(t, classOf[BBISUtil].getMethod("$greater$greater", t))}
+		for((m, a) <- cachedMethods zip wrapped)
+			m.invoke(util, a)
+		wrapped
 	}
 
 	/** Not usable with primitives */
-	private def callWithArgs(clazz: String, methodName: String, args: AnyRef*) {
-		val instance = ReflectionUtils.staticSingletonInstance(getClass.getClassLoader, clazz)
-		val method = instance.getClass.getMethods filter {_.getName == methodName} find {m =>
+	private def methodWithTypes(clazz: String, methodName: String, argTypes: Class[_]*) =
+		ReflectionUtils.staticSingletonInstance(getClass.getClassLoader, clazz).getClass.getMethods filter {_.getName == methodName} find {m =>
 			val partypes = m.getParameterTypes
-			val types = args map {_.getClass}
-			if(partypes.length != types.size)
+			if(partypes.length != argTypes.size)
 				false
-			else {
+			else { // Check if every arg is convertible to its counterpart or vice-versa
 				var allass = true
 				for(i <- 0 until partypes.length if allass)
-					allass = (types(i) isAssignableFrom partypes(i)) || (partypes(i) isAssignableFrom types(i))
+					allass = (argTypes(i) isAssignableFrom partypes(i)) || (partypes(i) isAssignableFrom argTypes(i))
 				allass
 			}
-		} getOrElse {throw new NoSuchMethodException}
-		method.invoke(instance, args: _*)
-	}
+		} getOrElse {throw new NoSuchMethodException(s"'$clazz.$methodName' is not callable with arguments of types: ${argTypes.mkString("[", ", ", "]")}")}
 
 	/** Not usable with primitives */
-	private def callable(instance: AnyRef, methodName: String, argTypes: Class[_]*)(bbis: ByteBufInputStream) {
-		argTypes find {classOf[Entity].isAssignableFrom}
-		callWithArgs(instance.getClass.getName, methodName, loadedArgs(bbis, argTypes: _*) map {_.head}: _*)
+	private def callable(instance: AnyRef, methodName: String, argTypes: Class[_]*): ByteBufInputStream => Unit = {
+		val method = methodWithTypes(instance.getClass.getName, methodName, argTypes: _*);
+		{bbis => method.invoke(instance, loadedArgs(bbis, argTypes: _*) map {_.head}: _*)}
 	}
 }

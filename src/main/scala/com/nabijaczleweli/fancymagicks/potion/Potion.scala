@@ -33,16 +33,12 @@ class Potion(bad: Boolean, color: Int, effect: (EntityLivingBase, Int) => Unit =
 }
 
 object Potion {
-	private lazy val modifiersField = {
-		val t = classOf[Field] getDeclaredField "modifiers"
-		t setAccessible true
-		t
-	}
+	private lazy val modifiersField = reflect ensureAccessible (classOf[Field] getDeclaredField "modifiers")
 
 	private lazy val potionTypesField =
 		classOf[mPotion].getDeclaredFields find {classOf[Array[mPotion]] isAssignableFrom _.getType} match {
 			case Some(f) =>
-				f setAccessible true
+				reflect ensureAccessible f
 				if((f.getModifiers & Modifier.FINAL) != 0)
 					modifiersField.setInt(f, f.getModifiers & ~Modifier.FINAL)
 				f

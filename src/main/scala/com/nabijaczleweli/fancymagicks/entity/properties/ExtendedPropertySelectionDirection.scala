@@ -25,8 +25,7 @@ object ExtendedPropertySelectionDirection {
 	private lazy val extendedPropertiesField =
 		classOf[Entity].getDeclaredFields find {classOf[jMap[String, IExtendedEntityProperties]] isAssignableFrom _.getType} match {
 			case Some(f) =>
-				f setAccessible true
-				f
+				reflect ensureAccessible f
 			case None =>
 				throw new NoSuchFieldException("Couldn\'t find field `extendedProperties` inside `Entity`! This indicates critical tampering!")
 		}
