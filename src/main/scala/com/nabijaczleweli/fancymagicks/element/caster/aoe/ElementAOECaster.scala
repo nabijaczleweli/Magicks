@@ -12,10 +12,9 @@ object ElementAOECaster extends ElementCasterBuilder[NoElementAOECaster] {
 			case Some(e) =>
 				e match {
 					case ElementEarth =>
-						//new ElementEarthAOECaster(who, elems)
-						new ElementProjectileAOECaster(who, elems)
+						new ElementEarthAOECaster(who, elems)
 					case ElementIce =>
-						new ElementProjectileAOECaster(who, elems)
+						new ElementIceAOECaster(who, elems)
 				}
 		}
 

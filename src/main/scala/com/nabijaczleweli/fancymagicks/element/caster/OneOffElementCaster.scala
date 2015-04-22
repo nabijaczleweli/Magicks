@@ -12,8 +12,10 @@ trait OneOffElementCaster extends ElementCaster {
 		isCast = false
 
 	override def continue() =
-		if(!isCast)
+		if(!isCast) {
 			cast()
+			isCast = true
+		}
 
 	override def end() =
 		isCast = true

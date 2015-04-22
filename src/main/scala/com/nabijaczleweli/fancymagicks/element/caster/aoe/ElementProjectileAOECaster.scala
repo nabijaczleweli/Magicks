@@ -2,15 +2,17 @@ package com.nabijaczleweli.fancymagicks.element.caster.aoe
 
 import com.nabijaczleweli.fancymagicks.element.ElementalDamageSource
 import com.nabijaczleweli.fancymagicks.element.caster.OneOffElementCaster
-import com.nabijaczleweli.fancymagicks.element.elements.{Element, ElementProjectile}
-import com.nabijaczleweli.fancymagicks.entity.EntityAOEIceSpike
-import com.nabijaczleweli.fancymagicks.util.{IConfigurable, EntityUtil}
-import com.nabijaczleweli.fancymagicks.util.EntityUtil.SimpleEntitySpawnData
+import com.nabijaczleweli.fancymagicks.element.elements.Element
+import com.nabijaczleweli.fancymagicks.util.{EntityUtil, IConfigurable}
 import net.minecraft.entity.Entity
 import net.minecraftforge.common.config.Configuration
 
-class ElementProjectileAOECaster(who: Entity, elems: Seq[Element]) extends OneOffElementCaster {
-	private lazy val force = elems count {classOf[ElementProjectile] isAssignableFrom _.getClass}
+abstract class ElementProjectileAOECaster(who: Entity, elems: Seq[Element]) extends OneOffElementCaster {
+	private lazy val force = elems count {elementClass isAssignableFrom _.getClass}
+
+	def elementClass: Class[_ <: Element]
+	/** World is assumed to be `who.worldObj`*/
+	def doVisualEffect(x: Double, y: Double, z: Double): Unit
 
 	override protected def cast() {
 		for(e <- EntityUtil.entitiesInRadius[Entity](who, force * ElementProjectileAOECaster.rangeForceMul))
@@ -21,10 +23,10 @@ class ElementProjectileAOECaster(who: Entity, elems: Seq[Element]) extends OneOf
 			val modT = i * math.Pi * 2 / ElementProjectileAOECaster.dissections
 			val modX = outer * (math cos modT)
 			val modY = outer * (math sin modT)
-			EntityUtil dispachSimpleSpawn SimpleEntitySpawnData(classOf[EntityAOEIceSpike], who.worldObj, who.posX + modX, baseY, who.posZ + modY)
-			EntityUtil dispachSimpleSpawn SimpleEntitySpawnData(classOf[EntityAOEIceSpike], who.worldObj, who.posX + modX, baseY, who.posZ - modY)
-			EntityUtil dispachSimpleSpawn SimpleEntitySpawnData(classOf[EntityAOEIceSpike], who.worldObj, who.posX - modX, baseY, who.posZ + modY)
-			EntityUtil dispachSimpleSpawn SimpleEntitySpawnData(classOf[EntityAOEIceSpike], who.worldObj, who.posX - modX, baseY, who.posZ - modY)
+			doVisualEffect(who.posX + modX, baseY, who.posZ + modY)
+			doVisualEffect(who.posX + modX, baseY, who.posZ - modY)
+			doVisualEffect(who.posX - modX, baseY, who.posZ + modY)
+			doVisualEffect(who.posX - modX, baseY, who.posZ - modY)
 		}
 	}
 }
