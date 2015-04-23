@@ -18,7 +18,7 @@ class ElementEarthAOECaster(who: Entity, elems: Seq[Element]) extends ElementPro
 		def movement =
 			ElementEarthAOECaster.random.nextFloat() * randNeg(.5)
 
-		for(i <- 0 until ElementEarthAOECaster.particlesPerSummon)
+		for(_ <- 0 until ElementEarthAOECaster.particlesPerSummon)
 			who.worldObj.spawnParticle("smoke", x + .5 + offset, y + .3, z + .5 + offset, movement, 0, movement)
 	}
 }

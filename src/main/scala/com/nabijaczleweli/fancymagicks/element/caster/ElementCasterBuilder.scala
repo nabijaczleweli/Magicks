@@ -1,11 +1,13 @@
 package com.nabijaczleweli.fancymagicks.element.caster
 
+import java.lang.reflect.Constructor
+
 import com.nabijaczleweli.fancymagicks.element.elements.{ElementEarth, ElementProjectile, Element}
 import net.minecraft.entity.Entity
 
-abstract class ElementCasterBuilder[NoElementType >: Null <: ElementCaster : Manifest] {
-	private lazy val noConstructor = implicitly[Manifest[NoElementType]].runtimeClass.asInstanceOf[Class[NoElementType]] getConstructor classOf[Entity]
+import scala.collection.mutable.{HashMap => mHashMap, Map => mMap}
 
+abstract class ElementCasterBuilder[NoElementType >: Null <: ElementCaster : Manifest] {
 	protected type LeadsType = Map[Class[_ <: Element], (Entity, Seq[Element]) => ElementCaster]
 
 	protected def leads: LeadsType
@@ -13,15 +15,17 @@ abstract class ElementCasterBuilder[NoElementType >: Null <: ElementCaster : Man
 	def apply(who: Entity, elems: Seq[Element]) =
 		elems.sorted match {
 			case Nil =>
-				noConstructor newInstance who
+				ElementCasterBuilder.simplyConstruct[NoElementType](who, elems)
 			case selems =>
 				(leads find {_._1 isAssignableFrom elems.head.getClass} map {_._2} getOrElse ElementCasterBuilder.simplyConstruct[NoElementType] _)(who, selems)
 		}
 }
 
 private[element] object ElementCasterBuilder {
+	private val constructCache: mMap[Manifest[_], Constructor[_]] = new mHashMap
+
 	def simplyConstruct[T >: Null <: ElementCaster : Manifest](who: Entity, elems: Seq[Element]) =
-		implicitly[Manifest[T]].runtimeClass.asInstanceOf[Class[T]].getConstructor(classOf[Entity], classOf[Seq[Element]]).newInstance(who, elems)
+		constructCache.getOrElseUpdate(implicitly[Manifest[T]], implicitly[Manifest[T]].runtimeClass.asInstanceOf[Class[T]].getConstructor(classOf[Entity], classOf[Seq[Element]])).newInstance(who, elems).asInstanceOf[T]
 
 	def simpleLead[TE >: Null <: Element : Manifest, TEC >: Null <: ElementCaster : Manifest] =
 		implicitly[Manifest[TE]].runtimeClass.asInstanceOf[Class[TE]] -> simplyConstruct[TEC] _

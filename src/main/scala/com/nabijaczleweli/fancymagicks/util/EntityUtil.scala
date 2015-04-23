@@ -2,10 +2,12 @@ package com.nabijaczleweli.fancymagicks.util
 
 import java.lang.{Double => jDouble}
 
+import com.nabijaczleweli.fancymagicks.element.elements.Element
 import com.nabijaczleweli.fancymagicks.reference.Container
 import com.nabijaczleweli.fancymagicks.util.PacketUtil.BBOSUtil
 import net.minecraft.client.renderer.culling.{Frustrum, ICamera}
 import net.minecraft.command.IEntitySelector
+import net.minecraft.entity.projectile.EntityThrowable
 import net.minecraft.entity.{Entity, EntityLivingBase}
 import net.minecraft.util.{AxisAlignedBB, MathHelper}
 import net.minecraft.world.World
@@ -23,11 +25,26 @@ object EntityUtil {
 		}
 	}
 
-	def dispachSimpleSpawn(sesd: SimpleEntitySpawnData) =
+	case class ElementalThrowableEntitySpawnData(entityClass: Class[_ <: EntityThrowable with IElemental], thrower: EntityLivingBase, elems: Seq[Element]) {
+		def spawn() = {
+			val entity = entityClass.getConstructor(classOf[World], classOf[EntityLivingBase], classOf[Seq[Element]]).newInstance(thrower.worldObj, thrower, elems)
+			entity.elems = elems
+			thrower.worldObj spawnEntityInWorld entity
+			entity
+		}
+	}
+
+	def dispatchSimpleSpawn(sesd: SimpleEntitySpawnData) =
 		if(sesd.world.isRemote)
 			Container.channel sendToServer (PacketUtil packet PacketUtil.stream << "spawn-entity-simple" << sesd)
 		else
 			sesd.spawn()
+
+	def dispatchElementalThrowableSpawn(etesd: ElementalThrowableEntitySpawnData) =
+		if(etesd.thrower.worldObj.isRemote)
+			Container.channel sendToServer (PacketUtil packet PacketUtil.stream << "spawn-entity-elemental-throwable" << etesd)
+		else
+			etesd.spawn()
 
 	def dispatchVelocityChange(e: Entity, xChange: jDouble, yChange: jDouble, zChange: jDouble) =
 		if(e != null)

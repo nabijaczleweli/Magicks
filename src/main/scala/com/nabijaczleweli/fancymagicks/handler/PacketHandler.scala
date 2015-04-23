@@ -7,7 +7,7 @@ import com.nabijaczleweli.fancymagicks.element.ElementalDamageSource
 import com.nabijaczleweli.fancymagicks.potion.Potion
 import com.nabijaczleweli.fancymagicks.reference.Container
 import com.nabijaczleweli.fancymagicks.util.EntityUtil
-import com.nabijaczleweli.fancymagicks.util.EntityUtil.SimpleEntitySpawnData
+import com.nabijaczleweli.fancymagicks.util.EntityUtil.{ElementalThrowableEntitySpawnData, SimpleEntitySpawnData}
 import com.nabijaczleweli.fancymagicks.util.PacketUtil.BBISUtil
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent
@@ -15,17 +15,18 @@ import io.netty.buffer.ByteBufInputStream
 import net.minecraft.entity.{Entity, EntityLivingBase}
 import net.minecraft.potion.PotionEffect
 
-import scala.collection.immutable.{HashMap, HashSet}
+import scala.collection.immutable.HashMap
 import scala.collection.mutable.{HashMap => mHashMap}
 import scala.reflect.runtime.ReflectionUtils
 
 object PacketHandler {
 	private var commands = HashMap.empty withDefault {cmd: String => {_: ByteBufInputStream => Container.log warn s"Unknown packet command: '$cmd'!"}}
 	private val loadedArgsCache = mHashMap.empty[Class[_], Method]
-	private val superclassed = HashSet(classOf[Entity])
+	private val superclassed = Set(classOf[Entity])
 
 	commands += "apply-potion-effect" -> callable(Potion, "dispatchPotionEffect", classOf[PotionEffect], classOf[EntityLivingBase])
-	commands += "spawn-entity-simple" -> callable(EntityUtil, "dispachSimpleSpawn", classOf[SimpleEntitySpawnData])
+	commands += "spawn-entity-simple" -> callable(EntityUtil, "dispatchSimpleSpawn", classOf[SimpleEntitySpawnData])
+	commands += "spawn-entity-elemental-throwable" -> callable(EntityUtil, "dispatchElementalThrowableSpawn", classOf[ElementalThrowableEntitySpawnData])
 	commands += "deal-elemental-damage" -> callable(ElementalDamageSource, "dispatchDamage", classOf[ElementalDamageSource], classOf[Entity], classOf[jFloat])
 	commands += "change-velocity" -> callable(EntityUtil, "dispatchVelocityChange", classOf[Entity], classOf[jDouble], classOf[jDouble], classOf[jDouble])
 

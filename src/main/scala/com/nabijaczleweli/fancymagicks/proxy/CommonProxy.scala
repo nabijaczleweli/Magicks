@@ -1,9 +1,9 @@
 package com.nabijaczleweli.fancymagicks.proxy
 
 import com.nabijaczleweli.fancymagicks.FancyMagicks
-import com.nabijaczleweli.fancymagicks.element.elements.{ElementLife, ElementLightning, ElementFire, ElementCold}
-import com.nabijaczleweli.fancymagicks.entity.{EntityAOEIceSpike, EntityBugs, EntitySpiritTree}
-import com.nabijaczleweli.fancymagicks.handler.{PacketHandler, EntityHandler}
+import com.nabijaczleweli.fancymagicks.element.elements.{ElementCold, ElementFire, ElementLife, ElementLightning}
+import com.nabijaczleweli.fancymagicks.entity.{EntityAOEIceSpike, EntityBugs, EntityEarthBall, EntitySpiritTree}
+import com.nabijaczleweli.fancymagicks.handler.{EntityHandler, PacketHandler}
 import com.nabijaczleweli.fancymagicks.item.ItemStaff
 import com.nabijaczleweli.fancymagicks.potion.{Potion, PotionDamageAura, PotionDeflectAura, PotionImmunityAura}
 import com.nabijaczleweli.fancymagicks.reference.Container
@@ -35,6 +35,7 @@ class CommonProxy extends IProxy {
 		EntityRegistry.registerModEntity(classOf[EntityBugs], "bugs", id, FancyMagicks, 32, 5, true) // Last 3 arguments stolen from SlimeKinghts
 		EntityRegistry.registerModEntity(classOf[EntitySpiritTree], "spiritTree", id, FancyMagicks, 32, 5, true) // Last 3 arguments stolen from SlimeKinghts
 		EntityRegistry.registerModEntity(classOf[EntityAOEIceSpike], "AOEIceSpike", id, FancyMagicks, 32, 5, true) // Last 3 arguments stolen from SlimeKinghts
+		EntityRegistry.registerModEntity(classOf[EntityEarthBall], "earthBall", id, FancyMagicks, 32, 5, true) // Last 3 arguments stolen from SlimeKinghts
 	}
 
 	override def registerKeyBindings() {}

@@ -51,6 +51,6 @@ object EntityBugs {
 	def defaultSummon(inFrontOf: EntityLivingBase) {
 		val pos = EntityUtil.rayTraceCoords(inFrontOf, 10)
 		val data = SimpleEntitySpawnData(classOf[EntityBugs], inFrontOf.worldObj, pos.xCoord, pos.yCoord, pos.zCoord)
-		EntityUtil dispachSimpleSpawn data
+		EntityUtil dispatchSimpleSpawn data
 	}
 }

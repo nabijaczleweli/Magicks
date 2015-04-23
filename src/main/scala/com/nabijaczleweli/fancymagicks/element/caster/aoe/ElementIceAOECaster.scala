@@ -10,5 +10,5 @@ class ElementIceAOECaster(who: Entity, elems: Seq[Element]) extends ElementProje
 	override val elementClass = ElementIce.getClass
 
 	def doVisualEffect(x: Double, y: Double, z: Double) =
-		EntityUtil dispachSimpleSpawn SimpleEntitySpawnData(classOf[EntityAOEIceSpike], who.worldObj, x, y, z)
+		EntityUtil dispatchSimpleSpawn SimpleEntitySpawnData(classOf[EntityAOEIceSpike], who.worldObj, x, y, z)
 }

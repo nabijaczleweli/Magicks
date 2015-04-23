@@ -5,10 +5,11 @@ import java.lang.{Double => jDouble, Float => jFloat}
 import com.nabijaczleweli.fancymagicks.element.ElementalDamageSource
 import com.nabijaczleweli.fancymagicks.element.elements.Element
 import com.nabijaczleweli.fancymagicks.reference.Reference
-import com.nabijaczleweli.fancymagicks.util.EntityUtil.SimpleEntitySpawnData
+import com.nabijaczleweli.fancymagicks.util.EntityUtil.{ElementalThrowableEntitySpawnData, SimpleEntitySpawnData}
 import cpw.mods.fml.common.network.internal.FMLProxyPacket
 import io.netty.buffer.{ByteBufInputStream, ByteBufOutputStream, Unpooled}
-import net.minecraft.entity.Entity
+import net.minecraft.entity.{EntityLivingBase, Entity}
+import net.minecraft.entity.projectile.EntityThrowable
 import net.minecraft.potion.PotionEffect
 import net.minecraft.server.MinecraftServer
 
@@ -45,11 +46,23 @@ object PacketUtil {
 			bbos
 		}
 
+		def <<(etesd: ElementalThrowableEntitySpawnData): ByteBufOutputStream = {
+			bbos writeUTF etesd.entityClass.getName
+			<<(etesd.thrower)
+			<<(etesd.elems)
+			bbos
+		}
+
+		def <<(elems: Seq[Element]) = {
+			bbos writeInt elems.size
+			for(elem <- elems)
+				bbos writeUTF elem.getClass.getName
+			bbos
+		}
+
 		def <<(eds: ElementalDamageSource): ByteBufOutputStream = {
 			<<(eds.getEntity)
-			bbos writeInt eds.elements.size
-			for(element <- eds.elements)
-				bbos writeUTF element.getClass.getName
+			<<(eds.elements)
 			bbos
 		}
 
@@ -101,14 +114,38 @@ object PacketUtil {
 			bbis
 		}
 
+		/** @param etesd Array of one element, used as a C++-style reference */
+		def >>(etesd: Array[ElementalThrowableEntitySpawnData]): ByteBufInputStream = {
+			val className = bbis.readUTF()
+			val thrower = new Array[Entity](1)
+			>>(thrower)
+			val elems = new Array[Seq[Element]](1)
+			>>(elems)
+
+			etesd(0) = ElementalThrowableEntitySpawnData((Class forName className asSubclass classOf[EntityThrowable]).asInstanceOf[Class[EntityThrowable with IElemental]],
+			                                             thrower.head.asInstanceOf[EntityLivingBase], elems.head)
+
+			bbis
+		}
+
+		/** @param elems Array of one element, used as a C++-style reference */
+		def >>(elems: Array[Seq[Element]]) = {
+			val amount = bbis.readInt()
+			val elements = (0 until amount) map {_ => bbis.readUTF()} map Class.forName map ReflectionUtils.staticSingletonInstance map {_.asInstanceOf[Element]}
+
+			elems(0) = elements
+
+			bbis
+		}
+
 		/** @param eds Array of one element, used as a C++-style reference */
 		def >>(eds: Array[ElementalDamageSource]): ByteBufInputStream = {
 			val entity = new Array[Entity](1)
 			>>(entity)
-			val amount = bbis.readInt()
-			val elements = (0 until amount) map {_ => bbis.readUTF()} map Class.forName map ReflectionUtils.staticSingletonInstance map {_.asInstanceOf[Element]}
+			val elements = new Array[Seq[Element]](1)
+			>>(elements)
 
-			eds(0) = new ElementalDamageSource(entity(0), elements)
+			eds(0) = new ElementalDamageSource(entity(0), elements.head)
 
 			bbis
 		}
