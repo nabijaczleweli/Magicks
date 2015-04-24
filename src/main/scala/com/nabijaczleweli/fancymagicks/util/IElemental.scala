@@ -3,5 +3,6 @@ package com.nabijaczleweli.fancymagicks.util
 import com.nabijaczleweli.fancymagicks.element.elements.Element
 
 trait IElemental {
-	var elems: Seq[Element]
+	def elems: Seq[Element]
+	def elems_=(newelems: Seq[Element]): Unit
 }

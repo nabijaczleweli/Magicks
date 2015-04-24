@@ -1,25 +1,41 @@
 package com.nabijaczleweli.fancymagicks.entity
 
 import com.nabijaczleweli.fancymagicks.element.ElementalDamageSource
-import com.nabijaczleweli.fancymagicks.element.elements.{ElementEarth, Element}
+import com.nabijaczleweli.fancymagicks.element.elements.{Element, ElementEarth}
 import com.nabijaczleweli.fancymagicks.util.IElemental
+import com.nabijaczleweli.fancymagicks.util.PacketUtil.{BBISUtil, BBOSUtil}
+import cpw.mods.fml.common.registry.{IEntityAdditionalSpawnData, IThrowableEntity}
+import cpw.mods.fml.relauncher.Side
+import io.netty.buffer.{ByteBufOutputStream, ByteBuf, ByteBufInputStream}
 import net.minecraft.block.Block
-import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.projectile.EntityThrowable
+import net.minecraft.entity.{Entity, EntityLivingBase}
 import net.minecraft.init.Blocks
 import net.minecraft.util.MovingObjectPosition
 import net.minecraft.world.World
 
 import scala.util.Random
 
-class EntityEarthBall(world: World, var elems: Seq[Element]) extends EntityThrowable(world) with IElemental {
-	/** `def` here, because `elems` will be set at seemingly random times */
-	private def force =
-		elems count {_ == ElementEarth}
+class EntityEarthBall(world: World) extends EntityThrowable(world) with IEntityAdditionalSpawnData with IThrowableEntity with IElemental {
+	private var force: Int = _
+	private var _elems = Seq.empty[Element]
+
+	def elems =
+		_elems
+
+	def elems_=(elems: Seq[Element]) {
+		_elems = elems
+		force = _elems count {_ == ElementEarth}
+		setSize(force, force)
+		println(s"$this ${if(worldObj.isRemote) Side.CLIENT else Side.SERVER}: $force: $elems")
+		dataWatcher.getAllWatched
+	}
 
 	/** To satisfy `EntitySpawnHadler` */
-	def this(world: World) =
-		this(world, Nil)
+	def this(world: World, elems: Seq[Element]) {
+		this(world)
+		this.elems = elems
+	}
 
 	/** Slightly modified constructors from EntityThrowable, since scala can't call different constructors */
 	def this(world: World, elb: EntityLivingBase, elems: Seq[Element]) {
@@ -46,11 +62,6 @@ class EntityEarthBall(world: World, var elems: Seq[Element]) extends EntityThrow
 	}
 
 
-	override def onEntityUpdate() {
-		setSize(force * width, force * height)
-		super.onEntityUpdate()
-	}
-
 	override def onImpact(mop: MovingObjectPosition) {
 		if(mop.entityHit != null)
 			mop.entityHit.attackEntityFrom(new ElementalDamageSource(getThrower, elems), ElementalDamageSource damageForward elems)
@@ -63,6 +74,23 @@ class EntityEarthBall(world: World, var elems: Seq[Element]) extends EntityThrow
 	}
 
 	override val getGravityVelocity = super.getGravityVelocity / 10
+
+	override def setThrower(entity: Entity) =
+		thrower = entity.asInstanceOf[EntityLivingBase]
+
+	override def readSpawnData(additionalData: ByteBuf) {
+		val bbis = new ByteBufInputStream(additionalData)
+
+		val newelems = new Array[Seq[Element]](1)
+		bbis >> newelems
+		elems = newelems.head
+	}
+
+	override def writeSpawnData(buffer: ByteBuf) {
+		val bbos = new ByteBufOutputStream(buffer)
+
+		bbos << elems
+	}
 }
 
 object EntityEarthBall {
