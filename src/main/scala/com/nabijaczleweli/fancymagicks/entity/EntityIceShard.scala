@@ -1,11 +1,11 @@
 package com.nabijaczleweli.fancymagicks.entity
 
-import com.nabijaczleweli.fancymagicks.element.elements.{ElementEarth, Element}
+import com.nabijaczleweli.fancymagicks.element.elements.{Element, ElementIce}
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.init.Blocks
 import net.minecraft.world.World
 
-class EntityEarthBall(world: World) extends EntityForwardElementalProjectile(world) {
+class EntityIceShard(world: World) extends EntityForwardElementalProjectile(world) {
 	def this(world: World, elems: Seq[Element]) {
 		this(world)
 		init(elems)
@@ -22,11 +22,11 @@ class EntityEarthBall(world: World) extends EntityForwardElementalProjectile(wor
 	}
 
 	override protected def particleBlock =
-		Blocks.dirt
+		Blocks.ice
 
 	override protected def particleColor =
 		0xFFFFFF
 
 	override protected def primaryElement =
-		ElementEarth
+		ElementIce
 }

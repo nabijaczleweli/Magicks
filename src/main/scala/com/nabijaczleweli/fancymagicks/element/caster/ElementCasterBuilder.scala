@@ -30,6 +30,9 @@ private[element] object ElementCasterBuilder {
 	def simpleLead[TE >: Null <: Element : Manifest, TEC >: Null <: ElementCaster : Manifest] =
 		implicitly[Manifest[TE]].runtimeClass.asInstanceOf[Class[TE]] -> simplyConstruct[TEC] _
 
+	def simpleLead[TEC >: Null <: ElementCaster : Manifest](element: Element) =
+		element.getClass -> simplyConstruct[TEC] _
+
 	def projectileGroup(elems: Seq[Element]) =
 		elems groupBy {_.isInstanceOf[ElementProjectile]} withDefaultValue Nil apply true sortWith {(lhs, rhs) => lhs == ElementEarth && rhs != ElementEarth}
 }
