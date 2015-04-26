@@ -70,3 +70,4 @@ death.attack.fancymagicks:elements.player.listed=%1$s was killed by high-velocit
 entity.fancymagicks.AOEIceSpike.name=Ice spike
 entity.fancymagicks.bugs.name=Bugs
 entity.fancymagicks.spiritTree.name=Tree spirit
+entity.fancymagicks.earthBall.name=Earth ball

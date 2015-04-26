@@ -21,12 +21,9 @@ class EntityEarthBall(world: World) extends EntityForwardElementalProjectile(wor
 		init(xPos, yPos, zPos, elems)
 	}
 
-	override protected def particleBlock =
-		Blocks.dirt
-
-	override protected def particleColor =
-		0xFFFFFF
-
-	override protected def primaryElement =
-		ElementEarth
+	override protected val particleBlock = Blocks.dirt
+	override protected val particleColor = 0xFFFFFF
+	override protected val primaryElement = ElementEarth
+	override protected val baseWidth = 12F / 16F
+	override protected val baseHeight = baseWidth
 }

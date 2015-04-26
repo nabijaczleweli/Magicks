@@ -19,9 +19,11 @@ abstract class EntityForwardElementalProjectile(world: World) extends EntityThro
 	protected def particleBlock: Block
 	protected def particleColor: Int
 	protected def primaryElement: Element
+	protected def baseWidth: Float
+	protected def baseHeight: Float
 
 
-	protected var force: Int = _
+	var force: Int = _
 	private var _elems = Seq.empty[Element]
 
 	def elems =
@@ -30,7 +32,7 @@ abstract class EntityForwardElementalProjectile(world: World) extends EntityThro
 	def elems_=(elems: Seq[Element]) {
 		_elems = elems
 		force = _elems count {_ == primaryElement}
-		setSize(force, force)
+		setSize(force * baseWidth, force * baseHeight)
 		println(s"$this ${if(worldObj.isRemote) Side.CLIENT else Side.SERVER}: $force: $elems")
 	}
 

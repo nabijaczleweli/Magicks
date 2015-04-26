@@ -21,12 +21,9 @@ class EntityIceShard(world: World) extends EntityForwardElementalProjectile(worl
 		init(xPos, yPos, zPos, elems)
 	}
 
-	override protected def particleBlock =
-		Blocks.ice
-
-	override protected def particleColor =
-		0xFFFFFF
-
-	override protected def primaryElement =
-		ElementIce
+	override protected val particleBlock = Blocks.ice
+	override protected val particleColor = 0xFFFFFF
+	override protected val primaryElement = ElementIce
+	override protected val baseHeight = 1F //TODO: Add dims based on model
+	override protected val baseWidth = 1F //TODO: Add dims based on model
 }

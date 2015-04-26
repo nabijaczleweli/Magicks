@@ -1,10 +1,10 @@
 package com.nabijaczleweli.fancymagicks.proxy
 
-import com.nabijaczleweli.fancymagicks.entity.{EntityAOEIceSpike, EntitySpiritTree, EntityBugs}
+import com.nabijaczleweli.fancymagicks.entity._
 import com.nabijaczleweli.fancymagicks.handler.KeyHandler
 import com.nabijaczleweli.fancymagicks.item.ItemStaff
 import com.nabijaczleweli.fancymagicks.reference.Container
-import com.nabijaczleweli.fancymagicks.render.entity.{RenderAOEIceSpike, RenderSpiritTree, RenderBugs}
+import com.nabijaczleweli.fancymagicks.render.entity._
 import com.nabijaczleweli.fancymagicks.render.item.ItemStaffRenderer
 import com.nabijaczleweli.fancymagicks.render.model.TechneModelLoader
 import cpw.mods.fml.client.registry.{RenderingRegistry, ClientRegistry}
@@ -34,5 +34,6 @@ class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityBugs], RenderBugs)
 		RenderingRegistry.registerEntityRenderingHandler(classOf[EntitySpiritTree], RenderSpiritTree)
 		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityAOEIceSpike], RenderAOEIceSpike)
+		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityEarthBall], RenderEarthBall)
 	}
 }
