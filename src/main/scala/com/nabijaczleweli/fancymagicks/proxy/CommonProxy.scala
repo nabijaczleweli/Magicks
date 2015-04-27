@@ -36,7 +36,7 @@ class CommonProxy extends IProxy {
 		EntityRegistry.registerModEntity(classOf[EntitySpiritTree], "spiritTree", id, FancyMagicks, 32, 5, true) // Last 3 arguments stolen from SlimeKinghts
 		EntityRegistry.registerModEntity(classOf[EntityAOEIceSpike], "AOEIceSpike", id, FancyMagicks, 32, 5, true) // Last 3 arguments stolen from SlimeKinghts
 		EntityRegistry.registerModEntity(classOf[EntityEarthBall], "earthBall", id, FancyMagicks, 32, 5, true) // Last 3 arguments stolen from SlimeKinghts
-		EntityRegistry.registerModEntity(classOf[EntityIceShard], "iceSpike", id, FancyMagicks, 32, 5, true) // Last 3 arguments stolen from SlimeKinghts
+		EntityRegistry.registerModEntity(classOf[EntityIceShard], "iceShard", id, FancyMagicks, 32, 5, true) // Last 3 arguments stolen from SlimeKinghts
 	}
 
 	override def registerKeyBindings() {}

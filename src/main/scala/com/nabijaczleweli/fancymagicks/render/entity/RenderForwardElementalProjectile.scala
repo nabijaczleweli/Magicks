@@ -9,9 +9,9 @@ import net.minecraftforge.client.model.AdvancedModelLoader
 import org.lwjgl.opengl.GL11._
 
 @SideOnly(Side.CLIENT)
-object RenderEarthBall extends Render {
-	private lazy val entityTexture = ResourceLocationFancyMagicks("textures/entity/earth_ball.png")
-	private lazy val model = AdvancedModelLoader loadModel ResourceLocationFancyMagicks("models/entity/earth_ball.tcn")
+class RenderForwardElementalProjectile(name: String) extends Render {
+	private lazy val entityTexture = ResourceLocationFancyMagicks(s"textures/entity/$name.png")
+	private lazy val model = AdvancedModelLoader loadModel ResourceLocationFancyMagicks(s"models/entity/$name.tcn")
 
 	override def doRender(_entity: Entity, x: Double, y: Double, z: Double, f0: Float, partialTickTime: Float) {
 		val entity = _entity.asInstanceOf[EntityForwardElementalProjectile]
@@ -21,6 +21,8 @@ object RenderEarthBall extends Render {
 			bindEntityTexture(entity)
 
 			glScalef(entity.force, entity.force, entity.force)
+			glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTickTime, 0, 1, 0) // Slightly modified version of EntityArrow's rotation algo
+			glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTickTime, 0, 0, 1)
 			model.renderAll()
 		glPopMatrix()
 	}

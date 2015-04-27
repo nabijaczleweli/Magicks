@@ -34,6 +34,7 @@ class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityBugs], RenderBugs)
 		RenderingRegistry.registerEntityRenderingHandler(classOf[EntitySpiritTree], RenderSpiritTree)
 		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityAOEIceSpike], RenderAOEIceSpike)
-		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityEarthBall], RenderEarthBall)
+		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityEarthBall], new RenderForwardElementalProjectile("earth_ball"))
+		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityIceShard], new RenderForwardElementalProjectile("ice_shard"))
 	}
 }
