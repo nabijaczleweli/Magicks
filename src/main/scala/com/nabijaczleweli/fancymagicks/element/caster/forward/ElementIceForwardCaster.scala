@@ -5,7 +5,6 @@ import com.nabijaczleweli.fancymagicks.entity.EntityIceShard
 import net.minecraft.entity.Entity
 
 class ElementIceForwardCaster(who: Entity, elems: Seq[Element]) extends ElementProjectileForwardCaster(who, elems) {
-	 override val elementClass = ElementIce.getClass
-
-	 override def entityClass = classOf[EntityIceShard]
- }
+	override val elementClass = ElementIce.getClass
+	override val entityClass = classOf[EntityIceShard]
+}

@@ -117,7 +117,3 @@ abstract class EntityForwardElementalProjectile(world: World) extends EntityThro
 object EntityForwardElementalProjectile {
 	protected val rand = new Random
 }
-
-
-
-

@@ -14,8 +14,7 @@ object CreativeTabFancyMagicks extends CreativeTabs("fancymagicks") {
 	private var stack: ItemStack = _
 
 	@SideOnly(Side.CLIENT)
-	override def getTabIconItem =
-		ItemStaff
+	override val getTabIconItem = ItemStaff
 
 	@SideOnly(Side.CLIENT)
 	override def getIconItemStack =

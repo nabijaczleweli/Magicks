@@ -21,8 +21,7 @@ class EntityBugs(world: World) extends EntityCreature(world) with IMob {
 	//TODO: get the AI working (it works a little bit, doesn't attack anything, though)
 
 
-	override def isAIEnabled =
-		true
+	override val isAIEnabled = true
 
 	override def attackEntity(entity: Entity, distance: Float) =
 		if(attackTime <= 0 && distance < 2F && entity.boundingBox.maxY > boundingBox.minY && entity.boundingBox.minY < boundingBox.maxY) {

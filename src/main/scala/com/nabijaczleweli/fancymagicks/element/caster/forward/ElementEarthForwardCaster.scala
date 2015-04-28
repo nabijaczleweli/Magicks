@@ -6,6 +6,5 @@ import net.minecraft.entity.Entity
 
 class ElementEarthForwardCaster(who: Entity, elems: Seq[Element]) extends ElementProjectileForwardCaster(who, elems) {
 	override val elementClass = ElementEarth.getClass
-
-	override def entityClass = classOf[EntityEarthBall]
+	override val entityClass = classOf[EntityEarthBall]
 }

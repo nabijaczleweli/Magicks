@@ -41,7 +41,7 @@ object ItemStaff extends Item with IConfigurable {
 			}
 
 	def staff(stack: ItemStack) =
-		(staffType(stack) map {StaffTypeRegistry.get}).flatten
+		staffType(stack) flatMap {StaffTypeRegistry.get}
 
 	def executeActiveAbility(player: EntityPlayer) =
 		staff(player.getHeldItem) match {

@@ -6,13 +6,11 @@ abstract class ElementSpray extends Element {
 	override def prioritizesOver(element: Element) =
 		false
 
-	override def elementType =
-		Some(ElementType.spray)
+	override val elementType = Some(ElementType.spray)
 }
 
 object ElementCold extends ElementSpray {
-	override def opposites =
-		ElementFire :: Nil
+	override val opposites = ElementFire :: Nil
 
 	override def synergize(`with`: Element) =
 		`with` match {
@@ -22,13 +20,11 @@ object ElementCold extends ElementSpray {
 				None
 		}
 
-	override def colour =
-		0xADD6F2
+	override val colour = 0xADD6F2
 }
 
 object ElementFire extends ElementSpray {
-	override def opposites =
-		ElementCold :: Nil
+	override val opposites = ElementCold :: Nil
 
 	override def synergize(`with`: Element) =
 		`with` match {
@@ -38,16 +34,14 @@ object ElementFire extends ElementSpray {
 				None
 		}
 
-	override def colour =
-		0xFF7D29
+	override val colour = 0xFF7D29
 }
 
 object ElementSteam extends ElementSpray {
 	override def prioritizesOver(element: Element) =
-		element == ElementLightning || element.elementType == Some(ElementType.spray)
+		element == ElementLightning || (element.elementType contains ElementType.spray)
 
-	override def opposites =
-		Nil
+	override val opposites = Nil
 
 	override def synergize(`with`: Element) =
 		`with` match {
@@ -57,13 +51,11 @@ object ElementSteam extends ElementSpray {
 				None
 		}
 
-	override def colour =
-		0xAFAFAF
+	override val colour = 0xAFAFAF
 }
 
 object ElementWater extends ElementSpray {
-	override def opposites =
-		ElementLightning :: Nil
+	override val opposites = ElementLightning :: Nil
 
 	override def synergize(`with`: Element) =
 		`with` match {
@@ -73,6 +65,5 @@ object ElementWater extends ElementSpray {
 				None
 		}
 
-	override def colour =
-		0x005BE0
+	override val colour = 0x005BE0
 }

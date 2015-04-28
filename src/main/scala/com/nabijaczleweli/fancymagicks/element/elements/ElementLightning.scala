@@ -3,12 +3,10 @@ package com.nabijaczleweli.fancymagicks.element.elements
 import com.nabijaczleweli.fancymagicks.element.ElementType
 
 object ElementLightning extends Element {
-	override def opposites =
-		ElementWater :: ElementEarth :: Nil
+	override val opposites = ElementWater :: ElementEarth :: Nil
 
 	override def prioritizesOver(element: Element) =
-		element.elementType == Some(ElementType.spray) && element != ElementSteam
+		(element.elementType contains ElementType.spray) && element != ElementSteam
 
-	override def colour =
-		0xA030D0
+	override val colour = 0xA030D0
 }

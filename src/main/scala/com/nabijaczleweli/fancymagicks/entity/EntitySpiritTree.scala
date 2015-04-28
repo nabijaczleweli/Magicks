@@ -17,8 +17,7 @@ class EntitySpiritTree(world: World) extends EntityAnimal(world) {
 	override def createChild(entity: EntityAgeable) =
 		null
 
-	override def isAIEnabled =
-		true
+	override val isAIEnabled = true
 
 	override def attackEntity(entity: Entity, distance: Float) =
 		if(attackTime <= 0 && distance < 2F && entity.boundingBox.maxY > boundingBox.minY && entity.boundingBox.minY < boundingBox.maxY) {
