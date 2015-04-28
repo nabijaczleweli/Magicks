@@ -26,7 +26,7 @@ group= "com.nabijaczleweli.fancymagicks" // http://maven.apache.org/guides/mini/
 archivesBaseName = "FancyMagicks"
 
 minecraft {
-    version = "${mc_version}-10.13.3.${forge_build}-${mc_version}"
+    version = "${mc_version}-${forge_major}.${forge_minor}.${forge_revision}.${forge_build}-${mc_subversion}"
     runDir = "eclipse"
 
     replaceIn "Reference.scala"
@@ -50,8 +50,7 @@ dependencies {
 
 }
 
-processResources
-{
+processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
