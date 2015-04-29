@@ -65,7 +65,7 @@ object EntityHandler {
 			event.entityLiving removePotionEffect mPotion.poison.getId
 		if(event.entityLiving isPotionActive PotionDeflectAura) {
 			// Not too happy with it, but it works, I guess...
-			val range = math.min(math.max(event.entity.width, event.entity.height) * 2, World.MAX_ENTITY_RADIUS)
+			val range = (event.entity.width max event.entity.height).toDouble * 2 min World.MAX_ENTITY_RADIUS
 			val signX = math signum event.entityLiving.posX
 			val signY = math signum event.entityLiving.posY
 			val signZ = math signum event.entityLiving.posZ

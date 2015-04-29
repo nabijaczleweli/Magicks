@@ -2,14 +2,16 @@ package com.nabijaczleweli.fancymagicks.entity
 
 import com.nabijaczleweli.fancymagicks.element.ElementalDamageSource
 import com.nabijaczleweli.fancymagicks.element.elements.Element
-import com.nabijaczleweli.fancymagicks.util.IElemental
+import com.nabijaczleweli.fancymagicks.potion.PotionDamageAura
 import com.nabijaczleweli.fancymagicks.util.PacketUtil.{BBISUtil, BBOSUtil}
+import com.nabijaczleweli.fancymagicks.util.{EntityUtil, IElemental}
 import cpw.mods.fml.common.registry.{IEntityAdditionalSpawnData, IThrowableEntity}
 import cpw.mods.fml.relauncher.Side
 import io.netty.buffer.{ByteBuf, ByteBufInputStream, ByteBufOutputStream}
 import net.minecraft.block.Block
 import net.minecraft.entity.projectile.EntityThrowable
 import net.minecraft.entity.{Entity, EntityLivingBase}
+import net.minecraft.potion.PotionEffect
 import net.minecraft.util.MovingObjectPosition
 import net.minecraft.world.World
 
@@ -89,6 +91,11 @@ abstract class EntityForwardElementalProjectile(world: World) extends EntityThro
 
 		for(_ <- 0 until (EntityForwardElementalProjectile.rand nextInt 50) * force)
 			worldObj.spawnParticle(s"blockcrack_${Block getIdFromBlock particleBlock}_$particleColor", posX, posY, posZ, 0, 0, 0)
+
+		val entitiesAround = EntityUtil.entitiesInRadius[EntityLivingBase](this, PotionDamageAura.blocksPerLevel * force) filterNot {_ == thrower}
+		elems groupBy identity filter {pr => pr._1 != primaryElement} map {pr => pr._1 -> pr._2.size} map
+		                              {pr => new PotionEffect(PotionDamageAura(pr._1).getId, 1, pr._2, false)} foreach
+		                              {pef => entitiesAround foreach {elb => 0 until pef.getAmplifier foreach {_ => pef performEffect elb}}}
 
 		if(!worldObj.isRemote)
 			setDead()

@@ -15,7 +15,7 @@ abstract class NoElementCaster(who: Entity) extends ElementCaster {
 		chargeup = 0
 
 	override def continue() =
-		chargeup = math.min(chargeup + 1, 250)
+		chargeup = 250 min chargeup + 1
 
 	override def end() {
 		val casterPosVec = Vec3.createVectorHelper(who.posX, who.posY, who.posZ)

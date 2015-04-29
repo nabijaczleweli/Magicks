@@ -18,12 +18,12 @@ class ElementBeamForwardCaster(who: Entity, elems: Seq[Element]) extends Element
 		 timeLeft = force * 50
 
 	 override def continue() {
-		 timeLeft = math.max(timeLeft - 1, 0)
+		 timeLeft = 0 max timeLeft - 1
 		 if(timeLeft > 0)
-			 ((0D until 500D by .25D) map {d =>
+			 (0D until 500D by .25D flatMap {d =>
 				 val coords = EntityUtil.rayTraceCoords(who.asInstanceOf[EntityLivingBase], d)
 				 EntityUtil.entitiesAround[EntityLivingBase](who.worldObj, (coords.xCoord, coords.yCoord, coords.zCoord), 1)
-			 }).flatten.toSet foreach {e: EntityLivingBase => ElementalDamageSource.dispatchDamage(new ElementalDamageSource(who, elems), e, damage)}
+			 }).toSet foreach {e: EntityLivingBase => ElementalDamageSource.dispatchDamage(new ElementalDamageSource(who, elems), e, damage)}
 	 }
 
 	 override def end() =
