@@ -1,6 +1,6 @@
 package com.nabijaczleweli.fancymagicks.proxy
 
-import com.nabijaczleweli.fancymagicks.FancyMagicks
+import com.nabijaczleweli.fancymagicks.block.BlockShield
 import com.nabijaczleweli.fancymagicks.element.elements.{ElementCold, ElementFire, ElementLife, ElementLightning}
 import com.nabijaczleweli.fancymagicks.entity._
 import com.nabijaczleweli.fancymagicks.handler.{EntityHandler, PacketHandler}
@@ -9,23 +9,35 @@ import com.nabijaczleweli.fancymagicks.potion.{Potion, PotionDamageAura, PotionD
 import com.nabijaczleweli.fancymagicks.reference.Container
 import com.nabijaczleweli.fancymagicks.reference.Reference._
 import com.nabijaczleweli.fancymagicks.staves.AbilitySimple
+import com.nabijaczleweli.fancymagicks.tileentity.TileEntityShield
 import com.nabijaczleweli.fancymagicks.util.EntityUtil
+import com.nabijaczleweli.fancymagicks.FancyMagicks
+import cpw.mods.fml.client.registry.ClientRegistry
 import cpw.mods.fml.common.registry.{EntityRegistry, GameRegistry}
+import net.minecraft.block.Block
 import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.Tessellator
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.Item
 import net.minecraft.potion.{Potion => mPotion}
+import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.ChatComponentText
 import net.minecraftforge.common.MinecraftForge
+import org.lwjgl.opengl.GL11
 
 class CommonProxy extends IProxy {
 	override def registerItemsAndBlocks() {
 		@inline
 		def defaultRegisterItem(it: Item) =
 			GameRegistry.registerItem(it, it.getUnlocalizedName.substring(it.getUnlocalizedName.indexOf(':') + 1))
+		@inline
+		def defaultRegisterBlock(bl: Block) =
+			GameRegistry.registerBlock(bl, bl.getUnlocalizedName.substring(bl.getUnlocalizedName.indexOf(':') + 1))
 
 		defaultRegisterItem(ItemStaff)
+		defaultRegisterBlock(BlockShield)
 	}
 
 	override def registerEntities() {
@@ -37,6 +49,23 @@ class CommonProxy extends IProxy {
 		EntityRegistry.registerModEntity(classOf[EntityAOEIceSpike], "AOEIceSpike", id, FancyMagicks, 32, 5, true) // Last 3 arguments stolen from SlimeKinghts
 		EntityRegistry.registerModEntity(classOf[EntityEarthBall], "earthBall", id, FancyMagicks, 32, 5, true) // Last 3 arguments stolen from SlimeKinghts
 		EntityRegistry.registerModEntity(classOf[EntityIceShard], "iceShard", id, FancyMagicks, 32, 5, true) // Last 3 arguments stolen from SlimeKinghts
+
+		GameRegistry.registerTileEntity(classOf[TileEntityShield], "shield")
+		ClientRegistry.bindTileEntitySpecialRenderer(classOf[TileEntityShield], new TileEntitySpecialRenderer {
+			override def renderTileEntityAt(te: TileEntity, x: Double, y : Double, z: Double, partialTickTime: Float) {
+				val tess = Tessellator.instance
+				val shield = te.asInstanceOf[TileEntityShield]
+
+				GL11.glPushMatrix()
+				tess.startDrawingQuads()
+				tess.addVertex(x + shield.x0, y + shield.y0, z)
+				tess.addVertex(x + shield.x1, y + shield.y0, z)
+				tess.addVertex(x + shield.x0, y + shield.y1, z)
+				tess.addVertex(x + shield.x1, y + shield.y1, z)
+				tess.draw()
+				GL11.glPopMatrix()
+			}
+		})
 	}
 
 	override def registerKeyBindings() {}

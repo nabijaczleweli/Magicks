@@ -5,6 +5,7 @@ import com.nabijaczleweli.fancymagicks.reference.Reference._
 import com.nabijaczleweli.fancymagicks.staves.StaffAbility
 import cpw.mods.fml.common.network.NetworkRegistry
 import cpw.mods.fml.relauncher.{Side, SideOnly}
+import net.minecraft.block.material.{MapColor, Material}
 import net.minecraft.client.settings.KeyBinding
 import net.minecraft.potion.{Potion => mPotion}
 import org.apache.logging.log4j.LogManager
@@ -31,4 +32,6 @@ object Container {
 	val potionLowerAttackChance   = new Potion(false, 0x7DBB7D)
 	val potionCharm               = new Potion(false, 0xBB4848)
 	val potionFasterShield        = new Potion(false, 0xFDCB00)
+
+	val materialShield = new Material(MapColor.goldColor).setImmovableMobility().setTranslucent().setRequiresTool()
 }
