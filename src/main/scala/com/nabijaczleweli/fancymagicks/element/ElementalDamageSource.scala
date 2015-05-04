@@ -58,8 +58,10 @@ object ElementalDamageSource extends IConfigurable {
 		damages(elements).sum * damageMultiplierForward
 
 	override def configure(config: Configuration) {
-		listElements = config.getBoolean("listElementsElementalDeath", "combat", listElements, "Whether elements used to kill an entity should be listed upon its death")
-		damageMultiplierAOE = config.getFloat("elementalDamageMultiplierAOE", "combat", damageMultiplierAOE, 0f, Float.MaxValue, "Overall damage multiplier used, when dealing AOE damage")
-		damageMultiplierForward = config.getFloat("elementalDamageMultiplierForward", "combat", damageMultiplierForward, 0f, Float.MaxValue, "Overall damage multiplier used, when dealing forward damage")
+		val category = category"combat:elemental damage source"
+
+		listElements = config.getBoolean("List elements upon death", category, listElements, "Whether elements used to kill an entity should be listed upon its death")
+		damageMultiplierAOE = config.getFloat("Damage multiplier for AOE casting", category, damageMultiplierAOE, 0f, Float.MaxValue, "Damage multiplier applied to hardcoded base damage")
+		damageMultiplierForward = config.getFloat("Damage multiplier for Forward casting", category, damageMultiplierForward, 0f, Float.MaxValue, "Damage multiplier applied to hardcoded base damage")
 	}
 }

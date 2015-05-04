@@ -158,6 +158,6 @@ object ItemStaff extends Item with IConfigurable {
 	}
 
 	override def configure(config: Configuration) {
-		threshold = config.getInt("elementSelectionThreshold", "elements", threshold, 1, 30, "In degrees, turn amount after which the direction of turn will be stored")
+		threshold = config.getInt("Element selection angle threshold", category"elements", threshold, 1, 30, "Turn after which the direction of turn will be stored [degrees]")
 	}
 }

@@ -52,8 +52,8 @@ object PotionDamageAura extends IConfigurable {
 		elementToAura.getOrElseUpdate(element, new PotionDamageAura(element))
 
 	override def configure(config: Configuration) {
-		blocksPerLevel = config.getFloat("blocksPerDamageAuraLevel", "potion", blocksPerLevel, .5F, Float.MaxValue, "Radius at which the damaging elemental aura will affect other entities")
-		particlesPerBunch = config.getInt("particlesPerBunchDamageAura", "potion", particlesPerBunch, 1, Int.MaxValue, "Amount of particles per bunch that will spawn to indicate a damaging aura")
-		damage = config.getFloat("damageFromDamageAura", "potion", particlesPerBunch, .5F, Float.MaxValue, "Amount of damage each EntityLiving will take from each hit of a damaging aura")
+		blocksPerLevel = config.getFloat("Radius per aura's level", category"potion:combat:damage aura", blocksPerLevel, .5F, Float.MaxValue, "Radius at which the damaging elemental aura will affect other entities")
+		particlesPerBunch = config.getInt("Particles per spawnpoint", category"potion:combat:damage aura", particlesPerBunch, 1, Int.MaxValue, "Amount of particles per bunch that will spawn to indicate a damaging aura")
+		damage = config.getFloat("damage", category"potion:combat:damage aura", particlesPerBunch, .5F, Float.MaxValue, "Amount of damage each EntityLiving will take from each hit of a damaging aura [hearts]")
 	}
 }

@@ -51,6 +51,6 @@ object EntityAOEIceSpike extends IConfigurable {
 	var cycleLength = 20
 
 	override def configure(config: Configuration) {
-		cycleLength = config.getInt("AOEIceSpikeCycleLength", "render", cycleLength, 0, Int.MaxValue, "Full cycle length of raising/pulling down AOEIceSpikes in ticks")
+		cycleLength = config.getInt("Cycle length", category"render:entity:ice spike", cycleLength, 0, Int.MaxValue, "Full cycle length of raising and pulling Ice Spike back down [ticks]")
 	}
 }

@@ -96,6 +96,6 @@ object ExtendedPropertyElements extends IConfigurable {
 	var slowdown = true
 
 	override def configure(config: Configuration) {
-		slowdown = config.getBoolean("elementPreparedSlowdown", "elements", slowdown, "Whether to apply slowdown when elements are prepared/\"on hotbar\"")
+		slowdown = config.getBoolean("Slowdown on element holder", category"elements", slowdown, "Whether to apply slowdown when elements are prepared/\"on hotbar\"")
 	}
 }

@@ -36,7 +36,7 @@ object ElementProjectileAOECaster extends IConfigurable {
 	var rangeForceMul = 2.5D
 
 	override def configure(config: Configuration) {
-		dissections = config.getInt("AOEProjectileCircleDissections", "combat", dissections, 1, Int.MaxValue, "Amount of spikes per circle in AOE ice spike casting")
-		rangeForceMul = config.getFloat("AOEProjectileRangeForceMultiplier", "combat", rangeForceMul.toFloat, 1F, Float.MaxValue, "Amount of circles per projectile element in AOE projectile element casting")
+		dissections = config.getInt("Dissections", category"combat:element casting:aoe:projectile", dissections, 1, Int.MaxValue, "Amount of circle dissections, along which visual effects will be shown")
+		rangeForceMul = config.getFloat("Range-Force multiplier", category"combat:element casting:aoe:projectile", rangeForceMul.toFloat, 1F, Float.MaxValue, "Amount of circles per projectile's element") // Better desc?
 	}
 }

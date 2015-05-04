@@ -50,7 +50,7 @@ object ModelBugs extends IConfigurable {
 			r
 
 	override def configure(config: Configuration) {
-		bugsPerSwarm = config.getInt("bugsPerSwarm", "render", bugsPerSwarm, 1, Int.MaxValue, "Amount of individual bugs per swarm")
-		bugsSwarmRadius = config.getFloat("bugsSwarmRadius", "render", bugsSwarmRadius, 0, Float.MaxValue, "Maximal radius at which bugs can be seen [blocks]")
+		bugsPerSwarm = config.getInt("Bugs' amount", category"render:entity:bug swarm", bugsPerSwarm, 1, Int.MaxValue, "Amount of individual bugs per swarm")
+		bugsSwarmRadius = config.getFloat("Bugs' max radius", category"render:entity:bug swarm", bugsSwarmRadius, 0, Float.MaxValue, "Maximal distance from center at which bugs can be seen [blocks]")
 	}
 }

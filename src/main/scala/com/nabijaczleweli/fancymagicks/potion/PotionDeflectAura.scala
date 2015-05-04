@@ -11,6 +11,6 @@ object PotionDeflectAura extends Potion(false, 0xFDCB00) with IConfigurable {
 		EntityUtil.entitiesInRadius[EntityLivingBase](entity, blocksPerLevel * amplifier) foreach {Potion applyEffect this}
 
 	override def configure(config: Configuration) {
-		blocksPerLevel = config.getFloat("blocksPerDeflectAuraLevel", "potion", blocksPerLevel, .5F, Float.MaxValue, "Radius at which the deflecting aura will affect other entities")
+		blocksPerLevel = config.getFloat("Radius per aura's level", category"potion:combat:deflect aura", blocksPerLevel, .5F, Float.MaxValue, "Radius at which the deflecting aura will affect other entities")
 	}
 }
