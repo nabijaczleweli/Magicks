@@ -1,22 +1,26 @@
 package com.nabijaczleweli.fancymagicks.util
 
+import java.io._
 import java.lang.{Double => jDouble, Float => jFloat}
+import java.util.zip.GZIPOutputStream
 
 import com.nabijaczleweli.fancymagicks.element.ElementalDamageSource
 import com.nabijaczleweli.fancymagicks.element.elements.Element
 import com.nabijaczleweli.fancymagicks.reference.Reference
 import com.nabijaczleweli.fancymagicks.util.EntityUtil.{ElementalThrowableEntitySpawnData, SimpleEntitySpawnData}
 import cpw.mods.fml.common.network.internal.FMLProxyPacket
-import io.netty.buffer.{ByteBufInputStream, ByteBufOutputStream, Unpooled}
-import net.minecraft.entity.{EntityLivingBase, Entity}
+import io.netty.buffer.{ByteBufOutputStream, Unpooled}
 import net.minecraft.entity.projectile.EntityThrowable
+import net.minecraft.entity.{Entity, EntityLivingBase}
 import net.minecraft.potion.PotionEffect
 import net.minecraft.server.MinecraftServer
 
 import scala.reflect.runtime.ReflectionUtils
 
 object PacketUtil {
-	implicit class BBOSUtil(val bbos: ByteBufOutputStream) extends AnyVal {
+	implicit class BBOSUtil(val bbos: DataOutput with OutputStream) extends AnyVal {
+		type StreamType = DataOutput with OutputStream
+
 		def <<(str: String) = {
 			bbos writeUTF str
 			bbos
@@ -46,7 +50,7 @@ object PacketUtil {
 			bbos
 		}
 
-		def <<(etesd: ElementalThrowableEntitySpawnData): ByteBufOutputStream = {
+		def <<(etesd: ElementalThrowableEntitySpawnData): StreamType = {
 			bbos writeUTF etesd.entityClass.getName
 			<<(etesd.thrower)
 			<<(etesd.elems)
@@ -60,7 +64,7 @@ object PacketUtil {
 			bbos
 		}
 
-		def <<(eds: ElementalDamageSource): ByteBufOutputStream = {
+		def <<(eds: ElementalDamageSource): StreamType = {
 			<<(eds.getEntity)
 			<<(eds.elements)
 			bbos
@@ -77,7 +81,9 @@ object PacketUtil {
 		}
 	}
 
-	implicit class BBISUtil(val bbis: ByteBufInputStream) extends AnyVal {
+	implicit class BBISUtil(val bbis: DataInput with InputStream) extends AnyVal {
+		type StreamType = DataInput with InputStream
+
 		/** @param ent Array of one element, used as a C++-style reference */
 		def >>(ent: Array[Entity]) = {
 			val dimensionId = bbis.readInt()
@@ -115,7 +121,7 @@ object PacketUtil {
 		}
 
 		/** @param etesd Array of one element, used as a C++-style reference */
-		def >>(etesd: Array[ElementalThrowableEntitySpawnData]): ByteBufInputStream = {
+		def >>(etesd: Array[ElementalThrowableEntitySpawnData]): StreamType = {
 			val className = bbis.readUTF()
 			val thrower = new Array[Entity](1)
 			>>(thrower)
@@ -139,7 +145,7 @@ object PacketUtil {
 		}
 
 		/** @param eds Array of one element, used as a C++-style reference */
-		def >>(eds: Array[ElementalDamageSource]): ByteBufInputStream = {
+		def >>(eds: Array[ElementalDamageSource]): StreamType = {
 			val entity = new Array[Entity](1)
 			>>(entity)
 			val elements = new Array[Seq[Element]](1)
@@ -187,9 +193,20 @@ object PacketUtil {
 		}
 	}
 
-	def packet(bbos: ByteBufOutputStream) =
-		new FMLProxyPacket(bbos.buffer, Reference.MOD_ID)
+	private lazy val oosBout = reflect ensureAccessible (classOf[ObjectOutputStream] getDeclaredField "bout")
+	private lazy val bdosOut = reflect ensureAccessible (oosBout.getType getDeclaredField "out")
+	private lazy val fosOut = reflect ensureAccessible (classOf[FilterOutputStream] getDeclaredField "out")
+
+	/** ONLY FEED THIS FUNCTION RETURN VALUE OF `stream`! RELIES HEAVILY ON REFLECTION! */
+	def packet(doos: DataOutput with OutputStream) = {
+		val bbos = (fosOut get (bdosOut get (oosBout get doos))).asInstanceOf[ByteBufOutputStream]
+		doos.close()
+
+		// Strip trailing 0s from default/over-allocation
+		val revIdx0 = bbos.buffer.array.reverse indexWhere {_ != 0}
+		new FMLProxyPacket(bbos.buffer capacity bbos.buffer.capacity - revIdx0, Reference.MOD_ID)
+	}
 
 	def stream =
-		new ByteBufOutputStream(Unpooled.buffer)
+		new ObjectOutputStream(new GZIPOutputStream(new ByteBufOutputStream(Unpooled.buffer)))
 }

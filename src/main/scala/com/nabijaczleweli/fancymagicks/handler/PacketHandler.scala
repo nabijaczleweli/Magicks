@@ -1,7 +1,9 @@
 package com.nabijaczleweli.fancymagicks.handler
 
+import java.io.{InputStream, DataInput, ObjectInputStream}
 import java.lang.reflect.{Array => jArray, Method}
 import java.lang.{Double => jDouble, Float => jFloat}
+import java.util.zip.GZIPInputStream
 
 import com.nabijaczleweli.fancymagicks.element.ElementalDamageSource
 import com.nabijaczleweli.fancymagicks.potion.Potion
@@ -20,7 +22,7 @@ import scala.collection.mutable.{HashMap => mHashMap}
 import scala.reflect.runtime.ReflectionUtils
 
 object PacketHandler {
-	private var commands = HashMap.empty withDefault {cmd: String => {_: ByteBufInputStream => Container.log warn s"Unknown packet command: '$cmd'!"}}
+	private var commands = HashMap.empty withDefault {cmd: String => {_: DataInput with InputStream => Container.log warn s"Unknown packet command: '$cmd'!"}}
 	private val loadedArgsCache = mHashMap.empty[Class[_], Method]
 	private val superclassed = Set(classOf[Entity])
 
@@ -32,7 +34,7 @@ object PacketHandler {
 
 	@SubscribeEvent
 	def onServerPacket(event: ServerCustomPacketEvent) {
-		val bbis = new ByteBufInputStream(event.packet.payload)
+		val bbis = new ObjectInputStream(new GZIPInputStream(new ByteBufInputStream(event.packet.payload)))
 		commands(bbis.readUTF())(bbis)
 	}
 
@@ -45,7 +47,7 @@ object PacketHandler {
 		types map {jArray.newInstance(_, 1)} map {_.asInstanceOf[Array[AnyRef]]}
 
 	/** Not usable with primitives */
-	private def loadedArgs(bbis: ByteBufInputStream, types: Class[_]*) = {
+	private def loadedArgs(bbis: DataInput with InputStream, types: Class[_]*) = {
 		val util = BBISUtil(bbis)
 		val wrapped = wrapInArray(1, types map {c => superclassed find {_ isAssignableFrom c} getOrElse c}: _*)
 		val wrappedTypes = wrapped map {_.getClass}
@@ -70,7 +72,7 @@ object PacketHandler {
 		} getOrElse {throw new NoSuchMethodException(s"'$clazz.$methodName' is not callable with arguments of types: ${argTypes.mkString("[", ", ", "]")}")}
 
 	/** Not usable with primitives */
-	private def callable(instance: AnyRef, methodName: String, argTypes: Class[_]*): ByteBufInputStream => Unit = {
+	private def callable(instance: AnyRef, methodName: String, argTypes: Class[_]*): DataInput with InputStream => Unit = {
 		val method = methodWithTypes(instance.getClass.getName, methodName, argTypes: _*);
 		{bbis => method.invoke(instance, loadedArgs(bbis, argTypes: _*) map {_.head}: _*)}
 	}
