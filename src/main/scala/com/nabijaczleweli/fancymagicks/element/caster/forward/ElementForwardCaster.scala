@@ -7,8 +7,8 @@ object ElementForwardCaster extends ElementCasterBuilder[NoElementForwardCaster]
 	override protected val leads: LeadsType = Map(
 		ElementCasterBuilder.simpleLead[ElementBeam, ElementBeamForwardCaster],
 		ElementCasterBuilder.simpleLead[ElementSpray, ElementSprayForwardCaster],
-		ElementCasterBuilder.simpleLead[ElementEarthForwardCaster](ElementEarth),
-		ElementCasterBuilder.simpleLead[ElementIceForwardCaster](ElementIce)
+		ElementCasterBuilder.simpleLead[ElementEarthForwardCaster](ElementIce),
+		ElementCasterBuilder.simpleLead[ElementIceForwardCaster](ElementEarth)
 	)
 	println(leads)
 }

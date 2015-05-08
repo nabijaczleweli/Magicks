@@ -79,13 +79,20 @@ object EntityUtil {
 	}) map {_.asInstanceOf[Entity with T]}
 
 	def filterForFrustrum[T](entities: Seq[Entity with T], camera: ICamera) =
-		entities filter {camera isBoundingBoxInFrustum _.boundingBox} // Similiar to how RenderGlobal does it
+		if(camera != null)
+			entities filter {camera isBoundingBoxInFrustum _.boundingBox} // Similiar to how RenderGlobal does it
+		else
+			Nil
 
-	def frustrumFor(entity: Entity) = {
-		val t: ICamera = new Frustrum
-		t.setPosition(entity.posX, entity.posY, entity.posZ)
-		t
-	}
+	def frustrumFor(entity: Entity) =
+		try {
+			val t: ICamera = new Frustrum
+			t.setPosition(entity.posX, entity.posY, entity.posZ)
+			t
+		} catch {
+			case re: RuntimeException => // "No OpenGL context found in the current thread."
+				null
+		}
 
 
 	def teleportTo(entity: EntityLivingBase, x: Double, y: Double, z: Double) { // Stolen from EntityEnderman, except Entity[LivingBase] and setPosition[AndUpdate]() for client -> server synchronization

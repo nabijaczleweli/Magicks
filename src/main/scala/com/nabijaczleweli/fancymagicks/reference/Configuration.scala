@@ -3,7 +3,7 @@ package com.nabijaczleweli.fancymagicks.reference
 import java.io.File
 
 import com.nabijaczleweli.fancymagicks.element.ElementalDamageSource
-import com.nabijaczleweli.fancymagicks.element.caster.aoe.ElementEarthAOECaster
+import com.nabijaczleweli.fancymagicks.element.caster.aoe.{ElementShieldAOECaster, ElementEarthAOECaster}
 import com.nabijaczleweli.fancymagicks.entity.EntityAOEIceSpike
 import com.nabijaczleweli.fancymagicks.entity.properties.ExtendedPropertyElements
 import com.nabijaczleweli.fancymagicks.item.ItemStaff
@@ -14,7 +14,7 @@ import net.minecraftforge.common.config.Configuration
 
 object Configuration {
 	val configurables = c(ItemStaff) :: c(ExtendedPropertyElements) :: c(ModelBugs) :: c(PotionImmunityAura) :: c(PotionDamageAura) :: c(PotionDeflectAura) :: c(ElementalDamageSource) ::
-	                    c(EntityAOEIceSpike) :: c(ElementEarthAOECaster) :: Nil withFilter {_ != null}
+	                    c(EntityAOEIceSpike) :: c(ElementEarthAOECaster) :: c(ElementShieldAOECaster) :: Nil withFilter {_ != null}
 	var config: Configuration = _
 
 	def load(file: File) {

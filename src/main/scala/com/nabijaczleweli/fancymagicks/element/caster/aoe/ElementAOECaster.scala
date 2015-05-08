@@ -8,7 +8,8 @@ object ElementAOECaster extends ElementCasterBuilder[NoElementAOECaster] {
 		ElementCasterBuilder.simpleLead[ElementBeam, ElementBeamAOECaster],
 		ElementCasterBuilder.simpleLead[ElementSpray, ElementSprayAOECaster],
 		ElementCasterBuilder.simpleLead[ElementEarthAOECaster](ElementEarth),
-		ElementCasterBuilder.simpleLead[ElementIceAOECaster](ElementIce)
+		ElementCasterBuilder.simpleLead[ElementIceAOECaster](ElementIce),
+		ElementCasterBuilder.simpleLead[ElementShieldAOECaster](ElementShield)
 	)
 	println(leads)
 }
