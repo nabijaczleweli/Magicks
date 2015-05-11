@@ -19,26 +19,27 @@ class ElementShieldAOECaster(who: Entity, elems: Seq[Element]) extends OneOffEle
 object ElementShieldAOECaster extends IConfigurable {
 	import scala.concurrent.ExecutionContext.Implicits.global
 
-	private final val tau = 2 * math.Pi
 	private var originalPoints = Future successful Set.empty[(Int, Int, Int)]
 
 	var shieldRadius = 10
 
 	override def configure(config: Configuration) {
-		shieldRadius = config.getInt("Shield radius", category"combat:element casting:aoe:shield", shieldRadius, 1, Int.MaxValue, "Shield \"circle\"'s radius. Big values might hog memory. [blocks]")
-		originalPoints = Future(computePoints)
-		println(s"new shield radius = $shieldRadius; new future = $originalPoints")
+		shieldRadius = config.getInt("Shield radius", category"combat:element casting:aoe:shield", shieldRadius, 1, Int.MaxValue, "Shield sphere's radius. [blocks]")
+		originalPoints = Future(computePoints.toSet)
 	}
 
 	private def computePoints = {
-		val numOrigSegments = tau * shieldRadius
-		Seq.tabulate(numOrigSegments.toInt)({ii =>
-			val theta = tau * ii / numOrigSegments.toFloat
+		val steps = math.ceil(math.Pi / math.atan(1D / shieldRadius / 2)).toInt
 
-			val x = shieldRadius * (math cos theta)
-			val z = shieldRadius * (math sin theta)
+		for(vertical_steps <- 0 until 2 * steps; horizontal_steps <- 0 until steps) yield {
+			val phi = math.Pi * 2 / steps * vertical_steps
+			val theta = math.Pi / steps * horizontal_steps
 
-			(x.toInt, 0, z.toInt)
-		}).toSet
+			(
+				((math sin theta) * (math cos phi) * shieldRadius).toInt,
+				((math cos theta) * shieldRadius).toInt,
+				((math sin theta) * (math sin phi) * shieldRadius).toInt
+			)
+		}
 	}
 }
